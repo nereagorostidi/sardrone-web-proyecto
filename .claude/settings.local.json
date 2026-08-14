@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(git --version)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --use-npm)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --disable-git)",
+      "Bash(npx --yes create-next-app@latest --help)",
+      "Read(//c/Users/nerea/**)",
+      "Bash(npx --yes create-next-app@latest guardian-eye-web --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --agents-md)",
+      "Bash(npx --yes create-next-app@latest guardian-eye-web --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --disable-git --yes)",
+      "Bash(printf \"\")",
+      "Read(//tmp/**)",
+      "Bash(rm -rf \"C:\\\\Users\\\\nerea\\\\guardian-eye-web\")",
+      "Bash(npx --yes create-next-app@latest guardian-eye-web --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --agents-md --skip-install)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000 --max-time 10)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000 --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/arquitectura --max-time 5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000 --max-time 3)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
