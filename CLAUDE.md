@@ -77,12 +77,16 @@ nada y actualízalo al terminar cualquier tarea.
   circular y diagrama de triple enlace confirmados renderizando y animando correctamente;
   imagen de hero ajustada (`object-position`) para que el dron sea visible en el recorte
   panorámico.
-- `git init` en la raíz del proyecto.
+- `git init` + primer commit en la raíz del proyecto.
+- Proyecto enlazado y desplegado en Vercel: `nereagorostidi/guardian-eye-web`, en producción
+  en **https://guardian-eye-web.vercel.app** (alias estable; el deploy concreto queda en
+  `.vercel/project.json`, no versionado). Todas las rutas verificadas con 200 en producción.
 
 ### 🚧 En progreso / Pendiente
 
-- **Siguiente paso inmediato:** primer commit de git y despliegue a Vercel (preview),
-  luego compartir el enlace.
+- **Siguiente paso inmediato:** QA visual en móvil y sustitución de los placeholders listados
+  abajo a medida que existan datos/medios reales; volver a desplegar con `vercel deploy --prod`
+  tras cada cambio relevante.
 - QA visual del menú móvil (drawer) y de las páginas restantes (`/ia`, `/multimedia`,
   `/impacto`, `/colaboradores`) en viewport móvil — solo se ha revisado home y
   `/arquitectura` en desktop por límite de tiempo de la sesión.
