@@ -22,18 +22,28 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       {
         label: "Introducción",
-        href: "/proyecto#introduccion",
+        href: "/proyecto/introduccion",
         description: "El problema SAR y la solución propuesta.",
       },
       {
         label: "Objetivos",
-        href: "/proyecto#objetivos",
-        description: "Objetivo académico y competencias de la carrera.",
+        href: "/proyecto/objetivos",
+        description: "Objetivo académico y disciplinas de la carrera.",
+      },
+      {
+        label: "Metodología",
+        href: "/proyecto/metodologia",
+        description: "Desarrollo en paralelo y validación por etapas.",
       },
       {
         label: "Filosofía",
-        href: "/proyecto#filosofia",
+        href: "/proyecto/filosofia",
         description: "Ingeniería full-stack frente a solución comercial cerrada.",
+      },
+      {
+        label: "Normativa y legislación",
+        href: "/proyecto/normativa",
+        description: "EASA, AESA, categoría A1/A3, registro de operador y Remote ID.",
       },
     ],
   },
@@ -44,18 +54,18 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       {
         label: "Comunicaciones",
-        href: "/arquitectura#comunicaciones",
-        description: "Triple enlace redundante y seguridad de las comunicaciones.",
+        href: "/arquitectura/comunicaciones",
+        description: "Enlace múltiple redundante y seguridad de las comunicaciones.",
       },
       {
         label: "Hardware",
-        href: "/arquitectura#hardware",
+        href: "/arquitectura/hardware",
         description: "Electrónica, sensores e integración a bordo.",
       },
       {
         label: "Software & Cloud",
-        href: "/arquitectura#software",
-        description: "Python, MAVLink, AWS y N8N.",
+        href: "/arquitectura/software",
+        description: "Python, MAVLink y AWS.",
       },
     ],
   },

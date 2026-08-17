@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, ChevronDown, Radar } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Home, Radar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LANDING_URL, NAV_ITEMS } from "@/lib/site-config";
 import { MobileNav } from "@/components/mobile-nav";
@@ -45,10 +45,11 @@ export function SiteHeader() {
           <span className="flex flex-col leading-none">
             <span
               className={cn(
-                "text-[15px] font-extrabold tracking-tight",
+                "flex items-center gap-1.5 text-[15px] font-extrabold tracking-tight",
                 scrolled ? "text-ink" : "text-white"
               )}
             >
+              <Home className="h-3.5 w-3.5" strokeWidth={2.5} />
               Guardian&nbsp;Eye
             </span>
             <span
@@ -147,8 +148,7 @@ export function SiteHeader() {
             target="_blank"
             rel="noreferrer"
             className={cn(
-              "hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold shadow-sm transition-transform hover:-translate-y-0.5 sm:inline-flex",
-              "bg-accent text-white hover:bg-accent-ink"
+              "btn-gradient hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5 sm:inline-flex"
             )}
           >
             Apoyar el proyecto

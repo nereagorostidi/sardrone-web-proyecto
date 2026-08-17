@@ -14,6 +14,7 @@ export type MediaItem = {
   poster: SiteImage;
   tag: string;
   videoUrl?: string;
+  youtubeId?: string;
   featured?: boolean;
 };
 
@@ -83,7 +84,15 @@ export function MediaGallery({ items }: { items: MediaItem[] }) {
                 >
                   <Dialog.Title className="sr-only">{active.title}</Dialog.Title>
                   <div className="relative aspect-video w-full bg-ink">
-                    {active.videoUrl ? (
+                    {active.youtubeId ? (
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${active.youtubeId}`}
+                        title={active.title}
+                        className="h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : active.videoUrl ? (
                       <video
                         src={active.videoUrl}
                         controls

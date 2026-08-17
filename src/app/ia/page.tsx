@@ -6,7 +6,9 @@ import {
   Code2,
   Cpu,
   Eye,
+  History,
   MapPinOff,
+  ScanSearch,
   Sparkles,
   Tag,
   Timer,
@@ -14,6 +16,8 @@ import {
 } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { FlowDiagram } from "@/components/diagrams/flow-diagram";
+import { PageHero } from "@/components/page-hero";
+import { IMAGES } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Inteligencia Artificial",
@@ -32,23 +36,28 @@ const PIPELINE_STEPS = [
 export default function IaPage() {
   return (
     <>
-      <header className="border-b border-line bg-surface pt-32 pb-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="font-telemetry text-[11px] uppercase text-accent">Sec. 03 · Inteligencia Artificial</p>
-          <h1 className="mt-3 max-w-2xl text-balance text-[36px] font-extrabold leading-[1.1] tracking-tight text-ink sm:text-[46px]">
-            Detección en tiempo real con YOLO
-          </h1>
-          <p className="mt-4 max-w-xl text-[15.5px] leading-relaxed text-ink-muted">
-            You Only Look Once: un modelo que mira cada fotograma una sola vez y decide, al
-            instante, qué hay en él — sin depender de subir cada imagen a la nube para
-            saberlo.
-          </p>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="Sec. 03 · Inteligencia Artificial"
+        title="Detección en tiempo real con YOLO"
+        description="You Only Look Once: un modelo que mira cada fotograma una sola vez y decide, al instante, qué hay en él — sin depender de subir cada imagen a la nube para saberlo."
+        image={{
+          src: IMAGES.yoloDetectionFrame.src,
+          alt: IMAGES.yoloDetectionFrame.alt,
+          objectPosition: "70% 40%",
+        }}
+      />
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
+          <p className="max-w-3xl text-[15.5px] leading-relaxed text-ink-muted">
+            Para la parte de inteligencia artificial del dron se ha usado{" "}
+            <span className="font-medium text-ink">YOLOv8</span>, programando y
+            entrenando el sistema directamente en la{" "}
+            <span className="font-medium text-ink">Raspberry Pi 5</span> que acompaña
+            al dron a bordo.
+          </p>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-2">
             <SectionHeading
               eyebrow="¿Qué es YOLO?"
               title="Una sola pasada, una decisión inmediata"
@@ -66,8 +75,46 @@ export default function IaPage() {
                 fiable. Procesando la detección directamente en la Raspberry Pi, el dron
                 puede avisar de una posible detección aunque el enlace a la nube esté
                 degradado o caído — coherente con la filosofía &ldquo;edge-first&rdquo; del
-                resto del sistema.
+                resto del sistema. A esto se le llama <span className="font-medium text-ink">edge computing</span>:
+                procesar los datos cerca de donde se generan, en lugar de enviarlos primero
+                a un servidor remoto.
               </p>
+            </div>
+          </div>
+
+          <div className="mt-16 grid gap-4 sm:grid-cols-2">
+            <div className="flex gap-4 rounded-2xl border border-line bg-paper p-6">
+              <History className="h-5 w-5 shrink-0 text-ink-faint" strokeWidth={1.75} />
+              <div>
+                <p className="text-[13.5px] font-bold text-ink">De dónde viene YOLO</p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
+                  YOLO (&ldquo;You Only Look Once&rdquo;) es una familia de modelos de
+                  detección de objetos en tiempo real, hoy mantenida por Ultralytics.
+                  Guardian Eye usa <span className="font-medium text-ink">YOLOv8</span>, una
+                  de sus versiones más recientes, elegida por su equilibrio entre precisión
+                  y velocidad de inferencia en hardware modesto como una Raspberry Pi.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 rounded-2xl border border-line bg-paper p-6">
+              <ScanSearch className="h-5 w-5 shrink-0 text-ink-faint" strokeWidth={1.75} />
+              <div>
+                <p className="text-[13.5px] font-bold text-ink">Qué es una &ldquo;caja delimitadora&rdquo;</p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
+                  Cada detección se representa como una <span className="font-medium text-ink">bounding box</span>:
+                  un rectángulo definido por su centro, ancho y alto en píxeles, junto con
+                  un valor de confianza entre 0 y 1 que indica cuánto &ldquo;cree&rdquo; el
+                  modelo que ese rectángulo contiene realmente una persona.
+                </p>
+                <p className="mt-2.5 text-[13px] leading-relaxed text-ink-muted">
+                  YOLO y{" "}
+                  <span className="font-medium text-ink">OpenCV</span> cumplen papeles
+                  distintos y complementarios: YOLO se encarga de la inferencia y el
+                  análisis del fotograma —decidir qué hay y dónde—, mientras que OpenCV
+                  se usa para manipular la imagen en sí: leer el flujo de vídeo, recortar
+                  o redimensionar cada fotograma y dibujar la propia bounding box sobre él.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -102,26 +149,16 @@ export default function IaPage() {
                 </p>
               </div>
               <div className="rounded-2xl border border-signal/30 bg-signal-soft p-6">
-                <p className="text-[13.5px] font-bold text-ink">Dataset de personas en construcción</p>
+                <p className="text-[13.5px] font-bold text-ink">Dataset de personas en constante evolución y progreso</p>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-ink-muted">
-                  Se dispone de una base inicial de 35 imágenes de personas extraídas de
-                  vuelos reales en el Club Alas de Galapagar. El dataset a mayor escala,
-                  necesario para un modelo de producción, está pendiente — está previsto
-                  ampliarlo con entrenamiento en la nube.
+                  Se dispone de una base inicial de decenas de imágenes de personas
+                  extraídas de vuelos reales en el Club Alas de Galapagar, combinada en Roboflow con
+                  datasets SAR ya disponibles públicamente, seleccionando los más
+                  adecuados para el tipo de escenario del proyecto. El conjunto está en
+                  ampliación constante y se aumenta (data augmentation) para mejorar su
+                  calidad y variedad antes de cada nuevo entrenamiento.
                 </p>
               </div>
-            </div>
-
-            <div className="mt-4 rounded-2xl border border-dashed border-line bg-paper p-6">
-              <p className="text-[13px] leading-relaxed text-ink-faint">
-                <span className="font-semibold text-ink-muted">
-                  [placeholder — no inventar]
-                </span>{" "}
-                Precisión / mAP del modelo final, número de vuelos de prueba con detección
-                real de personas y tamaño definitivo del dataset: pendientes de un
-                entrenamiento a mayor escala. Se publicarán aquí en cuanto existan
-                resultados validados.
-              </p>
             </div>
           </div>
 

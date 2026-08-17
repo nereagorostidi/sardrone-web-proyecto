@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Code2, Video } from "lucide-react";
+import { ArrowUpRight, Code2, Film, Video } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { MediaGallery, type MediaItem } from "@/components/media-gallery";
-import { IMAGES } from "@/lib/images";
+import { PageHero } from "@/components/page-hero";
+import { IMAGES, type SiteImage } from "@/lib/images";
 import { LANDING_URL } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -11,16 +12,31 @@ export const metadata: Metadata = {
     "Vuelos reales, detecciones YOLO sobre vídeo de campo y el montaje del hardware de Guardian Eye.",
 };
 
+const DETECTION_YOUTUBE_ID = "jjvX-JZZbLM";
+const CLUB_YOUTUBE_ID = "2HKlq-o7WxM";
+
+const deteccionPoster: SiteImage = {
+  src: `https://img.youtube.com/vi/${DETECTION_YOUTUBE_ID}/hqdefault.jpg`,
+  alt: "Fotograma del vídeo de detección de personas del dron en el Club Alas de Galapagar",
+  credit: "YouTube",
+};
+
+const clubPoster: SiteImage = {
+  src: `https://img.youtube.com/vi/${CLUB_YOUTUBE_ID}/hqdefault.jpg`,
+  alt: "Fotograma del vídeo de presentación del Club Alas de Galapagar",
+  credit: "YouTube / Alas de Galapagar",
+};
+
 const ITEMS: MediaItem[] = [
   {
     id: "deteccion-alas-galapagar",
     title: "Detección de personas — Club Alas de Galapagar",
     description:
       "El dron localiza personas en distintas posturas (andando, corriendo, tumbadas, agachadas) sobre vídeo real de campo.",
-    poster: IMAGES.foggyForest,
+    poster: deteccionPoster,
     tag: "Destacado",
     featured: true,
-    videoUrl: undefined,
+    youtubeId: DETECTION_YOUTUBE_ID,
   },
   {
     id: "vuelo-real",
@@ -28,6 +44,15 @@ const ITEMS: MediaItem[] = [
     description: "Vuelo del 12 de julio de 2026 en el Club Alas de Galapagar, track GPS real.",
     poster: IMAGES.droneSnowMountain,
     tag: "Vuelo",
+  },
+  {
+    id: "club-alas-galapagar",
+    title: "Club Alas de Galapagar",
+    description:
+      "Vídeo de presentación del club de aeromodelismo y radiocontrol que acoge los vuelos de prueba y la recogida del dataset de Guardian Eye.",
+    poster: clubPoster,
+    tag: "Colaborador",
+    youtubeId: CLUB_YOUTUBE_ID,
   },
   {
     id: "montaje-hardware",
@@ -60,7 +85,7 @@ const ITEMS: MediaItem[] = [
 ];
 
 const REPOS = [
-  { name: "yolo-pipeline-test", url: "https://github.com/nereagorostidi/yolo-pipeline-test", desc: "Entrenamiento y validación del modelo YOLO." },
+  { name: "yolo-pipeline-test", url: "https://github.com/nereagorostidi/yolo-pipeline-test", desc: "Taller de experimentación con OpenCV y YOLO en detección de objetos, para comprobar y validar la tecnología que se usaría después en el proyecto." },
   { name: "drone-edge-companion", url: "https://github.com/nereagorostidi/drone-edge-companion", desc: "Servicios Python a bordo de la Raspberry Pi." },
   { name: "drone-cloud-server", url: "https://github.com/nereagorostidi/drone-cloud-server", desc: "Backend Flask, MQTT y almacenamiento en InfluxDB." },
 ];
@@ -68,19 +93,12 @@ const REPOS = [
 export default function MultimediaPage() {
   return (
     <>
-      <header className="border-b border-line bg-surface pt-32 pb-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="font-telemetry text-[11px] uppercase text-accent">Sec. 04 · Multimedia</p>
-          <h1 className="mt-3 max-w-2xl text-balance text-[36px] font-extrabold leading-[1.1] tracking-tight text-ink sm:text-[46px]">
-            El proyecto en vídeo
-          </h1>
-          <p className="mt-4 max-w-xl text-[15.5px] leading-relaxed text-ink-muted">
-            Vuelos reales, detecciones sobre vídeo de campo y el montaje del hardware.
-            Varias piezas están aún pendientes de publicación — se marcan como tal, no se
-            simulan resultados que todavía no existen.
-          </p>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="Sec. 04 · Multimedia"
+        title="El proyecto en vídeo"
+        description="Vuelos reales, detecciones sobre vídeo de campo y el montaje del hardware. Lo que todavía no existe se marca como tal — no se simulan resultados que no se han producido."
+        image={{ src: IMAGES.droneSnowMountain.src, alt: IMAGES.droneSnowMountain.alt }}
+      />
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -89,6 +107,18 @@ export default function MultimediaPage() {
             title="Vuelos, detecciones y montaje"
             description="El vídeo destacado abre en una ventana ampliada; el resto se reproduce bajo demanda para no penalizar el rendimiento de la página."
           />
+
+          <div className="mt-6 flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent-soft p-5">
+            <Film className="mt-0.5 h-4.5 w-4.5 shrink-0 text-accent" strokeWidth={1.75} />
+            <p className="text-[13px] leading-relaxed text-ink">
+              La pieza destacada, <span className="font-semibold">Detección de personas —
+              Club Alas de Galapagar</span>, muestra el pipeline YOLO funcionando sobre
+              vídeo aéreo real grabado en las instalaciones del club: es la prueba más
+              directa de que la detección descrita en la sección de{" "}
+              <span className="font-medium">Inteligencia Artificial</span> no es solo teoría.
+            </p>
+          </div>
+
           <div className="mt-10">
             <MediaGallery items={ITEMS} />
           </div>

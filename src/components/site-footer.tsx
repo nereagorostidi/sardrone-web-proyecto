@@ -1,22 +1,49 @@
 import Link from "next/link";
-import { ArrowUpRight, Radar } from "lucide-react";
-import { LANDING_URL } from "@/lib/site-config";
+import { Mail, Radar } from "lucide-react";
+import { siGithub } from "simple-icons";
+import { BrandIcon } from "@/components/brand-icon";
+
+const SOCIAL_LINKS = [
+  {
+    label: "GitHub",
+    ariaLabel: "GitHub de Nerea Gorostidi",
+    href: "https://github.com/nereagorostidi",
+    icon: <BrandIcon path={siGithub.path} className="h-4 w-4" />,
+  },
+  {
+    label: "LinkedIn",
+    ariaLabel: "LinkedIn de Nerea Gorostidi",
+    href: "https://www.linkedin.com/in/nereagorostidigarcia/",
+    icon: (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/icons/linkedin.svg" alt="" className="h-4 w-4" />
+    ),
+  },
+  {
+    label: "Email",
+    ariaLabel: "Enviar un email a Nerea Gorostidi",
+    href: "mailto:nerea.gorostidi.garcia@gmail.com",
+    icon: <Mail className="h-4 w-4" strokeWidth={1.75} />,
+  },
+];
 
 const FOOTER_LINKS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
     heading: "Proyecto",
     links: [
-      { label: "Introducción", href: "/proyecto#introduccion" },
-      { label: "Objetivos", href: "/proyecto#objetivos" },
-      { label: "Filosofía", href: "/proyecto#filosofia" },
+      { label: "Introducción", href: "/proyecto/introduccion" },
+      { label: "Objetivos", href: "/proyecto/objetivos" },
+      { label: "Metodología", href: "/proyecto/metodologia" },
+      { label: "Filosofía", href: "/proyecto/filosofia" },
+      { label: "Normativa y legislación", href: "/proyecto/normativa" },
     ],
   },
   {
     heading: "Arquitectura",
     links: [
-      { label: "Comunicaciones", href: "/arquitectura#comunicaciones" },
-      { label: "Hardware", href: "/arquitectura#hardware" },
-      { label: "Software & Cloud", href: "/arquitectura#software" },
+      { label: "Comunicaciones", href: "/arquitectura/comunicaciones" },
+      { label: "Hardware", href: "/arquitectura/hardware" },
+      { label: "Software & Cloud", href: "/arquitectura/software" },
     ],
   },
   {
@@ -44,26 +71,25 @@ export function SiteFooter() {
                 Guardian Eye
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-ink-muted">
-              Documentación técnica de un sistema autónomo de dron SAR, desarrollado como
-              Trabajo de Fin de Grado en Ingeniería de Telecomunicaciones.
+            <p className="mt-4 font-telemetry text-[10px] uppercase text-ink-faint">
+              Nerea Gorostidi García
             </p>
-            <div className="mt-6 rounded-2xl border border-line bg-paper p-4">
-              <p className="font-telemetry text-[10px] uppercase text-ink-faint">
-                Micromecenazgo
-              </p>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
-                ¿Quieres colaborar con material, patrocinio o vídeos de entrenamiento?
-              </p>
-              <a
-                href={LANDING_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[12.5px] font-semibold text-white transition-transform hover:-translate-y-0.5"
-              >
-                Apoyar el proyecto
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
-              </a>
+            <div className="mt-3 flex flex-col gap-2">
+              {SOCIAL_LINKS.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target={social.href.startsWith("mailto:") ? undefined : "_blank"}
+                  rel={social.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                  aria-label={social.ariaLabel}
+                  className="group flex items-center gap-2.5 rounded-full border border-line bg-paper py-2 pl-3 pr-4 text-[13px] font-semibold text-ink transition-colors hover:border-accent/40 hover:text-accent"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center">
+                    {social.icon}
+                  </span>
+                  {social.label}
+                </a>
+              ))}
             </div>
           </div>
 

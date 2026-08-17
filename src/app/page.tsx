@@ -4,74 +4,56 @@ import {
   ArrowRight,
   ArrowUpRight,
   Brain,
+  Code2,
   Cpu,
+  Drone,
+  HandCoins,
+  NotebookPen,
   Radio,
   Wifi,
-  ShieldCheck,
-  Cable,
-  Camera,
-  Users,
 } from "lucide-react";
+import { OpenSourceCard } from "@/components/open-source-card";
 import { RadialDiagram } from "@/components/diagrams/radial-diagram";
 import { SectionHeading } from "@/components/section-heading";
+import { TechBadgeRow } from "@/components/tech-badges";
 import { IMAGES } from "@/lib/images";
 import { LANDING_URL } from "@/lib/site-config";
 
 const FOCUS_NODES = [
   {
     id: "electronica",
-    label: "Electrónica digital",
-    description: "Diseño de alimentación e integración de hardware",
+    label: "Electrónica & hardware",
+    description: "Raspberry Pi, Pixhawk y Linux embebido",
     icon: <Cpu strokeWidth={1.75} />,
     colorVar: "var(--color-accent)",
   },
   {
+    id: "comunicaciones",
+    label: "Comunicaciones",
+    description: "Seguridad, resiliencia y normativa AESA",
+    icon: <Radio strokeWidth={1.75} />,
+    colorVar: "var(--color-signal)",
+  },
+  {
     id: "ia",
     label: "Inteligencia artificial",
-    description: "Detección en tiempo real con YOLO",
+    description: "Modelos YOLO y LLM",
     icon: <Brain strokeWidth={1.75} />,
     colorVar: "var(--color-mesh-violet)",
   },
   {
     id: "cloud",
-    label: "IoT & nube",
-    description: "MQTT, AWS, N8N y telemetría en la nube",
+    label: "IoT & cloud",
+    description: "MQTT, AWS y telemetría en la nube",
     icon: <Wifi strokeWidth={1.75} />,
     colorVar: "var(--color-mesh-cyan)",
   },
   {
-    id: "rf",
-    label: "Radiofrecuencia",
-    description: "Triple enlace de comunicaciones redundante",
-    icon: <Radio strokeWidth={1.75} />,
-    colorVar: "var(--color-signal)",
-  },
-];
-
-const QUICK_LINKS = [
-  {
-    href: "/arquitectura#comunicaciones",
-    icon: Cable,
-    title: "Arquitectura técnica",
-    description: "Triple enlace redundante, hardware modular y stack cloud.",
-  },
-  {
-    href: "/ia",
-    icon: Camera,
-    title: "Inteligencia artificial",
-    description: "Detección de personas en tiempo real con YOLO.",
-  },
-  {
-    href: "/multimedia",
-    icon: ShieldCheck,
-    title: "Multimedia",
-    description: "Vuelos reales y detecciones sobre vídeo de campo.",
-  },
-  {
-    href: "/colaboradores",
-    icon: Users,
-    title: "Colaboradores",
-    description: "El Club Alas de Galapagar y el resto de apoyos.",
+    id: "programacion",
+    label: "Programación",
+    description: "Desarrollo web y scripting en Python",
+    icon: <Code2 strokeWidth={1.75} />,
+    colorVar: "var(--color-mesh-coral)",
   },
 ];
 
@@ -103,13 +85,13 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-6 max-w-3xl text-balance text-[40px] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-[56px] lg:text-[64px]">
-            Encontrar lo invisible, contrarreloj.
+            Rescate autónomo. Sistema abierto
           </h1>
-          <p className="mt-5 max-w-xl text-[16.5px] leading-relaxed text-ink-muted sm:text-[18px]">
-            Guardian Eye es un dron autónomo de Búsqueda y Rescate diseñado desde cero,
-            con triple enlace de comunicaciones redundante, visión por computador y
-            arquitectura cloud propia — donde un dron comercial es una caja negra
-            cerrada, este es un sistema abierto, programable y auditable.
+          <p className="mt-5 max-w-xl text-[16.5px] leading-relaxed text-ink sm:text-[18px]">
+            Guardian Eye nace para demostrar que la Búsqueda y Rescate no necesita
+            depender de costosas y cerradas soluciones comerciales: un dron abierto,
+            auditable y adaptable para localizar personas perdidas y evaluar el
+            entorno de la víctima.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -130,70 +112,155 @@ export default function HomePage() {
               <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
             </a>
           </div>
+        </div>
+      </section>
 
-          <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6 font-telemetry text-[11px] uppercase text-ink-faint">
+      <section className="border-b border-line bg-paper py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Cómo funciona"
+            title="Un sistema abierto de extremo a extremo"
+          />
+          <div className="mt-10 grid gap-10 sm:grid-cols-2 sm:gap-12">
             <div>
-              <dt>Enlace RC</dt>
-              <dd className="mt-1 text-[13px] font-semibold normal-case text-ink">2.4 GHz</dd>
+              <p className="text-[15.5px] leading-relaxed text-ink-muted sm:text-[16.5px]">
+                Nos basamos en los principios de{" "}
+                <strong className="font-semibold text-accent">código abierto</strong>,
+                con piezas y componentes de bajo coste fácilmente disponibles en
+                diferentes tiendas online, para facilitar así la construcción a medida
+                de un sistema que nos permite localizar personas perdidas en
+                montes, costas o zonas de difícil acceso.
+              </p>
+              <p className="mt-4 text-[15.5px] leading-relaxed text-ink-muted sm:text-[16.5px]">
+                Además, se incluye incluso la integración con diferentes sensores
+                usando <strong className="font-semibold text-accent">IoT </strong>
+                para comprobar las condiciones ambientales del entorno de la víctima — humedad,
+                temperatura o toxicidad del aire — antes de que lleguen los
+                equipos de rescate.
+              </p>
+              <p className="mt-4 text-[15.5px] leading-relaxed text-ink-muted sm:text-[16.5px]">
+                En el ámbito del análisis de imagen, se utiliza un sistema de
+                visión por computador (
+                <strong className="font-semibold text-accent">OpenCV</strong>)
+                integrado con una red neuronal (
+                <strong className="font-semibold text-accent">YOLO</strong>)
+                que ha sido entrenada específicamente para detectar
+                e identificar elementos clave en el vídeo en tiempo real.
+              </p>
             </div>
             <div>
-              <dt>Telemetría</dt>
-              <dd className="mt-1 text-[13px] font-semibold normal-case text-ink">915 MHz</dd>
+              <p className="text-[15.5px] leading-relaxed text-ink-muted sm:text-[16.5px]">
+                El sistema está diseñado bajo estrictos criterios de{" "}
+                <strong className="font-semibold text-accent">
+                  resiliencia y seguridad operativa
+                </strong>
+                . La arquitectura de comunicaciones garantiza una redundancia
+                multicanal continua: mando de radiocontrol en{" "}
+                <strong className="font-semibold text-accent">2.4 GHz</strong>,
+                telemetría dedicada en{" "}
+                <strong className="font-semibold text-accent">915 MHz</strong>,
+                y enlaces de datos complementarios mediante 4G/LTE y Wi-Fi. De
+                esta forma, nos aseguramos que el dron mantenga la conexión
+                bajo cualquier circunstancia.
+              </p>
+              <p className="mt-4 text-[15.5px] leading-relaxed text-ink-muted sm:text-[16.5px]">
+                La privacidad de los datos y garantizar que la red esté
+                protegida frente a accesos no autorizados es igual de
+                prioritario. Todo el ecosistema opera bajo una infraestructura cloud,
+                completamente cifrada de extremo a extremo mediante el
+                un sistema de {" "}
+                <strong className="font-semibold text-accent">
+                  Zero Trust Network
+                </strong>{" "}
+                (ZTNA), empleando{" "}
+                <strong className="font-semibold text-accent">Tailscale</strong>{" "}
+                para articular una{" "}
+                <strong className="font-semibold text-accent">
+                  VPN en malla (Mesh)
+                </strong>{" "}
+                privada, robusta e impenetrable.
+              </p>
             </div>
-            <div>
-              <dt>Enlace remoto</dt>
-              <dd className="mt-1 text-[13px] font-semibold normal-case text-ink">4G / LTE</dd>
-            </div>
-          </dl>
+          </div>
+
+          <div className="mt-14">
+            <OpenSourceCard />
+          </div>
+
+          <TechBadgeRow className="mt-6" />
         </div>
       </section>
 
       <section className="mesh-bg border-y border-line bg-surface py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Más que una nota"
-            title="Un desafío de ingeniería integral"
-            description="Cuatro años de carrera convergen en un único dispositivo funcional: electrónica de potencia, inteligencia artificial, redes IoT en la nube y radiofrecuencia trabajando como un solo sistema."
-          />
-          <div className="mt-14">
+          <div className="grid gap-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-12">
+            <div>
+              <SectionHeading
+                eyebrow="Más que un TFG"
+                title="Un desafío de ingeniería integral"
+              />
+              <p className="mt-5 text-[15.5px] leading-relaxed text-ink-muted">
+                Guardian Eye es el Trabajo de Fin de Grado de{" "}
+                <strong className="font-semibold text-ink">Nerea Gorostidi García</strong>,
+                en Ingeniería de Tecnologías de Telecomunicación por la{" "}
+                <strong className="font-semibold text-ink">
+                  Universidad Carlos III de Madrid
+                </strong>{" "}
+                (convocatoria 2026), titulado:
+              </p>
+              <blockquote className="mt-5 rounded-2xl border border-line bg-paper px-5 py-4 shadow-[var(--shadow-soft)]">
+                <p className="text-[14.5px] font-semibold italic leading-snug text-ink">
+                  &ldquo;Diseño e Implementación de un Sistema UAV Autónomo con
+                  Comunicaciones 4G, Fusión de Sensores (Térmico/Visual) y Arquitectura
+                  IoT para Misiones de Búsqueda y Rescate&rdquo;
+                </p>
+              </blockquote>
+              <p className="mt-5 text-[15.5px] leading-relaxed text-ink-muted">
+                Este proyecto destaca por sus peculiaridades como TFG:
+                pocos TFG permiten combinar en un único sistema real disciplinas tan
+                distintas como electrónica, comunicaciones, seguridad, resiliencia,
+                normativa, IoT, cloud, programación e inteligencia artificial, en lugar de
+                trabajarlas de forma aislada en asignaturas sueltas.
+              </p>
+              <p className="mt-4 text-[15.5px] leading-relaxed text-ink-muted">
+                Ese enfoque integral permite profundizar en cada uno de esos ámbitos por
+                separado y, al mismo tiempo, materializar en un dispositivo funcional el
+                conocimiento acumulado a lo largo de estos cuatro años de carrera. Los{" "}
+                <Link href="/proyecto/objetivos" className="font-semibold text-accent underline underline-offset-2 hover:text-accent-ink">
+                  objetivos concretos del proyecto
+                </Link>{" "}
+                detallan cómo se traduce esa motivación en un sistema real.
+              </p>
+              <a
+                href="https://drone-sar.vercel.app/journal.html"
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-6 flex items-center gap-4 rounded-2xl border border-line bg-paper px-5 py-4 transition-colors hover:border-accent/40"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                  <NotebookPen className="h-5 w-5" strokeWidth={1.75} />
+                </span>
+                <div className="flex-1">
+                  <p className="text-[13.5px] font-bold text-ink">
+                    Sigue el progreso del proyecto
+                  </p>
+                  <p className="mt-0.5 text-[12.5px] leading-relaxed text-ink-muted">
+                    Voy publicando avances, decisiones y en qué estoy trabajando ahora
+                    en el diario (journal) del proyecto.
+                  </p>
+                </div>
+                <ArrowUpRight
+                  className="h-4 w-4 shrink-0 text-ink-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                  strokeWidth={2.5}
+                />
+              </a>
+            </div>
             <RadialDiagram
               centerLabel="Guardian Eye"
-              centerSublabel="TFG · Un sistema"
+              centerSublabel="TFG · Un sistema integral"
+              centerIcon={<Drone strokeWidth={1.75} />}
               nodes={FOCUS_NODES}
             />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Explora el proyecto"
-            title="Documentación técnica completa"
-            description="Esta web profundiza en cada capa del sistema. Para la versión corta, pensada para colaborar o donar material, visita la landing de micromecenazgo."
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {QUICK_LINKS.map((link) => {
-              const Icon = link.icon;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="group flex flex-col rounded-2xl border border-line bg-paper p-6 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-[var(--shadow-soft)]"
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
-                  </span>
-                  <span className="mt-4 text-[15px] font-bold text-ink">{link.title}</span>
-                  <span className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
-                    {link.description}
-                  </span>
-                  <span className="mt-4 inline-flex items-center gap-1 text-[12.5px] font-semibold text-accent opacity-0 transition-opacity group-hover:opacity-100">
-                    Ver más <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </Link>
-              );
-            })}
           </div>
         </div>
       </section>
@@ -206,12 +273,14 @@ export default function HomePage() {
                 Landing de micromecenazgo
               </p>
               <h3 className="mt-3 text-[24px] font-extrabold leading-tight text-white sm:text-[28px]">
-                ¿Quieres donar material o enviar vídeos de entrenamiento?
+                ¿Quieres ayudarme en este proyecto?
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-white/70">
-                La versión corta del proyecto está pensada para eso: patrocinio,
-                donaciones de componentes y una comunidad que aporta vídeos para
-                seguir entrenando el modelo de detección.
+                Puedes hacerlo enviándome imágenes para entrenar mi sistema, o
+                donando material. Consulta la web especifica de colaboración,
+                una micro-web dedicada al patrocinio, donaciones de componentes
+                y conseguir comunidad que aporta vídeos para seguir entrenando
+                el modelo de detección.
               </p>
             </div>
             <a
@@ -220,7 +289,8 @@ export default function HomePage() {
               rel="noreferrer"
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[14px] font-semibold text-ink transition-transform hover:-translate-y-0.5"
             >
-              Ir a la landing corta
+              <HandCoins className="h-4 w-4" strokeWidth={2} />
+              Visita la Web del Crowdfunding
               <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
             </a>
           </div>

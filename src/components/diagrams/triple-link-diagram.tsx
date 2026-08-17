@@ -18,7 +18,7 @@ const DRONE = { x: 500, y: 70 };
 const NODES: LinkNode[] = [
   {
     id: "rf",
-    x: 150,
+    x: 100,
     y: 410,
     label: "Mando RC",
     freq: "2.4 GHz",
@@ -35,11 +35,11 @@ const NODES: LinkNode[] = [
     icon: SatelliteDish,
   },
   {
-    id: "4g",
-    x: 850,
+    id: "cloud",
+    x: 900,
     y: 410,
-    label: "Cloud · AWS · N8N",
-    freq: "4G / LTE",
+    label: "Cloud · AWS",
+    freq: "WiFi / 4G-LTE",
     colorVar: "var(--color-mesh-violet)",
     icon: Cloud,
   },

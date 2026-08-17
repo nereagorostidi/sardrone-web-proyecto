@@ -138,7 +138,7 @@ export function MobileNav({ scrolled }: { scrolled: boolean }) {
                     href={LANDING_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex w-full items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 text-[14px] font-semibold text-white"
+                    className="btn-gradient flex w-full items-center justify-center gap-1.5 rounded-full px-4 py-3 text-[14px] font-semibold text-white"
                   >
                     Apoyar el proyecto
                     <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />

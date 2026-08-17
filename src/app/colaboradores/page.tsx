@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, GraduationCap, Mail, PlaneTakeoff, ShieldCheck, UserCircle2 } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight, GraduationCap, HeartHandshake, Mail, UserCircle2 } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
+import { PageHero } from "@/components/page-hero";
+import { VideoLink } from "@/components/video-link";
+import { IMAGES } from "@/lib/images";
 import { LANDING_URL } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -35,25 +39,43 @@ const COLLABORATORS = [
 export default function ColaboradoresPage() {
   return (
     <>
-      <header className="border-b border-line bg-surface pt-32 pb-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="font-telemetry text-[11px] uppercase text-accent">Sec. 06 · Colaboradores</p>
-          <h1 className="mt-3 max-w-2xl text-balance text-[36px] font-extrabold leading-[1.1] tracking-tight text-ink sm:text-[46px]">
-            Nadie construye esto en solitario
-          </h1>
-          <p className="mt-4 max-w-xl text-[15.5px] leading-relaxed text-ink-muted">
-            Un agradecimiento honesto a las personas y el club que han hecho posible pasar
-            de la teoría al vuelo real.
-          </p>
-        </div>
-      </header>
+      <PageHero
+        eyebrow="Sec. 06 · Colaboradores"
+        title="Nadie construye esto en solitario"
+        description="Un agradecimiento honesto a las personas y el club que han hecho posible pasar de la teoría al vuelo real."
+        image={{ src: IMAGES.communitySupport.src, alt: IMAGES.communitySupport.alt }}
+      />
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-3xl border border-accent/30 bg-gradient-to-br from-accent-soft to-paper">
+          <SectionHeading
+            eyebrow="Por qué esta página existe"
+            title="Un TFG que se apoye en la comunidad, llegará mucho más lejos"
+            description="Diseñar, montar y validar en vuelo un sistema como este exige acceso a un club con seguro de vuelo, mentoría técnica y un lugar real donde probar hardware — pero también algo menos evidente: datos."
+          />
+
+          <p className="mt-6 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
+            Más allá del trabajo académico, un proyecto como este necesita recopilar
+            una cantidad considerable de datos reales —vuelos, vídeo, condiciones de
+            campo— algo muy difícil de lograr en solitario. El apoyo de aficionados a
+            los drones, clubes de aeronáutica y particulares dispuestos a ayudar a
+            recopilarlos, o a contribuir facilitando zonas de vuelo, material de
+            apoyo o repuestos, marca una diferencia real — igual que las empresas
+            dispuestas a ayudar a sufragar el material necesario. Esta página existe
+            para reconocer y agradecer, con nombres y fechas, a quienes han
+            contribuido con esas aportaciones —material, ayuda o tiempo— a las
+            necesidades del proyecto.
+          </p>
+          <div className="mt-12 overflow-hidden rounded-3xl border border-accent/30 bg-gradient-to-br from-accent-soft to-paper">
             <div className="grid gap-8 p-8 sm:p-10 lg:grid-cols-[auto_1fr] lg:items-center">
-              <span className="flex h-20 w-20 items-center justify-center rounded-2xl border border-accent/30 bg-paper text-accent">
-                <PlaneTakeoff className="h-9 w-9" strokeWidth={1.5} />
+              <span className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-accent/30 bg-paper">
+                <Image
+                  src="/images/club-alas-de-galapagar-logo.jpg"
+                  alt="Logo del Club Alas de Galapagar, club de aeromodelismo y radiocontrol"
+                  width={80}
+                  height={80}
+                  className="h-full w-full object-cover"
+                />
               </span>
               <div>
                 <p className="font-telemetry text-[11px] uppercase text-accent">
@@ -63,16 +85,87 @@ export default function ColaboradoresPage() {
                   Club Alas de Galapagar
                 </h2>
                 <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-ink-muted">
-                  El proyecto está registrado y asociado a este club de aeromodelismo, lo
-                  que incluye el seguro obligatorio para volar. Sus instalaciones han
-                  acogido los vuelos reales de prueba y la recogida del dataset —
+                  El proyecto ha sido en gran parte posible por las facilidades
+                  conseguidas como socia de este club de aeromodelismo. Sus{" "}
+                  <VideoLink
+                    youtubeId="2HKlq-o7WxM"
+                    title="Club Alas de Galapagar"
+                    className="font-medium text-accent underline underline-offset-2"
+                  >
+                    instalaciones
+                  </VideoLink>{" "}
+                  han acogido los vuelos reales de prueba y la recogida del dataset —
                   incluidas las imágenes con personas usadas para el pipeline de
-                  detección grabadas allí mismo.
+                  detección grabadas allí mismo. El club da además acceso a una amplia
+                  zona de vuelo homologada donde volar sin los problemas habituales de
+                  solicitar permisos o toparse con zonas restringidas.
                 </p>
-                <div className="mt-4 flex items-center gap-2 text-[12.5px] text-ink-faint">
-                  <ShieldCheck className="h-4 w-4" strokeWidth={1.75} />
-                  Logo del club: <span className="font-medium">[placeholder — pendiente de conseguir]</span>
-                </div>
+                <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-ink-muted">
+                  Mi agradecimiento especial al club por prestarme material diverso,
+                  asesorarme en el vuelo de drones, y acogerme como un miembro más.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-3xl border border-line bg-surface">
+            <div className="grid gap-8 p-8 sm:p-10 lg:grid-cols-[auto_1fr] lg:items-center">
+              <a
+                href="https://europesip.com"
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl border border-line bg-paper px-6 transition-colors hover:border-accent/40"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/europesip-logo-dark.svg"
+                  alt="Logo de EuropeSIP"
+                  className="h-8 w-auto"
+                />
+              </a>
+              <div>
+                <p className="font-telemetry text-[11px] uppercase text-ink-faint">
+                  Patrocinador
+                </p>
+                <h2 className="mt-2 text-[24px] font-extrabold leading-tight text-ink sm:text-[28px]">
+                  <a
+                    href="https://europesip.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors hover:text-accent"
+                  >
+                    EuropeSIP
+                  </a>
+                </h2>
+                <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-ink-muted">
+                  EuropeSIP es una empresa madrileña especializada en la{" "}
+                  <a
+                    href="https://europesip.com/es/europesip/soluciones/inteligencia-artificial/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-accent underline underline-offset-2"
+                  >
+                    IA Soberana
+                  </a>
+                  , con el despliegue de modelos de inteligencia artificial en
+                  infraestructuras propias y bajo control local estricto. Esta
+                  filosofía se alinea plenamente con Guardian Eye, cuya capacidad de
+                  detección por visión artificial se ejecuta directamente a bordo
+                  (Edge Computing), sin dependencias de la nube.
+                </p>
+                <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-ink-muted">
+                  EuropeSIP identificó y formalizó su colaboración a través de nuestra{" "}
+                  <a
+                    href={LANDING_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-accent underline underline-offset-2"
+                  >
+                    página de crowdfunding
+                  </a>
+                  , sufragando el hardware crítico de desarrollo: un kit de desarrollo
+                  Holybro, una Raspberry Pi y diversos componentes adicionales.
+                </p>
               </div>
             </div>
           </div>
@@ -108,7 +201,18 @@ export default function ColaboradoresPage() {
             </div>
           </div>
 
-          <div className="mt-20 grid gap-6 rounded-3xl border border-line bg-ink p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="mt-16 flex items-start gap-4 rounded-2xl border border-line bg-surface p-6">
+            <HeartHandshake className="mt-0.5 h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
+            <p className="text-[13.5px] leading-relaxed text-ink-muted">
+              ¿Formas parte de un club de aeromodelismo, un grupo de emergencias o simplemente
+              tienes experiencia en alguno de los campos del proyecto y quieres aportar? La
+              colaboración se gestiona desde la landing corta de micromecenazgo — desde
+              donaciones de material hasta el envío de vídeos aéreos para el dataset de
+              entrenamiento.
+            </p>
+          </div>
+
+          <div className="mt-6 grid gap-6 rounded-3xl border border-line bg-ink p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="font-telemetry text-[10.5px] uppercase text-white/60">Autora</p>
               <p className="mt-2 text-[20px] font-extrabold text-white">Nerea Gorostidi García</p>

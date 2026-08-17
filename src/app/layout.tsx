@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s · Guardian Eye",
   },
   description:
-    "Documentación técnica de Guardian Eye, un sistema autónomo de dron SAR con triple enlace de comunicaciones redundante, visión por computador y arquitectura cloud. Trabajo de Fin de Grado en Ingeniería de Telecomunicaciones.",
+    "Documentación técnica de Guardian Eye, un sistema autónomo de dron SAR con enlace múltiple de comunicaciones redundante, visión por computador y arquitectura cloud. Trabajo de Fin de Grado en Ingeniería de Telecomunicaciones.",
   keywords: [
     "dron SAR",
     "búsqueda y rescate",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Guardian Eye — Dron autónomo de Búsqueda y Rescate",
     description:
-      "Triple enlace de comunicaciones redundante, IoT, visión por computador y arquitectura cloud. Documentación técnica completa del TFG.",
+      "Enlace múltiple de comunicaciones redundante, IoT, visión por computador y arquitectura cloud. Documentación técnica completa del TFG.",
     url: siteUrl,
     siteName: "Guardian Eye",
     locale: "es_ES",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Guardian Eye — Dron autónomo de Búsqueda y Rescate",
     description:
-      "Documentación técnica de un dron SAR con triple enlace redundante, IA y arquitectura cloud.",
+      "Documentación técnica de un dron SAR con enlace múltiple redundante, IA y arquitectura cloud.",
   },
 };
 

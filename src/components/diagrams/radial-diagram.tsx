@@ -55,41 +55,58 @@ export function RadialDiagram({
           const angle = startAngleDeg + step * i;
           const { x, y } = toXY(angle, RADIUS);
           return (
-            <motion.line
-              key={node.id}
-              x1={CX}
-              y1={CY}
-              x2={x}
-              y2={y}
-              stroke={node.colorVar}
-              strokeWidth={2}
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0.3 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.8, delay: i * 0.12, ease: "easeInOut" }}
-            />
+            <g key={node.id}>
+              <motion.line
+                x1={CX}
+                y1={CY}
+                x2={x}
+                y2={y}
+                stroke={node.colorVar}
+                strokeWidth={2}
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0.3 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.8, delay: i * 0.12, ease: "easeInOut" }}
+              />
+              <motion.circle
+                cx={x}
+                cy={y}
+                r={4}
+                fill={node.colorVar}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.3, delay: 0.75 + i * 0.12 }}
+              />
+            </g>
           );
         })}
       </svg>
 
       <motion.div
-        className="absolute top-1/2 left-1/2 flex w-[128px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-line bg-paper text-center shadow-[var(--shadow-lift)]"
-        style={{ height: 128 }}
+        className="absolute top-1/2 left-1/2 flex h-[150px] w-[150px] -translate-x-1/2 -translate-y-1/2 items-center justify-center"
         initial={{ opacity: 0, scale: 0.85 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.6 }}
         transition={{ duration: 0.5 }}
       >
-        {CenterIcon && <span className="text-accent [&_svg]:h-5 [&_svg]:w-5">{CenterIcon}</span>}
-        <span className="mt-1 px-2 text-[13px] font-bold leading-tight text-ink">
-          {centerLabel}
-        </span>
-        {centerSublabel && (
-          <span className="font-telemetry text-[9px] uppercase text-ink-faint">
-            {centerSublabel}
+        <span className="animate-pulse-ring absolute h-full w-full rounded-full bg-accent-soft" />
+        <span
+          className="absolute h-full w-full rounded-full bg-accent-soft"
+          style={{ animation: "pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.2s" }}
+        />
+        <div className="relative flex h-[132px] w-[132px] flex-col items-center justify-center rounded-full border border-line bg-paper text-center shadow-[var(--shadow-lift)]">
+          {CenterIcon && <span className="text-accent [&_svg]:h-7 [&_svg]:w-7">{CenterIcon}</span>}
+          <span className="mt-1.5 px-2 text-[13.5px] font-bold leading-tight text-ink">
+            {centerLabel}
           </span>
-        )}
+          {centerSublabel && (
+            <span className="font-telemetry text-[9px] uppercase text-ink-faint">
+              {centerSublabel}
+            </span>
+          )}
+        </div>
       </motion.div>
 
       {nodes.map((node, i) => {
@@ -105,15 +122,19 @@ export function RadialDiagram({
           <motion.div
             key={node.id}
             className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-            style={{ left: `${leftPct}%`, top: `${topPct}%`, width: 150 }}
+            style={{ left: `${leftPct}%`, top: `${topPct}%`, width: "clamp(84px, 23%, 150px)" }}
             initial={{ opacity: 0, scale: 0.85 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.45, delay: 0.35 + i * 0.12 }}
           >
             <span
-              className="flex h-[68px] w-[68px] items-center justify-center rounded-2xl border bg-paper shadow-[var(--shadow-soft)]"
-              style={{ borderColor: node.colorVar, color: node.colorVar }}
+              className="flex h-12 w-12 items-center justify-center rounded-2xl border shadow-[var(--shadow-soft)] sm:h-[68px] sm:w-[68px]"
+              style={{
+                borderColor: node.colorVar,
+                color: node.colorVar,
+                backgroundColor: `color-mix(in oklab, ${node.colorVar} 10%, var(--color-paper))`,
+              }}
             >
               <span className="[&_svg]:h-6 [&_svg]:w-6">{node.icon}</span>
             </span>
