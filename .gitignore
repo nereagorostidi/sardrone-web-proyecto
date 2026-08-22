@@ -40,6 +40,9 @@ dev.log
 # local Claude Code permission/tool settings — not meant to be shared
 .claude/settings.local.json
 
+# local Claude Code design-review tool state/cache — not project content
+/.impeccable/
+
 # reference material (TFG source PDFs/docx, not part of the deployed site)
 /docs
 

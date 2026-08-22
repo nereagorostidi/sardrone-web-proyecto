@@ -158,7 +158,7 @@ export default function HomePage() {
                 multicanal continua: mando de radiocontrol en{" "}
                 <strong className="font-semibold text-accent">2.4 GHz</strong>,
                 telemetría dedicada en{" "}
-                <strong className="font-semibold text-accent">915 MHz</strong>,
+                <strong className="font-semibold text-accent">433 MHz</strong>,
                 y enlaces de datos complementarios mediante 4G/LTE y Wi-Fi. De
                 esta forma, nos aseguramos que el dron mantenga la conexión
                 bajo cualquier circunstancia.

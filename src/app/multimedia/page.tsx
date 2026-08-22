@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Code2, Film, Video } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Film, FolderOpen, Video } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { MediaGallery, type MediaItem } from "@/components/media-gallery";
 import { PageHero } from "@/components/page-hero";
@@ -57,7 +58,7 @@ const ITEMS: MediaItem[] = [
   {
     id: "montaje-hardware",
     title: "Montaje del hardware",
-    description: "Integración de Pixhawk 6C, Raspberry Pi 5 y sensores a bordo.",
+    description: "Integración de Pixhawk 6X, Raspberry Pi 5 y sensores a bordo.",
     poster: IMAGES.circuitBoard,
     tag: "Timelapse",
   },
@@ -84,17 +85,11 @@ const ITEMS: MediaItem[] = [
   },
 ];
 
-const REPOS = [
-  { name: "yolo-pipeline-test", url: "https://github.com/nereagorostidi/yolo-pipeline-test", desc: "Taller de experimentación con OpenCV y YOLO en detección de objetos, para comprobar y validar la tecnología que se usaría después en el proyecto." },
-  { name: "drone-edge-companion", url: "https://github.com/nereagorostidi/drone-edge-companion", desc: "Servicios Python a bordo de la Raspberry Pi." },
-  { name: "drone-cloud-server", url: "https://github.com/nereagorostidi/drone-cloud-server", desc: "Backend Flask, MQTT y almacenamiento en InfluxDB." },
-];
-
 export default function MultimediaPage() {
   return (
     <>
       <PageHero
-        eyebrow="Sec. 04 · Multimedia"
+        eyebrow="Sec. 05 · Multimedia"
         title="El proyecto en vídeo"
         description="Vuelos reales, detecciones sobre vídeo de campo y el montaje del hardware. Lo que todavía no existe se marca como tal — no se simulan resultados que no se han producido."
         image={{ src: IMAGES.droneSnowMountain.src, alt: IMAGES.droneSnowMountain.alt }}
@@ -148,29 +143,26 @@ export default function MultimediaPage() {
             </a>
           </div>
 
-          <div className="mt-16">
-            <p className="font-telemetry mb-6 text-[10.5px] uppercase text-ink-faint">
-              Explora el código
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {REPOS.map((repo) => (
-                <a
-                  key={repo.name}
-                  href={repo.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex flex-col rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-accent/40"
-                >
-                  <Code2 className="h-5 w-5 text-ink-faint" strokeWidth={1.75} />
-                  <p className="mt-3 font-telemetry text-[13px] text-ink">{repo.name}</p>
-                  <p className="mt-1 text-[12.5px] leading-relaxed text-ink-muted">{repo.desc}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-accent opacity-0 transition-opacity group-hover:opacity-100">
-                    Ver repositorio <ArrowUpRight className="h-3.5 w-3.5" />
-                  </span>
-                </a>
-              ))}
+          <Link
+            href="/multimedia/documentacion"
+            className="group mt-16 flex flex-col items-start justify-between gap-4 rounded-3xl border border-line bg-paper p-7 transition-colors hover:border-accent/40 sm:flex-row sm:items-center"
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                <FolderOpen className="h-5 w-5" strokeWidth={1.75} />
+              </span>
+              <div>
+                <p className="text-[15px] font-bold text-ink">Documentación y recursos</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+                  Los repositorios de código, guías oficiales de montaje, normativa y varios
+                  documentos técnicos propios en PDF descargable.
+                </p>
+              </div>
             </div>
-          </div>
+            <span className="inline-flex shrink-0 items-center gap-1 text-[12.5px] font-semibold text-accent">
+              Ver todo <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </Link>
         </div>
       </section>
     </>

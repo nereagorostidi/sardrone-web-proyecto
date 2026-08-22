@@ -530,11 +530,875 @@ nada y actualízalo al terminar cualquier tarea.
   `PageHero` con un `objectPosition` propio (`"68% 55%"`) en vez del valor por defecto del
   componente, para que tanto el inspector como el dron queden visibles en el recorte
   panorámico del hero.
+- **Nueva sección de nivel superior "Construcción del dron"** (agosto 2026, a petición
+  explícita de la autora, a partir de material real que aportó: 89 fotos propias del
+  montaje del kit Holybro X500 V2 en `Downloads/guias/FotosHolly/FotosDron-Holybro/`,
+  3 guías oficiales de montaje del fabricante, el recibo de compra y un PDF de
+  referencia genérico sobre las partes de un dron). Nueva entrada de navegación entre
+  "Arquitectura técnica" y "Inteligencia Artificial" (`site-config.ts`, eyebrow "03";
+  IA/Multimedia/Impacto/Colaboradores se renumeraron a 04-07), con hub + 3 subpáginas
+  siguiendo el patrón hub+subpáginas ya usado por Proyecto y Arquitectura:
+  - `/construccion` — hub con 3 tarjetas.
+  - `/construccion/piezas` — "Piezas de un dron": anatomía genérica de cualquier
+    multirrotor (chasis, motores, ESCs, PDB, batería, FC, GPS, receptor RC, radio de
+    telemetría), ilustrada con fotos reales de los propios componentes de Guardian Eye
+    en vez de stock de Unsplash — más honesto y evita tener que verificar imágenes
+    nuevas. **Nota importante:** el PDF de referencia que aportó la autora
+    (`InfoTFGs/partes.pdf`) resultó ser la página 29 de un TFM de una persona distinta
+    — Lucía Gorostidi García (ETSII-UPM), proyecto de dron para inspección de plantas
+    fotovoltaicas, con chasis F450 y componentes que no coinciden con Guardian Eye
+    (Sony IMX477, RadioMaster RP1...). Se descartó como fuente de datos concretos por
+    ese motivo — el contenido de la página se escribió desde cero, en genérico, sin
+    copiar sus cifras ni specs.
+  - `/construccion/armazon` — "Cerebro 1: armazón y Pixhawk": por qué se compró el kit
+    Holybro X500 V2 en vez de piezas sueltas (evitar comprobar compatibilidad pieza a
+    pieza y reducir soldadura), y guía paso a paso (13 pasos) del montaje real del
+    armazón y la Pixhawk, con fotos propias seleccionadas de las 89 originales.
+  - `/construccion/edge-computing` — "Cerebro 2: Edge Computing": Raspberry Pi 5,
+    Hailo-8L, módem 4G y sensor BME680 — estructurada y enlazada ya, pero marcada
+    `underConstruction` porque **todavía no hay fotos reales de este montaje** (la
+    autora las tomará más adelante, incluyendo el pincho del módem 4G, y esta página
+    se ampliará entonces con el mismo formato paso a paso que `/construccion/armazon`).
+  - Las tres subpáginas y el hub siguen el mismo patrón que el resto del sitio:
+    `PageHero` con breadcrumbs, `SubpageNav` con prev/next, tarjetas con imagen +
+    leyenda en degradado (mismo patrón que ya usaba `/proyecto/objetivos`).
+  - Footer (`site-footer.tsx`) ampliado con una cuarta columna de enlaces
+    ("Construcción") y el grid pasó de 4 a 5 columnas en desktop
+    (`lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]`).
+  - **Procesado de las fotos:** seleccionadas 15 de las 89 originales (13 para el paso
+    a paso de `/construccion/armazon`, 2 adicionales —GPS y radio de telemetría— para
+    `/construccion/piezas`). Redimensionadas a un máximo de 1600px de lado con
+    Python/Pillow (`ImageOps.exif_transpose` para corregir la rotación del móvil,
+    recompresión JPEG calidad 82), pasando de 1.6-3.5 MB a 150-330 KB cada una — y
+    **guardadas sin metadata EXIF** (el `save()` de Pillow no reescribe el EXIF
+    original a menos que se le pase explícitamente, así que las fotos publicadas no
+    llevan la ubicación GPS del teléfono que las tomó, importante al ser una web
+    pública). Guardadas en `public/images/` con prefijo `montaje-NN-` (paso a paso,
+    numeradas) y `pieza-` (piezas sueltas), catalogadas en `src/lib/images.ts`.
+  - **Corrección de datos importante descubierta durante esta tarea:** las fotos reales
+    de la Pixhawk (texto "pixhawk 6X" impreso en la placa) y el recibo de compra
+    (`Receipt-X500v2.pdf`: "Holybro Kit de Desarrollo PX4 - X500 v2 (**6X** & M10 &
+    **433Mhz**)") contradecían lo que estaba publicado en el resto de la web —
+    "Pixhawk 6C" y telemetría a "915 MHz" — este último dato fijado a propósito en
+    su momento siguiendo el prompt maestro del encargo en vez de la documentación
+    técnica real (ver "Conflictos de fuentes" más abajo). La foto del propio módulo de
+    radio ("TELEMETRY RADIO 433 MHz 100mW" impreso en la carcasa) confirmó
+    definitivamente 433 MHz. Se corrigió `Pixhawk 6C→6X` y `915 MHz→433 MHz` en las 8
+    menciones de todo el sitio (`arquitectura/hardware`, `arquitectura/comunicaciones`,
+    `arquitectura/page.tsx`, `multimedia/page.tsx`, `triple-link-diagram.tsx`,
+    `site-footer.tsx`, home) — el recibo y la propia placa son la fuente más fiable que
+    existe (compra real + foto real), por encima de cualquier documento anterior.
+  - Verificado con `npm run build` (22 rutas, todas estáticas) y `npm run lint` (sin
+    errores nuevos) en verde, y repaso de contenido en navegador (Chrome vía MCP,
+    `get_page_text` + comprobación de red de las 4 páginas nuevas y de
+    `/arquitectura/hardware`) — la captura de pantalla (`computer screenshot`) no
+    funcionó en esta sesión concreta porque el panel del navegador no estaba visible
+    en la interfaz (mismo tipo de limitación de entorno ya documentado antes con
+    `resize_window`), así que el QA visual pixel a pixel de esta sección concreta
+    sigue pendiente de una revisión manual de la autora.
+- **Revisión de la carpeta `Downloads/guias/Documentos de Apoyo/`** (agosto 2026, a petición
+  de la autora — "¿merece la pena incluir algo de esto en la web?"): 11 documentos revisados
+  (9 `.docx` vía `python-docx`, 2 PDF, 1 PNG). Igual que con `partes.pdf` en la tarea anterior,
+  **`TFG_Iker-ConApendiceIA.docx` es el TFG de otra persona** (Iker Gorostidi García, Ingeniería
+  Industrial, gestión de riesgos en renovables — sin relación con Guardian Eye) y
+  **`Guia_Pipeline_Dataset_Roboflow_Hailo.docx` es el pipeline del otro proyecto** (detección de
+  "defectos" en paneles fotovoltaicos, no de personas) — ambos descartados como fuente. La
+  imagen `Drones__La_Revolución_Silenciosa.png` (infografía de mercado generada con IA, cifras
+  no verificadas) tampoco se ha usado. De los 6 documentos restantes, genuinamente del proyecto
+  o de referencia técnica genérica útil, salieron dos piezas de trabajo:
+  - **Nueva subpágina `/arquitectura/datos`** ("Datos e IoT"), 4ª hija de Arquitectura técnica
+    (`site-config.ts`; el hub `/arquitectura` pasó de 3 a 4 tarjetas, grid de `lg:grid-cols-3` a
+    `sm:grid-cols-2 lg:grid-cols-4`). Basada en `arquitectura_datos.docx` (documento propio de la
+    autora, agosto 2026) pero **sin duplicar** `/arquitectura/software`: esa página explica el
+    *qué* (4 procesos, MQTT, InfluxDB) y la nueva explica el *por qué* — los tres principios de
+    diseño (edge-first, store-and-forward, productor-consumidor), el fichero de estado compartido
+    entre `vuelo.py` y `deteccion.py` (único punto de comunicación entre procesos, con escritura
+    atómica), el flujo completo de una detección reutilizando `FlowDiagram`, y dos cajas de cierre
+    que enlazan con contenido ya publicado (limitación de geolocalización de `/ia`, filosofía de
+    validación por etapas de `/proyecto/metodologia`) en vez de repetirlo. **Nota de terminología:**
+    el documento fuente usa el prefijo de topic `sar/...`; la autora confirmó explícitamente que el
+    correcto es `dronsar/...` (el que ya usa `/arquitectura/software`), así que la página nueva usa
+    ese prefijo, no el del documento. `SubpageNav` de Software & Cloud ganó un `next` hacia esta
+    página; es la última de la cadena (sin `next` propio).
+  - **`/multimedia` reestructurada en hub + subpágina** (a petición explícita de la autora, que
+    quería una sección de "documentación y recursos" en Multimedia sin que la galería creciera
+    hasta hacerse larga de leer): `Multimedia` ganó `children` en `site-config.ts` (antes era un
+    enlace directo) — "Galería" (`/multimedia`, sin cambios de contenido salvo quitar la sección
+    "Explora el código") y **"Documentación y recursos"** (`/multimedia/documentacion`, nueva).
+    La autora pidió explícitamente **no quitar** los repos de la Home (siguen en `OpenSourceCard`,
+    repetidos a propósito "para que tenga más visibilidad") — la única sección que se *movió* (no
+    se duplicó) fue "Explora el código" de la galería a la nueva subpágina. La subpágina nueva
+    añade, además de los 3 repos: guías oficiales de montaje de Holybro (enlazadas, no alojadas —
+    verificadas con `curl`: `docs.holybro.com/.../getting-started-build-guide` y la ficha del kit
+    en `holybro.com`), enlaces a EASA/AESA/ENAIRE Drones (reutilizando las URLs ya verificadas de
+    `/proyecto/normativa`, con un enlace cruzado a esa página para el detalle completo), el diario
+    del proyecto (`LANDING_JOURNAL_URL`), y una sección nueva de **6 PDFs descargables**.
+  - **Los 6 PDFs** (`public/docs/*.pdf`, ~90-125 KB cada uno) se generaron a partir de los propios
+    `.docx` de la carpeta de apoyo — no son los `.docx` originales convertidos 1:1, sino
+    regenerados con un script Python (`fpdf2` + `python-docx`, sin LibreOffice ni Word instalados
+    en esta máquina) que respeta la estructura real del documento (Heading 1/2, listas, **tablas**
+    — importante: la primera versión del script solo iteraba `document.paragraphs` y las tablas de
+    Word quedaban vacías; se corrigió iterando `document.element.body` en orden real con
+    `iter_block_items()` para intercalar párrafos y tablas tal como aparecen en el original),
+    portada propia con el nombre del proyecto y de la autora, y tipografía Arial vía TTF de Windows
+    (necesario para que acentos, rayas y comillas tipográficas del español se rendericen bien; las
+    fuentes core de PDF no cubren esos caracteres). Verificado visualmente vía `Read` en al menos
+    un documento completo (`pipeline-deteccion-personas.pdf`, 9 páginas) tras la corrección de
+    tablas. Documentos incluidos: `arquitectura-datos-iot.pdf`, `mavlink-explicado.pdf`,
+    `pipeline-deteccion-personas.pdf`, `transmision-video.pdf`, `normativa-sanciones-deteccion.pdf`,
+    `teleoperacion-simulacion.pdf` — los 5 restantes de la carpeta de apoyo (los 2 descartados por
+    ser de otro proyecto, más 3 no priorizados: `Normativa_drones_final` sí se usó,
+    `Tutorial_Completo_Python_Hello_World_ClaudeCode_YOLO.docx` y los 2 PDF de la carpeta original
+    no se han convertido) quedan fuera de esta primera tanda si se quieren añadir más adelante.
+  - Además, se corrigió un bug de numeración arrastrado desde la sesión anterior: al insertar
+    "Construcción del dron" como sección 03, el `eyebrow` de `site-config.ts` se renumeró
+    correctamente pero **el `eyebrow` hardcodeado dentro del `PageHero` de cada página
+    top-level** (`/ia`, `/multimedia`, `/impacto`, `/colaboradores`) no se tocó y se quedó
+    desincronizado ("Sec. 03" en `/ia` cuando el menú ya decía "04", etc.) — corregido a
+    04/05/06/07 respectivamente. **Importante para el futuro:** estos dos sitios (el `eyebrow` de
+    `site-config.ts` y el `eyebrow="Sec. NN · ..."` de cada `PageHero`) no están acoplados en
+    código, así que cualquier reordenación de `NAV_ITEMS` debe actualizar ambos a mano.
+  - Verificado con `npm run build` (24 rutas, todas estáticas) y `npm run lint` (sin errores
+    nuevos) en verde, y repaso en navegador (Chrome vía MCP: `get_page_text` de las páginas
+    nuevas/modificadas, `read_page` con `hover` sobre los triggers de Arquitectura y Multimedia
+    para confirmar que el desplegable de escritorio muestra las 4 y 2 entradas nuevas
+    respectivamente, y `curl` contra el dev server para confirmar que los PDF se sirven con
+    `content-type: application/pdf`). La captura de pantalla (`computer screenshot`) volvió a
+    fallar por el mismo motivo de entorno ya documentado (panel del navegador no visible en esta
+    sesión) — QA visual pixel a pixel pendiente de revisión manual, igual que en tareas anteriores.
+- **`/colaboradores` — sección "Personas" reescrita a petición explícita de la autora** (agosto
+  2026): la grid de 4 tarjetas (`COLLABORATORS`) con nombre/rol/nota suelta por persona quedaba
+  fría — "no me gusta como se mencionan las personas". Sustituida por un único párrafo de
+  agradecimiento colectivo a Darco, Dani, Paco y José Manuel (texto dictado por la autora,
+  corregidas solo tildes/erratas, misma convención que el resto del sitio), y el título/
+  descripción de la sección pasaron de "Mentores y apoyos del club" / "Nombres ya publicados..."
+  a **"Mentores y Personas destacadas"** con una descripción personal sobre por qué se les
+  menciona.
+  - **Nueva tarjeta "Mención especial: El dron de José Manuel"**: José Manuel le prestó
+    desinteresadamente su propio dron (con controladora DJI Naza) para que la autora no tuviera
+    que afrontar un desembolso económico al empezar el proyecto. El texto publicado explica —
+    con el enfoque que pidió explícitamente la autora — que finalmente se optó por el kit
+    Holybro X500 V2 por encajar mejor con el proyecto (construir el sistema desde cero, mejor
+    controladora), y dedica un reconocimiento aparte a la calidad del dron de José Manuel (lo
+    construyó él mismo hace años; pese a llevar electrónica más antigua, es de primera calidad —
+    lo usaba para grabar bodas). **Nota importante para el futuro:** la autora fue explícita en
+    que el motivo real de no usar ese dron no es el que se publica (simplemente prefería no
+    usarlo) — el texto público usa un motivo alternativo (adecuación del kit Holybro) a petición
+    suya. Si se retoca este texto más adelante, mantener ese mismo enfoque en vez de "corregirlo"
+    hacia el motivo real.
+  - **Fotos del dron de José Manuel** (`Downloads/guias/FotosAlas/*.jpeg`, 4 fotos originales
+    aportadas por la autora): se seleccionaron 3 de las 4 (se descartó la vista superior con las
+    hélices visibles, `12.32.44`, por ser redundante con la del gimbal cerrado) y se
+    redimensionaron con el mismo proceso ya usado para las fotos de montaje — Python/Pillow,
+    máx. 1600 px de lado, `ImageOps.exif_transpose`, recompresión JPEG calidad 82, sin metadata
+    EXIF — guardadas en `public/images/jose-manuel-dron-0{1,2,3}-*.jpg` y catalogadas en
+    `src/lib/images.ts` (`joseManuelDroneFrontal/Naza/Gimbal`, `credit: "Fotografía cedida por
+    José Manuel"`).
+  - **Nuevo componente `src/components/photo-lightbox-grid.tsx`** (`PhotoLightboxGrid`):
+    galería de fotos en grid de 3 columnas que abre una a pantalla completa en un `Dialog` de
+    Radix al hacer clic (mismo patrón visual que `VideoLink`/`MediaGallery` — overlay +
+    `motion.div` + botón de cierre — pero para imagen fija con `object-contain` en vez de vídeo).
+    Reutilizable si se necesita otra galería de fotos suelta en el futuro; de momento solo se usa
+    aquí.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador (Chrome
+    vía MCP): contenido con `get_page_text`, y el lightbox probado de extremo a extremo — clic en
+    la miniatura abre el diálogo con la imagen ampliada y su leyenda, botón "Cerrar" lo cierra.
+    Captura de pantalla (`computer screenshot`) no disponible en esta sesión, mismo motivo de
+    entorno ya documentado antes.
+- **`/colaboradores` — tutor/a académico/a relleno + ajustes al homenaje de José Manuel**
+  (agosto 2026, misma sesión que la reescritura de "Personas" de arriba): el placeholder
+  "[nombre pendiente de añadir]" se sustituyó por el nombre real, **Daniel Díaz Sánchez**,
+  profesor de Aplicaciones Telemáticas en la Universidad Carlos III de Madrid, con un
+  agradecimiento por su disponibilidad, apoyo y sugerencias durante la redacción del TFG — su
+  tarjeta se movió, a petición explícita de la autora, **por encima** del párrafo de Darco/
+  Dani/Paco/José Manuel (antes iba debajo de la tarjeta de homenaje a José Manuel).
+  - Párrafo de la tarjeta "El dron de José Manuel" ampliado con dos añadidos dictados por la
+    autora: (1) la idea inicial era desmontar el dron de José Manuel y reaprovechar sus piezas
+    para construir uno nuevo, algo que no hizo falta gracias a conseguir el kit Holybro X500
+    V2 a través de EuropeSIP (con enlace a `europesip.com`, mismo estilo que el resto de
+    enlaces de la página); y (2) una frase de cierre sobre el aprendizaje real que le dejó el
+    montaje de José Manuel — "qué piezas utilizar, cómo disponerlas, y cómo iban las cosas
+    unidas" — antes de la explicación (ya publicada) de por qué se acabó optando por el kit
+    Holybro en vez de su dron.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP, `get_page_text`) — sin errores de consola.
+  - **Ronda posterior de ajustes al texto del homenaje** (misma sesión): los dos párrafos de
+    la tarjeta "El dron de José Manuel" se reescribieron de nuevo, dictados otra vez por la
+    autora (mismos criterios de edición — solo se corrigen tildes/erratas/concordancia, no la
+    redacción). Cambios de contenido relevantes: (1) la mención a EuropeSIP en esta tarjeta se
+    generalizó a "a través de otro colaborador" (sin enlace) — EuropeSIP sigue nombrado y
+    enlazado en su propia tarjeta de patrocinador más arriba en la misma página, esto solo
+    quita la redundancia aquí; (2) se añadió que el dron de José Manuel "ha sido mi modelo
+    para construir el posterior" y que pasó varios días estudiándolo y analizándolo; (3) el
+    segundo párrafo se amplió con el detalle de los motores (serían "la envidia de cualquier
+    dron actual") y una reflexión de cierre sobre que el dron se construyó en una época con
+    mucho menos acceso a la información que ahora. Verificado de nuevo con `npm run build` y
+    `npm run lint` en verde, y en navegador sin errores de consola.
+- **`/arquitectura/datos` reorientada por completo** (agosto 2026, a petición explícita de la
+  autora — "no me gusta la orientación de la página"): antes arrancaba con "por qué cuatro
+  procesos y no uno" (marco abstracto de ingeniería). Ahora arranca con la motivación real:
+  uno de los objetivos del proyecto era sensorizar el dron, y siendo conscientes de que las
+  comunicaciones en un dron —más aún en entorno rural, con 4G intermitente— pueden fallar, se
+  reforzaron con brokers, MQTT y store-and-forward (nuevo glosario rápido de estos tres
+  términos, mismo estilo ya usado en `/arquitectura/hardware`). Nueva sección "Más allá de un
+  IoT tradicional": además del patrón IoT de manual (sensores → MQTT → InfluxDB → Grafana),
+  el sistema también envía información de vídeo, la localización de personas detectadas (con
+  el matiz de posición-del-dron-más-píxeles ya establecido, no geolocalización precisa), y —a
+  diferencia de un IoT que solo sube datos— también recibe comandos de alto nivel hacia el
+  propio dron (iniciar misión, aterrizar, grabar). La sección de procesos
+  (`sensor.py`/`sistema.py`/`vuelo.py`/`deteccion.py`) se mantiene pero ya no menciona el
+  mecanismo de coordinación interna entre `vuelo.py` y `deteccion.py` — a petición explícita
+  de la autora, que pidió no revelar el fichero de estado compartido; ahora solo se dice que
+  esa coordinación "ocurre dentro de la propia Raspberry Pi... sin pasar por la red ni por el
+  broker", sin más detalle. El paso "Lee posición" del `FlowDiagram` se renombró de "Fichero
+  de estado de vuelo.py" a "Consulta interna a vuelo.py" por el mismo motivo. De paso se
+  corrigió una inconsistencia de nombres ya existente (`ambiental.py` en esta página vs.
+  `sensor.py` en `/arquitectura/software`) unificando a `sensor.py`. Los tres principios de
+  diseño (edge-first/store-and-forward/productor-consumidor) y las dos cajas finales (solo
+  píxeles, validable sin hardware) se conservan, reordenados al final de la página como
+  refuerzo técnico en vez de ser la apertura. Verificado con `npm run build` (24 rutas) y
+  `npm run lint` en verde, y en navegador sin errores de consola ni menciones a "fichero".
+- **Reordenación de "Arquitectura técnica" + reescritura de Software & Cloud** (agosto 2026,
+  a petición explícita de la autora): el orden de las 4 subpáginas pasó de Comunicaciones →
+  Hardware → Software & Cloud → Datos e IoT a **Hardware → Comunicaciones → Datos e IoT →
+  Software & Cloud** — cambiado en los 4 sitios que mantienen este orden por separado (no
+  están acoplados en código, hay que tocar los 4 a mano si se reordena otra vez):
+  `site-config.ts` (`children` del submenú, controla también el footer y el desplegable del
+  header), `SECTIONS` del hub `/arquitectura` (las etiquetas 01-04 se generan por índice del
+  array), y el `prev`/`next` del `SubpageNav` de las 4 subpáginas (cadena nueva: Hardware sin
+  prev → Comunicaciones → Datos e IoT → Software & Cloud sin next).
+  - **`/arquitectura/datos`**: añadida una frase explícita al principio conectando con
+    Comunicaciones (enlazada) — aunque el enlace múltiple redundante ya es una base de
+    comunicaciones robusta, se quiso reforzar esa capa aplicando además los conceptos clave
+    de las comunicaciones IoT (broker/MQTT/store-and-forward).
+  - **`/arquitectura/software` reescrita para eliminar la redundancia con Datos e IoT**
+    (a petición explícita de la autora, "creo que hay redundancias... céntrate más en
+    aquellos aspectos que no son redundantes"): se quitó el grid de los 4 procesos
+    (`sensor.py`/`sistema.py`/`vuelo.py`/`deteccion.py`, ahora solo un enlace de una línea a
+    Datos e IoT) y el `FlowDiagram` del sensor al panel (redundante con el patrón "sensores →
+    MQTT → InfluxDB → Grafana" ya cubierto allí) y la explicación larga de publicación/
+    suscripción (ahora remitida al glosario de Datos e IoT). En su lugar, la página se centra
+    por completo en lo que no estaba documentado: **el panel de control**, una página web
+    instalable como PWA (`manifest.json` + Service Worker, cacheo del *app shell*, offline
+    del propio panel) desde la que se opera el dron — no solo operaciones principales
+    (armar/desarmar, despegar, iniciar misión, aterrizar/RTL, grabar vídeo), sino también
+    interacción con sensores y con la propia Raspberry Pi (intervalo del sensor ambiental,
+    throttling de vídeo, apagado remoto). Se documentó también la cadena completa de un
+    comando, con un `FlowDiagram` nuevo: Panel (PWA) → API REST (Flask, `POST
+    /api/command`) → MQTT (arquitectura publicador/suscriptor, topic
+    `dronsar/{dron_id}/comandos`) → `receptor.py` en la Raspberry Pi (suscrito al topic) →
+    MAVLink → Pixhawk (arma/despega/aterriza).
+    - **Todo verificado directamente contra el código real en GitHub** (no inventado): se
+      inspeccionó con la API de GitHub y `raw.githubusercontent.com` el repo
+      `drone-cloud-server` (`api-rest/api.py`, `api-rest/comandos.py`, `www/control/`
+      — el panel PWA real, con sus grupos de botones "Motores", "Despegue", "Navegación",
+      "Regreso", "Cámara" y "Sistema (Raspberry Pi)" — y su propio `README.md`, que ya
+      documenta esta misma cadena) y `drone-edge-companion` (`receptor.py`, el suscriptor
+      MQTT que traduce el JSON del comando a llamadas `pymavlink` contra el autopiloto).
+      **Nota importante para el futuro:** `receptor.py` en el repo real, a día de hoy, solo
+      tiene implementadas de verdad las acciones `arm`/`disarm` en su diccionario de
+      acciones — el resto de comandos (`takeoff`, `land`, `rtl`, `hold`, `start_mission`)
+      están validados como válidos en la API (`COMANDOS_VALIDOS`) y en los botones del panel,
+      pero su traducción a MAVLink en el receptor todavía no está escrita. La página describe
+      la arquitectura tal como está diseñada (que es real y así corre en producción para
+      arm/disarm), sin afirmar que todas las acciones estén ya implementadas de extremo a
+      extremo — si se quiere ser aún más explícito sobre este matiz en el futuro, añadir una
+      nota de estado similar a la de `/ia` sobre el dataset en construcción.
+    - Se enlazó directamente a los ficheros reales del código (`www/control`, `api-rest`,
+      `receptor.py`) en vez de solo nombrarlos, verificado con `curl` que las 3 URLs devuelven
+      200.
+    - De paso se detectó (sin usarlo como fuente, ya que revela el mecanismo que la autora
+      pidió no publicar) que `drone-edge-companion` tiene un fichero real
+      `posicion_actual.json` — confirma que la decisión de no nombrar ningún fichero en
+      Datos e IoT fue acertada, ya que ese es exactamente el mecanismo a ocultar.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP: hub, Hardware, Datos e IoT y Software & Cloud) — orden correcto en las
+    4 ubicaciones, cadena de `SubpageNav` correcta de extremo a extremo, sin errores de
+    consola.
+- **Mockup del panel de control dentro de un marco de móvil en `/arquitectura/software`**
+  (agosto 2026, a petición explícita de la autora — quería una imagen del panel PWA "que se
+  vea que es accesible desde un móvil"). Dos hallazgos importantes antes de construirlo:
+  - **La captura de pantalla real no es posible en esta sesión**: `computer screenshot` del
+    MCP de Chrome sigue fallando ("the Browser pane is not displayed"), la misma limitación
+    de entorno ya documentada varias veces en este archivo.
+  - **El panel real (`control.gorostiditfg.com`, repo `drone-cloud-server`) no tiene
+    autenticación** (`api.py`: "AVISO: sin autenticacion. Solo para simulacion / red de
+    confianza") — así que un `<iframe>` en vivo del panel real en la web pública habría sido
+    un riesgo de seguridad real (cualquier visitante podría pulsar "Armar" o "Apagar
+    Raspberry Pi"). Se descartó esa opción.
+  - Se preguntó a la autora entre dos caminos (`AskUserQuestion`) y eligió **recreación fiel
+    en código** en vez de esperar a una captura suya real. Se construyó
+    `src/components/panel-phone-mockup.tsx` (`PanelPhoneMockup`): un marco de móvil dibujado
+    en CSS (bisel, notch, home indicator) con el panel recreado dentro usando **los valores
+    reales** extraídos de `www/control/estilos.css` del repo (colores `#0D0C0A`/`#18160F`/
+    `#E5892A` ámbar/`#D2483C` rojo, tipografías Big Shoulders + JetBrains Mono, la franja
+    "cinta de baliza" y las esquinas de mira de cada grupo) — no es una captura ni un enlace
+    en vivo, los botones no están conectados a ninguna API, y así lo dice un pie de nota
+    explícito bajo el mockup. Integrado en la sección "El panel de control" de
+    `/arquitectura/software` en una grid de dos columnas (texto + tarjetas a la izquierda,
+    el móvil a la derecha).
+  - **Nota técnica:** `next/font/google` en esta versión de Next no tiene "Big Shoulders
+    Condensed" como familia separada (Google la consolidó en la fuente variable "Big
+    Shoulders" con eje de anchura) — se usa `Big_Shoulders` con `weight: ["800"]` en su
+    lugar; visualmente muy similar, con un warning inofensivo en build/dev ("Failed to find
+    font override values") que no afecta al render.
+  - **Colores/tamaños fuera de `DESIGN.md`**: como es una recreación deliberada de la
+    identidad visual de un producto externo (el propio CSS real dice explícitamente que su
+    paleta "equipo de rescate" ámbar/rojo/negro cálido es distinta a un dashboard azul-noche
+    típico), se auto-aprobaron 11 `ignore-value` de `impeccable` con `--file` acotado solo a
+    este componente (no globales) — no son drift del sistema de diseño del sitio, son la
+    paleta de otro producto mostrada a propósito.
+  - Verificado con `npm run build` y `npm run lint` en verde, y en navegador (`get_page_text`
+    + `read_page`) confirmando que todo el contenido del mockup renderiza sin errores de
+    consola (aparte de los WebSocket de HMR, un problema de la infraestructura de vista
+    previa de esta sesión, no del componente).
+  - **Ronda posterior de ajustes** (misma sesión, a petición explícita de la autora): quitado
+    el pie de nota "Recreación fiel del panel real — mismo CSS..." bajo el mockup (ya no
+    hace falta explicitarlo). Añadida una **segunda pantalla del mismo componente**
+    (`PanelPhoneMockup` ganó una prop `variant: "vuelo" | "camara"`) para dejar claro que los
+    vídeos del dron se pueden ver dentro de la propia app — la primera captura se cortaba
+    antes de llegar al grupo "Cámara" del panel real. La segunda pantalla simula estar
+    desplazada más abajo en la misma página (degradado de desvanecido arriba y abajo) y
+    muestra el grupo "Regreso", el grupo "Cámara" (con una previsualización de vídeo
+    simulada — gradiente que sugiere una vista aérea, badge "En directo" con punto rojo, HUD
+    de altitud— más los botones de grabar/parar) y el arranque del grupo "Sistema (Raspberry
+    Pi)". Las dos pantallas se muestran apiladas en `/arquitectura/software` con una
+    etiqueta debajo de cada una ("Control de vuelo" / "Vídeo en directo"). La tarjeta
+    "Cámara" de `PANEL_GROUPS` en la página también se reforzó para dejar explícito que el
+    vídeo "se ve dentro del propio panel, sin salir de la app ni abrir otra herramienta".
+  - Se corrigió de paso un `::before` sin `content` que no hacía nada (el punto rojo del
+    badge "En directo" ahora es un `span` real, `.live-dot`).
+  - 5 `ignore-value` adicionales de `impeccable` (mismo criterio y `--file` acotado que los
+    11 anteriores) para los colores del degradado de la previsualización de vídeo simulada.
+  - **Reubicación final** (misma sesión, a petición explícita de la autora — "no me gusta la
+    ubicación"): las dos pantallas del móvil se sacaron de la columna junto al texto de "El
+    panel de control" (esa sección volvió a ser de una sola columna, ancho completo) y se
+    movieron a continuación del `FlowDiagram` de comandos y su párrafo de enlaces a GitHub —
+    justo antes de la grid de infraestructura (AWS/MQTT/InfluxDB/nginx). Las dos pantallas se
+    muestran ahora en la misma fila (`flex flex-row flex-wrap justify-center gap-10`, no
+    apiladas verticalmente), con su etiqueta debajo de cada una.
+  - **Contexto añadido al principio del `PageHero`** (misma sesión, dictado por la autora,
+    solo se corrigieron tildes/erratas): nueva frase de apertura explicando que toda la
+    arquitectura de hardware, comunicaciones y datos está gobernada por un desarrollo
+    abierto, sobre el que se ha construido el software que recoge los datos de los sensores,
+    controla el dron y gestiona el vídeo y la IA, pensado como una arquitectura escalable
+    para ir sumando funcionalidades — antes de las dos frases ya existentes que sitúan esta
+    página frente a Datos e IoT.
+  - **Escalabilidad de AWS explicada en la tarjeta "AWS EC2 + Flask"**: se añadió que toda la
+    gestión del sistema vive en la nube de Amazon, lo que da una base escalable y gestionable
+    desde cualquier sitio sin depender de estar físicamente junto al dron.
+  - **Ajuste posterior a esa misma frase de apertura** (misma sesión, la autora pidió
+    reformular añadiendo un matiz): se amplió con la idea de que la arquitectura escalable se
+    apoya en la flexibilidad de la nube para desplegar cada servicio que necesita el sistema
+    — el broker de mensajería, el streaming de vídeo, el puente IoT o los servidores web del
+    panel de control. Redactado desde cero a partir del dictado de la autora (traía la
+    errata "flexividad"), no una simple corrección de tildes.
+  - Verificado con `npm run build` y `npm run lint` en verde, y en navegador (`get_page_text`)
+    confirmando el texto nuevo en ambos sitios.
+- **`FlowDiagram` ganó soporte opcional de agrupación** (`src/components/diagrams/flow-diagram.tsx`,
+  agosto 2026, a petición explícita de la autora): quería que el diagrama de comandos de
+  `/arquitectura/software` dejara claro qué pasos corren en AWS Cloud y cuáles en la
+  Raspberry Pi del propio dron. Añadidas dos props opcionales, ambas retrocompatibles (sin
+  ellas el componente se comporta exactamente igual que antes — verificado que
+  `/arquitectura/datos` y `/ia`, que no las usan, siguen renderizando sin cambios):
+  - `groups?: FlowGroup[]` — dibuja una caja punteada con etiqueta alrededor de una tanda
+    contigua de pasos (`stepIds`). En `COMMAND_STEPS` de Software & Cloud se usa para
+    envolver `panel`/`api`/`mqtt` en "AWS Cloud" (icono `Cloud`) y `receptor`/`mavlink` en
+    "Raspberry Pi · a bordo del dron" (icono `Cpu`).
+  - `connectorNotes?: Record<string, string>` — texto pequeño bajo la flecha que sigue a un
+    paso concreto; se usa para etiquetar la flecha que cruza de un grupo a otro como
+    "Internet / 4G", dejando visualmente claro que ahí el mensaje sale de la nube y llega al
+    dron por la red.
+  - **Bug real detectado y corregido durante la implementación**: la primera versión mutaba
+    una variable `stepIndex` declarada fuera del `.map()` que renderiza JSX — el linter de
+    React Compiler (`react-hooks/immutability`) lo bloqueó ("Cannot reassign variable after
+    render completes"). Se resolvió precalculando los índices con una función pura
+    (`withStartIndex`) antes de renderizar, sin mutar nada dentro del render.
+  - **Nota de entorno importante**: durante la verificación, la pestaña de Chrome ya abierta
+    en esta sesión mostraba errores de consola obsoletos (`Module not found` de
+    `panel-phone-mockup.tsx`, y luego un `ReferenceError: stepIndex is not defined`) que
+    parecían del código actual pero eran en realidad JS cacheado de versiones anteriores —
+    el WebSocket de HMR lleva fallando toda la sesión en ese tab, así que nunca recibió las
+    actualizaciones. Confirmado abriendo una pestaña nueva (`tabs_create`): cero errores de
+    consola en `/arquitectura/software` y `/ia`. **Para el futuro: si un error de consola en
+    este entorno no cuadra con el código que se acaba de escribir, abrir una pestaña nueva
+    antes de asumir que es un bug real** — no basta con recargar la misma pestaña.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva, `get_page_text`) confirmando la agrupación "AWS CLOUD" / "RASPBERRY PI ·
+    A BORDO DEL DRON" y la nota "INTERNET / 4G" en la flecha que las separa.
+- **El mismo tratamiento se aplicó al diagrama "El camino completo de una detección" de
+  `/arquitectura/datos`** (agosto 2026, a petición explícita de la autora: quería que
+  quedara más claro qué hace cada parte y, sobre todo, que se viera el store-and-forward en
+  el propio diagrama, no solo en el texto de debajo). Dos cambios:
+  - **`FlowStep` ganó un campo opcional `badge`** (`flow-diagram.tsx`): una pastilla pequeña
+    anclada a la esquina superior derecha de la tarjeta. Se usa aquí en el nuevo paso
+    intermedio **"Guarda en buffer local"** (SQLite, entre "Lee posición" y "Publica MQTT",
+    que antes no existía como paso propio en el diagrama) con el badge "↻ reintenta si
+    falla" — así el store-and-forward ya no es solo una frase en el párrafo de debajo, es un
+    paso visible y explícito del propio flujo.
+  - Igual que en Software & Cloud, se agrupó con `groups`: **"Raspberry Pi · a bordo del
+    dron"** (YOLO detecta, Lee posición, Guarda en buffer local) y **"AWS Cloud"** (Publica
+    MQTT, ACK del broker, InfluxDB), con la nota **"Internet / 4G"** en la flecha que cruza
+    de un grupo a otro. El paso "ACK del broker" se reformuló a "Marca el buffer local como
+    enviado" para cerrar visualmente el ciclo store-and-forward (guardar → intentar enviar →
+    marcar como enviado). El párrafo de debajo del diagrama se reescribió para señalar
+    explícitamente el paso nuevo en vez de hablar solo en abstracto del "buffer local".
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde (hubo que escapar
+    unas comillas rectas en JSX con `«»`, error real de ESLint `react/no-unescaped-entities`)
+    y en navegador (pestaña nueva) sin errores de consola reales — solo los WebSocket de HMR
+    ya conocidos de esta sesión, sin relación con el código.
+  - **Corrección importante detectada por la autora en esa misma ronda**: el paso "ACK del
+    broker" tenía el detalle "Marca el buffer local como enviado" y estaba agrupado dentro de
+    "AWS Cloud" — pero esa acción (el `UPDATE ... SET enviado=1` sobre el SQLite local) la
+    ejecuta la propia Raspberry Pi, no AWS. Verificado contra el código real de
+    `deteccion.py` (función `reenviar()`, `drone-edge-companion`): el cliente MQTT de la Pi
+    publica, espera la confirmación del broker con `info.wait_for_publish()` (QoS 1) y, solo
+    si se confirma, actualiza su propia base de datos local — el broker en AWS únicamente
+    confirma la recepción, no toca el buffer de la Pi. Corregido: el detalle de "ACK del
+    broker" pasó a "Confirma la recepción (QoS 1)" (solo lo que ocurre en AWS), y el párrafo
+    de debajo del diagrama se amplió para dejar explícito que quien marca el registro como
+    enviado en su buffer es la Raspberry Pi, no el servidor. **Lección para el futuro**: al
+    agrupar un paso de un diagrama por dónde ocurre físicamente, verificar contra el código
+    real qué acción exacta describe ese paso — un nombre de paso puede mezclar sin querer un
+    evento del lado servidor (la confirmación) con una consecuencia del lado del cliente (la
+    actualización de su propio estado local), y agruparlo entero en el sitio equivocado.
+- **Dos ampliaciones más a `/arquitectura/datos`** (misma sesión, a petición explícita de la
+  autora): quería que quedaran más claros los 4 procesos por separado (no solo el de
+  detección/YOLO) y, al final del documento, una arquitectura alternativa de MQTT bridge.
+  - **Diagrama radial nuevo con los 4 procesos** en la sección "Los procesos que lo hacen
+    posible", antes de las tarjetas de detalle: reutiliza `RadialDiagram` (el mismo
+    componente de la home/impacto, 4 nodos alrededor de un centro) con `sensor.py`,
+    `sistema.py`, `vuelo.py` y `deteccion.py` alrededor de un centro "Broker MQTT · Mosquitto
+    · AWS". Es deliberadamente el diagrama "general y sencillo" que pidió la autora, antes
+    del diagrama detallado y centrado en YOLO que ya existía más abajo — ambos textos de
+    `SectionHeading` se retocaron para dejar explícito ese orden general→detalle ("antes de
+    entrar en el detalle del pipeline de detección..." / "de los cuatro procesos de arriba,
+    este es el más completo...").
+  - **Nueva sección final "Una alternativa que no elegimos: MQTT bridge"**, antes del
+    `SubpageNav`: explica la arquitectura de dos brokers (uno local en la Raspberry Pi, uno
+    en AWS, unidos por un bridge nativo de Mosquitto) como alternativa al store-and-forward
+    con un único broker que sí se usa en el proyecto real. Incluye un `FlowDiagram` propio
+    (`BRIDGE_STEPS`/`BRIDGE_GROUPS`, mismo patrón de agrupación Raspberry Pi/AWS Cloud y nota
+    de conector "Bridge MQTT" ya usado en el resto de la página), un cuadro de dos columnas
+    con ventajas e inconvenientes del bridge (estilo `Check`/`X`, inspirado en
+    `philosophy-comparison.tsx` pero implementado inline en esta página, sin tocar ese
+    componente compartido), y un cuadro final justificando por qué se eligió
+    store-and-forward en su lugar: simplicidad, un solo broker que mantener, y que la ventaja
+    principal del bridge no compensa la complejidad añadida para un TFG con un único dron en
+    pruebas.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola reales.
+  - **Simplificación posterior del cierre** (misma sesión, a petición explícita de la
+    autora): el cuadro de dos columnas de ventajas/inconvenientes del bridge y el cuadro de
+    justificación se sustituyeron por un único párrafo, dictado por la autora (solo se
+    corrigieron tildes/erratas: "configuracion"→"configuración", "bd"→"base de datos",
+    "sqlite"→"SQLite"): reconoce que el bridge tiene a su favor el control de fallos de
+    comunicación incorporado de forma nativa (sin tener que programar un store-and-forward
+    propio), pero justifica la elección del broker único por simplicidad — evitar que la
+    arquitectura se complique con múltiples brokers si la flota de drones creciera, facilitar
+    la instalación, y poder desarrollar su propia base de datos local (SQLite) para comprobar
+    los envíos. Se quitaron del todo `BRIDGE_PROS`/`BRIDGE_CONS` y los iconos `Check`/`X` que
+    ya no se usaban en el archivo. Verificado con `npm run build` y `npm run lint` en verde;
+    en navegador se vio primero un `ReferenceError: BRIDGE_PROS is not defined` que resultó
+    ser, otra vez, el mismo problema de caché de HMR de una pestaña reutilizada — confirmado
+    limpio abriendo una pestaña nueva.
+  - **Replanteamiento completo de esta sección** (misma sesión, a petición explícita de la
+    autora — "en vez de 'una alternativa que no elegimos'..."): cambió el enfoque narrativo
+    de "descartamos el bridge" a "el bridge es la respuesta lógica a priori — y aun así
+    construimos la nuestra". Eyebrow/título pasaron a "MQTT, bridges y nuestro
+    store-and-forward" / "MQTT bridge: la solución lógica — y por qué construimos la
+    nuestra"; la descripción ahora empieza elogiando el paradigma publicador/suscriptor de
+    MQTT antes de presentar el bridge como la forma estándar de resolver persistencia +
+    reintento. El diagrama del bridge (`BRIDGE_STEPS`/`BRIDGE_GROUPS`) se mantiene sin
+    cambios — sigue siendo válido para ilustrar esa alternativa —, pero el texto que lo
+    precede pasó a modo condicional ("publicarían", "mantendría") para dejar claro que
+    describe la alternativa, no lo que hay implementado. El cuadro final, ahora en dos
+    párrafos: (1) explica que Guardian Eye construyó su propia versión de esa persistencia y
+    esos reintentos en Python (SQLite + reenvío al confirmar), remitiendo al diagrama de "El
+    camino completo de una detección" de más arriba para el mecanismo exacto, en vez de
+    repetirlo; (2) las ventajas de esa decisión, con foco en escalar a un escuadrón de varios
+    drones (un solo broker central en vez de uno por dron) y en el control directo sobre los
+    datos de cada uno (acceso directo al SQLite de cualquier dron, en vez de depender del
+    estado interno de un bridge). **Importante para el futuro**: el código real
+    (`deteccion.py` et al.) no configura ningún bridge de Mosquitto — cada proceso se conecta
+    directamente al único broker de AWS con `paho-mqtt` y su propio buffer SQLite. La frase
+    de la autora sobre "los mqtt bridges que hemos personalizado" se interpretó como
+    metáfora (su propia versión, a medida, de lo que un bridge daría de fábrica) y no como
+    una afirmación literal de que exista un bridge Mosquitto real en el proyecto — si en el
+    futuro se quiere ser aún más explícito sobre este matiz, se puede añadir una frase
+    aclaratoria.
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
+- **Mención del quinto proceso (`receptor.py`) en `/arquitectura/datos` + explicación de
+  qué es una PWA en `/arquitectura/software`** (agosto 2026, a petición explícita de la
+  autora, pegando el código real de `receptor.py` como referencia): en la sección "Los
+  procesos que lo hacen posible", justo después del párrafo sobre la independencia de los
+  cuatro procesos emisores, se añadió una nota (icono `Inbox`) explicando que hay un quinto
+  proceso en la Raspberry Pi que funciona al revés, como **receptor**: `receptor.py` se
+  suscribe al topic de comandos de su dron y traduce lo que llega en acciones reales —
+  armar/desarmar, iniciar misión, volver a casa, o apagar la propia Raspberry Pi en remoto —
+  con un enlace cruzado a Software & Cloud para el origen de esos comandos (el panel de
+  control, una PWA). Deliberadamente no se añadió como quinto nodo del diagrama radial de
+  los 4 procesos, porque ese diagrama muestra flujo emisor→broker y `receptor.py` es
+  receptor (el sentido contrario) — meterlo ahí habría confundido la lectura del diagrama;
+  se dejó como nota de texto aparte.
+  - En `/arquitectura/software`, justo debajo del `SectionHeading` de "El panel de control"
+    y antes de la explicación de qué hace, se añadió una caja "¿Qué es una PWA?" con la
+    definición sencilla (se instala con icono propio, pantalla completa sin barra de
+    navegador, funciona igual en móvil que en escritorio) y por qué es cómoda (una sola
+    página web hace de web y de app, sin mantener dos versiones distintas).
+  - Verificado con `npm run build` (24 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola en ninguna de las dos páginas.
+  - **Corrección importante detectada por la autora en esa misma nota**: decía "los cuatro
+    anteriores son emisores" y atribuía el apagado remoto de la Raspberry Pi a `receptor.py`
+    — ambas cosas eran incorrectas. Verificado contra el código real de
+    `drone-edge-companion`: `sensor.py` y `sistema.py` también tienen su propio
+    `CONFIG_TOPIC` (`dronsar/{dron_id}/sensor/config` y `.../sistema/config`) al que se
+    suscriben — `sensor.py` para `set_sensor_interval`, y `sistema.py` para `shutdown`
+    (ejecuta literalmente `subprocess.run(["sudo", "shutdown", "-h", "now"])`, confirmado
+    leyendo la función). `deteccion.py` ya se sabía que tenía su propio
+    `.../deteccion/config` para `set_video_throttle`/`start_recording`/`stop_recording`. Solo
+    `vuelo.py` no tiene topic de configuración — es el único puramente emisor de los cuatro.
+    `receptor.py` queda entonces acotado a lo que de verdad hace: comandos de **navegación
+    del dron** (armar, desarmar, misión, RTL) hacia MAVLink, sin relación con el apagado de
+    la Pi ni con la configuración de los otros cuatro procesos. La nota se partió en dos
+    párrafos separados para reflejar esta distinción con precisión: uno sobre los tres
+    procesos que también reciben configuración, y otro aparte sobre `receptor.py` y los
+    comandos de navegación. **Lección para el futuro**: no asumir que "publica datos" implica
+    "solo emite" — varios de estos procesos combinan ambos roles, y hay que verificarlo
+    proceso a proceso contra el código real antes de generalizar.
+  - Verificado de nuevo con `npm run build` y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
+- **Nueva subpágina `/arquitectura/video` ("Vídeo")** (agosto 2026, a petición explícita de
+  la autora, a partir del documento de apoyo real `Problematica_transmision_video.docx` de
+  `Downloads/guias/Documentos de Apoyo/Documentos de Apoyo/`). Quinta hija de Arquitectura
+  técnica, insertada entre Comunicaciones y Datos e IoT (orden actualizado en los 5 sitios
+  que lo mantienen por separado: `site-config.ts`, `SECTIONS` del hub `/arquitectura` — grid
+  de tarjetas pasó de `lg:grid-cols-4` a `lg:grid-cols-3`, 3+2 en vez de 4+1, mismo patrón ya
+  usado antes en `/proyecto` —, footer, y el `SubpageNav` de Comunicaciones/Datos e IoT).
+  Cadena final: Hardware → Comunicaciones → **Vídeo** → Datos e IoT → Software & Cloud.
+  - Contenido, con el mismo formato que el resto de subpáginas (`PageHero` + `SectionHeading`
+    + tarjetas + cajas + `FlowDiagram`): las dos familias de transmisión (vídeo digital sobre
+    TCP/IP vs. VTX analógico, con glosario de "VTX"), por qué el retardo es tan distinto
+    (diagrama de las etapas del camino digital vs. los ~1-5 ms del analógico), la analogía
+    del fútbol/TDT-vs-streaming que pidió la autora, por qué el FPV racing sigue usando VTX
+    analógico, y la decisión propia del proyecto: cámara digital sobre la Raspberry Pi
+    (edge computing + Hailo-8L) en vez de VTX, porque el vídeo que sale del dron es una copia
+    de supervisión, no la señal de la que depende el control de vuelo (eso va por telemetría
+    aparte) — se barajó una cámara analógica con VTX pero se descartó por complejidad
+    innecesaria, dejando la puerta abierta a añadirlo en el futuro.
+  - **Arquitectura de streaming, verificada contra el código real** (no el documento, que es
+    más genérico) de `drone-edge-companion`: `deteccion.py` graba localmente a la resolución
+    original de la cámara (`cv2.VideoWriter` con `(w, h)` del propio fotograma) y, en
+    paralelo, `streaming.py` (`EmisorRTSP`) empuja una copia reducida —**640×360, 12 fps,
+    ~400 kbps** (`ancho=640, alto=360, fps=12`, bitrate `400k`/`maxrate 500k` en el comando
+    ffmpeg)— hacia un servidor **MediaMTX** por RTSP; el `STREAM_PATH` por defecto
+    (`dron_live`) coincide con el `stream.gorostiditfg.com/dron_live/` ya usado en el panel
+    de control, confirmando que es el mismo pipeline real. Si el streaming falla, el propio
+    código lo marca inactivo y la detección/grabación local sigue sin verse afectada — está
+    en el propio docstring de `streaming.py` ("un EXTRA que nunca debe tumbar la
+    detección"). Se explica también por qué un servidor de streaming en la nube en vez de
+    conectarse directo a la Raspberry (IP dinámica tras NAT 4G, y el riesgo de saturar la Pi
+    generando una copia por espectador si varios se conectaran a la vez).
+  - **Corrección importante frente al documento de apoyo**: el documento describe un
+    "thumbnail" embebido en la alerta MQTT de cada foto — pero el código real
+    (`procesar_detecciones` en `deteccion.py`) solo mete en el JSON el **nombre del fichero**
+    (campo `"foto"`), no una imagen en miniatura codificada. La página describe lo que el
+    código hace de verdad (referencia al fichero, no una miniatura embebida), no lo que
+    proponía el documento — con enlace cruzado a Datos e IoT para el resto del mecanismo
+    (buffer local, MQTT, InfluxDB) sin repetirlo.
+  - Cross-referencias en ambas direcciones: a Comunicaciones (enlace de telemetría
+    independiente, Tailscale), a Software & Cloud (el visor de vídeo vive en el grupo
+    "Cámara" del panel PWA, con los mismos botones de grabar/parar), y a Datos e IoT (el
+    resto del mecanismo store-and-forward de la alerta).
+  - Imagen de cabecera nueva: `IMAGES.droneCameraCloseup` (Unsplash
+    `photo-1524143986875-3b098d78b363`, primer plano de un dron con cámara/gimbal en
+    vuelo), verificada con `curl` antes de añadirla al catálogo.
+  - Se quitó de `/arquitectura/software` la frase "Los cuatro procesos que publican
+    telemetría... y en el resto de la pila que lo hace posible" de la descripción del
+    `PageHero`, a petición explícita de la autora (quedaba redundante).
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde (hubo que escapar
+    unas comillas rectas con `«»` en la página nueva), y en navegador (pestaña nueva): hub,
+    Comunicaciones, Software & Cloud y la página nueva, todos sin errores de consola.
+- **Ronda de mejoras en tres frentes** (agosto 2026, misma sesión, a petición explícita de la
+  autora): `/ia` con más contexto y foco en "pipeline de IA", mejor imagen de fondo en
+  `/arquitectura/video`, y una decisión razonada sobre si separar "Software & Cloud" en dos
+  páginas.
+  - **`/ia` ampliada**: nuevo párrafo de apertura que sitúa YOLO dentro de la IA en general
+    (pensado para quien llega directo a la página por un enlace, sin contexto previo — "no es
+    un chatbot... es un modelo entrenado para analizar imágenes"). Nueva caja «¿Qué es un
+    pipeline de IA?» justo antes del `FlowDiagram` de etapas, explicando el término de forma
+    genérica (no específica del proyecto) antes de mostrar el diagrama que lo ilustra. Nueva
+    tarjeta "Cómo se ajusta en la práctica" con parámetros reales de `deteccion.py`
+    verificados contra el código (umbral de confianza 0,5, muestreo de 1 de cada 6 fotogramas,
+    exportación a ONNX/NCNN como runtimes más ligeros) — añade profundidad de ingeniería real,
+    no inventada. **Corrección de precisión encontrada de paso**: el JSON de ejemplo del
+    "formato del mensaje de detección" no coincidía exactamente con el código real de
+    `procesar_detecciones()` en `deteccion.py` (nombres de campo inventados/aproximados:
+    `centro_x/centro_y` en vez de `cx/cy`, `resolucion_frame` en vez de `resolucion.ancho/alto`,
+    `posicion_dron` en vez de `dron` con `alt_rel`, `foto_guardada` en vez de `foto`) — se
+    corrigió para que sea el payload real, con una nota aclaratoria y enlaces cruzados a Datos
+    e IoT (resto del recorrido de la alerta) y a la nueva página Vídeo (grabación/transmisión).
+  - **Imagen de `/arquitectura/video` sustituida**: la anterior (`droneCameraCloseup`, un
+    dron genérico con gimbal) se cambió por `droneControllerLiveFeed` (Unsplash
+    `photo-1559840251-2a04897f8559`) — un mando de dron con el móvil acoplado mostrando el
+    vídeo en directo de la cámara en pantalla, mucho más específico del tema "transmisión de
+    vídeo" que un dron volando cualquiera. Verificada con `curl` antes de sustituir; la
+    entrada antigua en `images.ts` se renombró en vez de dejar las dos, para no acumular
+    catálogo sin usar.
+  - **Decisión razonada sobre separar "Software & Cloud"**: la autora pidió opinión sincera
+    sobre partirla en "Desarrollo Software" y "Cloud" (esta última primero). Antes de opinar
+    se verificó el repo real (`README.md` y `deploy/deploy.sh` de `drone-cloud-server`): no
+    hay ninguna mención a Grafana, nginx o Cloudflare en el propio repo — son piezas
+    heredadas del prompt maestro original, no de un script de despliegue real committeado
+    (pueden estar configuradas a mano fuera del repo, pero no hay más detalle verificable que
+    ampliar). Conclusión: **no se separó en dos páginas**. Motivos: (1) Tailscale ya tiene su
+    propia sección completa en Comunicaciones — una página "Cloud" tendría que o repetirla o
+    quedarse coja en ese punto; (2) el contenido de infraestructura genuinamente nuevo
+    (EC2/Mosquitto/InfluxDB/nginx-Cloudflare) ya estaba prácticamente todo en la grid de
+    tarjetas existente — trasladarlo a una URL aparte no añadía profundidad real, solo
+    fragmentaba; (3) no hay material verificable de un dashboard Grafana real que llenara una
+    página entera sin inventar detalle. En su lugar, se reforzó la MISMA página con una
+    `SectionHeading` propia ("La infraestructura cloud · Qué corre en AWS, pieza por pieza")
+    delante de la grid de tarjetas (antes aparecía sin ningún encabezado editorial), y se
+    añadieron dos tarjetas nuevas: **Grafana** (icono de marca real vía `simple-icons`/
+    `BrandIcon`, mismo icono ya usado como tech badge en la home — descrita con honestidad
+    como "paneles de monitorización sobre InfluxDB", sin inventar un dashboard concreto) y
+    **Acceso seguro · Tailscale** (mención breve con enlace cruzado a Comunicaciones, en vez
+    de duplicar la explicación completa).
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) las tres páginas (`/ia`, `/arquitectura/video`, `/arquitectura/software`)
+    sin errores de consola.
+  - **Ajuste posterior al párrafo de apertura de `/ia`** (misma sesión, texto dictado por la
+    autora, solo se corrigieron erratas — "que es la IA/Yolo" → "qué es", "todo ellos" → "todo
+    ello"): ahora arranca con "Todos conocemos qué es la IA, pero a lo mejor no te suena qué
+    es YOLO. Te lo ponemos en contexto..." antes de la misma explicación ya escrita. La
+    segunda frase (YOLOv8 en la Raspberry Pi 5) ganó el cierre "...todo ello a través de un
+    estricto pipeline (flujo de trabajo)", enlazando ya desde el principio con el término que
+    la sección de más abajo define en detalle. Verificado con `npm run build` y `npm run
+    lint` en verde, y en navegador sin errores de consola.
+- **Frase puente añadida entre software e infraestructura en `/arquitectura/software`**
+  (misma sesión, a petición explícita de la autora, tras dos rondas de iteración): quería
+  dejar explícito que software y cloud están relacionados sin que eso suene a que la
+  arquitectura depende de desplegarse siempre igual — le preocupaba la escalabilidad futura
+  (mover InfluxDB a otra máquina, repartir servicios entre varios EC2). Se descartó una
+  primera redacción ("se programó el panel sabiendo ya dónde se iba a desplegar") por
+  implicar justo ese acoplamiento no deseado. La redacción final va en el sentido contrario y
+  está verificada contra el código real: cada proceso (`sensor.py`, `deteccion.py`,
+  `receptor.py`, la API) resuelve el broker y el resto de servicios por variables de entorno
+  (`MQTT_BROKER`, `EC2_HOST`, etc.), nunca por un valor fijo en el código — así que aunque hoy
+  todo corra en el mismo EC2 por sencillez, repartirlo mañana es un cambio de configuración,
+  no una reescritura. Insertada como párrafo justo debajo del `SectionHeading` "La
+  infraestructura cloud", antes de la grid de tarjetas. Se evitó explícitamente el conector
+  "Lo de arriba..." (la autora no quería esa forma de enlazar frases) nombrando directamente
+  los sujetos ("El panel, la API, el broker y la base de datos no viven en abstracto...").
+  Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador (pestaña
+  nueva) sin errores de consola.
+  - **Título de la página cambiado** (misma sesión, la autora encontró raro "...y el resto de
+    la pila cloud"): pasó a **"Un panel de control (PWA) y la infraestructura cloud detrás de
+    él"** — de dos alternativas propuestas, eligió esta por reutilizar el mismo término
+    ("infraestructura cloud") que ya aparece como eyebrow más abajo en la propia página,
+    dando consistencia de vocabulario. Solo se tocó el `title` del `PageHero`; no se ha
+    tocado el resto de menciones sueltas de "pila cloud" en `metadata.description` de esta
+    página, en la tarjeta del hub `/arquitectura`, ni en otras páginas — no se pidió y son
+    contextos distintos (blurbs cortos, no el titular). Verificado con `npm run build` y
+    `npm run lint` en verde, y en navegador sin errores de consola.
+  - **Segundo párrafo añadido a continuación, esta vez sobre no depender de la nube en sí**
+    (misma sesión, a petición explícita de la autora — no quería dar la impresión de que el
+    proyecto depende de AWS en concreto): explica que no es estrictamente necesario montar
+    todo esto en AWS ni en ningún proveedor cloud — Flask, Mosquitto, InfluxDB y nginx son
+    software estándar que funcionaría igual en un servidor propio físico, sin ninguna pieza
+    que dependa de un servicio exclusivo de AWS — y que se optó por la nube por la
+    flexibilidad y escalabilidad que ofrece (añadir/redimensionar recursos bajo demanda, sin
+    mantenimiento físico), no por dependencia técnica. Coherente con el resto de la página:
+    ninguna de las piezas descritas (broker autoalojado, base de datos genérica, proxy
+    inverso) usa un servicio gestionado exclusivo de AWS (tipo RDS o Lambda), así que la
+    afirmación es fiel a lo ya documentado, no una ampliación sin respaldo. Verificado con
+    `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador sin errores de
+    consola.
+- **`/arquitectura/comunicaciones` ampliada con control multi-vía y conectividad avanzada**
+  (agosto 2026, a petición explícita de la autora, apoyándose en el mismo documento de apoyo
+  `Problematica_transmision_video.docx` para la parte de DJI/WFB-ng). Cambios:
+  - **Tarjeta de Telemetría** reescrita: ya no dice solo "monitorización", sino que dice
+    explícitamente que es un enlace bidireccional — permite también enviar órdenes de vuelo
+    (misión, RTL) vía Mission Planner/QGroundControl, no solo recibir estado.
+  - **Tarjeta de WiFi/4G-LTE** ampliada para mencionar que ese mismo enlace es el que usa el
+    panel de control (PWA) para mandar órdenes al dron desde cualquier sitio.
+  - **Nuevo glosario rápido**: "Mission Planner" (qué es un GCS, qué permite ver y hacer).
+  - **Nuevo párrafo "vías múltiples"** que resume las tres formas reales de manejar el dron
+    (RC directo, telemetría+Mission Planner, PWA sobre WiFi/4G) con enlace a Software & Cloud.
+  - **Nueva sección "Una limitación que asumimos"**: explica que el WiFi actual no funciona
+    solo — necesita un MiFi o el propio ordenador de la autora haciendo de punto de acceso
+    (AP) al que se conecta la Raspberry Pi (no al revés) — y que esa limitación de alcance se
+    asume a propósito porque hay respaldo 4G, dejando una conectividad más avanzada como
+    opción futura.
+  - **Nueva sección "Conectividad avanzada"**: explica el enfoque de DJI (el dron genera su
+    propia red con protocolo de radio propietario —WiFi modificado u OcuSync/O3— para más
+    alcance; el móvil no puede conectarse directo, así que el mando físico hace de pasarela y
+    retransmite al móvil por cable), por qué los fabricantes hacen esto (límite real de
+    alcance del WiFi estándar), y **WFB-ng** (Wifibroadcast-ng) como la vía de código abierto
+    para replicarlo sobre la propia Raspberry Pi en una futura arquitectura híbrida — con
+    enlace cruzado a Vídeo. Todo esto proviene directamente del documento de apoyo (Apéndices
+    A y B), no inventado.
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
+  - **Ajuste posterior** (misma sesión, a petición explícita de la autora): quitada la frase
+    "Dejamos abierta, para más adelante, una opción de conectividad más avanzada" del final
+    de "Una limitación que asumimos" (quedaba redundante con la sección siguiente). El título
+    de "Conectividad avanzada" pasó de "La puerta que dejamos abierta: WiFi propietario, como
+    hacen los fabricantes" a **"La opción profesional: WiFi personalizado"**, con un párrafo
+    nuevo al principio explicando que esa opción —el WiFi "mejorado" y personalizado que usa
+    la mayoría de fabricantes, que además no requiere conectarse a ningún **PAS (Punto de
+    Acceso)**— se deja fuera del ámbito de este TFG por ser demasiado ambiciosa para esta
+    etapa, antes de entrar en el ejemplo de DJI. **Nota de terminología**: la autora usa "PAS"
+    como abreviatura de "Punto de Acceso" (no "AP", el término inglés más habitual) — se
+    unificó también la mención anterior en "Una limitación que asumimos" (que decía "(AP)")
+    a "(PAS)" por coherencia dentro de la misma página. Verificado con `npm run build`
+    (25 rutas) y `npm run lint` en verde, y en navegador sin errores de consola.
+  - **Segundo ajuste**: la autora no quería la explicación de Mission Planner en un glosario
+    aparte — se quitó esa caja por completo (con su icono `BookOpen`, ya sin uso en el
+    archivo) y la explicación se integró directamente en el párrafo de "vías múltiples" para
+    manejar el dron, en el sitio donde ya se mencionaba Mission Planner en contexto. También
+    se amplió "Una limitación que asumimos" para explicar que la Raspberry Pi necesita tener
+    configurado de antemano el SSID de la red WiFi a la que conectarse — si no lo tiene, o el
+    punto de acceso no está disponible, solo es alcanzable por la conexión móvil (4G).
+    Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador sin
+    errores de consola.
+  - **Tercer ajuste, al párrafo de DJI** (misma sesión, texto dictado por la autora, solo se
+    corrigieron erratas de dictado — "a el" → "a él", "una Wifi normal" → "un WiFi normal",
+    "incluiso" → "e incluso", "no funciona si no conectar el teléfono" → "no funciona si no
+    se conecta el teléfono"): se quitó del final del párrafo el inciso "(ver también la
+    transmisión de vídeo en Vídeo)" con su enlace cruzado a `/arquitectura/video` — la autora
+    no lo incluyó en el texto nuevo que dictó, así que se ha eliminado en vez de conservarlo;
+    el resto de enlaces cruzados a Vídeo que ya tenía la página (en la sección WFB-ng) no se
+    han tocado. Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en
+    navegador (pestaña nueva) sin errores de consola.
+- **`/arquitectura/hardware` — nueva sección "MAVLink: por qué elegimos Pixhawk y no algo más
+  barato"** (agosto 2026, a petición explícita de la autora, que quería desarrollar más el
+  protocolo MAVLink, explicado en el propio flujo de la página en vez de en el glosario).
+  Insertada entre la comparativa "Dos cerebros" (con la caja de Tailscale) y la tabla de
+  "Pipeline de hardware modular". Contenido, en prosa continua, no en tarjetas de glosario:
+  - Por qué no una controladora más barata: menciona alternativas reales del mundo FPV racing
+    con firmware Betaflight/iNav (ejemplo: SpeedyBee F405), pensadas para vuelo acrobático
+    manual sin exponer datos/órdenes a un ordenador externo, y —reutilizando un dato ya
+    publicado en `/colaboradores`— la propia controladora DJI Naza del dron que prestó José
+    Manuel, como ejemplo real de sistema cerrado sin protocolo estandarizado. Enlace cruzado a
+    Colaboradores.
+  - Qué es ArduPilot: firmware de código abierto que corre en la Pixhawk 6X, uno de los dos
+    grandes autopilotos abiertos (el otro PX4).
+  - MAVLink en profundidad: qué resuelve (mensajería ligera para vehículos no tripulados),
+    ejemplos concretos de mensajes reales del protocolo (`HEARTBEAT`, `COMMAND_LONG`), y que es
+    el mismo protocolo que hablan Mission Planner/QGroundControl por telemetría. Enlace cruzado
+    a Comunicaciones.
+  - UART y puertos TELEM explicados en contexto (no en glosario): qué es un UART, y que los
+    puertos TELEM de la Pixhawk son exactamente los que permiten conectar, además del enlace de
+    telemetría de 433 MHz a la estación de tierra, un segundo dispositivo — la Raspberry Pi —
+    que le habla MAVLink por cable en vez de por radio.
+  - Caja "Lo que gana el proyecto por tener un ordenador de a bordo hablando MAVLink": conecta
+    esto con el "segundo cerebro" — la Raspberry Pi puede leer telemetría y enviar órdenes de
+    vuelo (armar/desarmar, misión, RTL) igual que un GCS, y ese es el canal real que usa
+    `receptor.py`. Enlaces cruzados a Datos e IoT y Software & Cloud.
+  - Librería Python: menciona `pymavlink` explícitamente como la librería de referencia del
+    propio proyecto ArduPilot, y que es la que usa `receptor.py` en producción (ya verificado
+    contra el código real en una sesión anterior, ver nota de Software & Cloud más arriba).
+  - **Glosario recortado**: se quitaron las entradas "MAVLink" y "UART / I2C / GPIO" del
+    glosario rápido de la página (ahora explicadas en prosa) y se sustituyeron por una única
+    entrada "I2C / GPIO" (sin UART, que ya tiene su propio desarrollo arriba); el grid del
+    glosario pasó de `sm:grid-cols-3` a `sm:grid-cols-2` al quedar con solo 2 tarjetas (RTOS +
+    I2C/GPIO).
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
+- **`/arquitectura/comunicaciones` — "Una limitación que asumimos" reformulada como
+  pregunta** (agosto 2026, a petición explícita de la autora, texto dictado — solo se
+  corrigió la errata "necesiaremente"): el título/descripción de esta sección pasaron de la
+  afirmación "El WiFi depende de un punto de acceso externo" a la pregunta **"¿Necesito
+  obligatoriamente un AP para mi WiFi?"**, respondida de entrada con "No necesariamente" y
+  adelantando ya en la propia descripción la idea de que la conexión móvil (4G) minimiza esa
+  dependencia — antes ese matiz solo aparecía al final del párrafo siguiente. El párrafo de
+  continuación se reescribió para dar contexto y no repetir esa misma idea dos veces: se
+  quitó la frase final redundante ("Somos conscientes de esa limitación... contamos también
+  con el respaldo del 4G/LTE...", ya cubierta por la nueva descripción) y se cerró en su
+  lugar señalando que tener dos vías independientes en vez de depender de una sola es un
+  compromiso asumido conscientemente para esta etapa del proyecto — mismo contenido técnico
+  (MiFi/ordenador como AP, SSID preconfigurado, respaldo 4G), sin duplicar la conclusión.
+  **Cambio de terminología**: el texto dictado por la autora usa explícitamente "AP o Access
+  Point" en vez de "PAS (Punto de Acceso)", la abreviatura que se había unificado en toda la
+  página en una sesión anterior — se aplicó "AP" también a la única otra mención de "PAS" que
+  quedaba en la página (sección "Conectividad avanzada": "no requiere conectarse a ningún AP
+  (Access Point)"), para no dejar terminología mixta dentro de la misma página. Si en el
+  futuro se prefiere volver a "PAS", hay que tocar esos dos sitios de nuevo.
+  Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+  (pestaña nueva) sin errores de consola.
+  - **Ajuste posterior**: se añadió al cierre de esa misma sección el dato concreto de
+    alcance real del WiFi sin infraestructura profesional — "sin equipos WiFi profesionales
+    ni APs de alta potencia, el alcance efectivo de este enlace es reducido, de apenas unas
+    decenas de metros entre el dron y el punto de acceso — muy por debajo del alcance que sí
+    tienen la telemetría o el 4G" — a petición explícita de la autora, para dejar claro que
+    la limitación de alcance no es solo teórica sino una cifra concreta de unas pocas
+    decenas de metros. Verificado con `npm run build` (25 rutas) y `npm run lint` en verde,
+    y en navegador (pestaña nueva) sin errores de consola.
+- **`/arquitectura/comunicaciones` — reordenación y renombrado de dos bloques finales**
+  (agosto 2026, a petición explícita de la autora): el cuadro oscuro "Seguridad de las
+  comunicaciones con Tailscale" (antes el último bloque de la página, justo antes del
+  `SubpageNav`) se subió de posición — ahora aparece **antes** de la sección de limitaciones
+  de WiFi, justo después del párrafo "En conjunto, esto nos da varias vías reales...". Orden
+  final de la página: enlace múltiple → jerarquía de seguridad → tarjetas RC/Telemetría/
+  WiFi-4G → vías múltiples → **Tailscale** → notas técnicas/limitaciones → conectividad
+  avanzada (DJI/WFB-ng) → `SubpageNav`. Solo se movió el bloque (mismo JSX, mismo componente
+  `Lock`/`Wifi`/`KeyRound`), no se tocó su contenido salvo el título.
+  - Título del cuadro cambiado de "Seguridad de las comunicaciones con Tailscale" a
+    **"Comunicaciones seguras usando Tailscale"**.
+  - El eyebrow de la sección de limitaciones de WiFi (antes "Una limitación que asumimos")
+    pasó a **"Notas técnicas · Limitaciones que asumimos"** — se usó el separador "·" ya
+    habitual en los eyebrows del resto del sitio en vez del punto que escribió la autora en
+    su mensaje, por coherencia visual con el resto de la página.
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
+- **`/arquitectura/comunicaciones` — reformulación del párrafo de apertura de "Notas
+  técnicas · Limitaciones que asumimos"** (agosto 2026, texto dictado por la autora, solo se
+  corrigieron erratas de dictado: "asumimos consciente" → "asumimos conscientemente", "movil"
+  → "móvil"): la descripción ya no abre con "No necesariamente" respondiendo a la pregunta del
+  título, sino que primero **reconoce explícitamente la limitación** ("Con la actual
+  configuración, asumimos conscientemente una limitación, ya que dependemos de un AP") y
+  luego la matiza ("Sin embargo, esto no es necesariamente un problema...") antes de explicar
+  el mecanismo (MiFi/ordenador como AP) y el respaldo de la conexión móvil — mismo contenido
+  técnico, pero invirtiendo el orden retórico: limitación primero, matiz después, en vez de
+  negación seguida de justificación.
+  - El párrafo de continuación se reescribió para no repetir la misma idea dos veces ahora que
+    la descripción ya menciona el respaldo móvil desde el principio: se quitó la mención
+    duplicada ("si no lo tiene, o ese AP no está disponible, seguimos teniendo acceso a través
+    de la conexión móvil...") y en su lugar el párrafo desarrolla primero el mecanismo técnico
+    (SSID preconfigurado), después conecta explícitamente la cifra de alcance ("apenas unas
+    decenas de metros") como la razón concreta detrás de esa dependencia del AP ("Esa
+    dependencia del AP se nota especialmente en el alcance..."), y cierra retomando el
+    respaldo móvil ya introducido arriba ("Por eso, precisamente, tener el respaldo de la
+    conexión móvil marca la diferencia...") en vez de repetir la fórmula "compromiso asumido
+    conscientemente" que ya se había usado en la descripción.
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (pestaña nueva) sin errores de consola.
 
 ### 🚧 En progreso / Pendiente
 
 - Favicon/OG image todavía son los genéricos de `create-next-app`; falta un favicon propio
   y una imagen Open Graph específica del proyecto.
+- **Documentos de apoyo sin convertir a PDF todavía**: de la carpeta
+  `Downloads/guias/Documentos de Apoyo/`, quedan sin publicar en
+  `/multimedia/documentacion` — `Tutorial_Completo_Python_Hello_World_ClaudeCode_YOLO.docx` (el
+  taller que dio origen a la prueba de concepto de fruta ya mencionada en `/ia`, más anécdota que
+  documentación técnica) y los 2 PDF originales (`Spain_Drone_Control_2026.pdf`,
+  `dron_comunicaciones_tc_telemetria.pdf`, no revisados a fondo por falta de `pdftoppm` en esta
+  sesión). Si se quieren añadir, seguir el mismo patrón que los otros 6: revisar contenido primero,
+  y para los `.docx` reutilizar el script de generación (`fpdf2` + `python-docx` +
+  `iter_block_items()`, ver entrada de "Documentación y recursos" más arriba) en vez de escribir
+  uno nuevo desde cero.
+- **Fotos del montaje de la Raspberry Pi/Edge Companion para `/construccion/edge-computing`**
+  (chasis + Raspberry Pi 5 + Hailo-8L + módem 4G con su pincho USB) — la página ya está
+  publicada y enlazada, marcada `underConstruction`, pero sin el paso a paso con fotos
+  reales que sí tiene `/construccion/armazon`. En cuanto la autora tome esas fotos, seguir
+  el mismo proceso que con las del armazón: seleccionar las más ilustrativas de
+  `Downloads/guias/FotosHolly/...` (o la carpeta equivalente), redimensionar con
+  Python/Pillow a máx. 1600px + `exif_transpose` + sin metadata EXIF, guardar en
+  `public/images/` con prefijo `edge-` y catalogar en `src/lib/images.ts`.
 - Sustituir en cuanto existan (todos marcados explícitamente en el copy como placeholder,
   no inventados):
   1. Foto real del dron a pantalla completa para el hero de `/` (ahora mismo es una foto
@@ -608,8 +1472,13 @@ nada y actualízalo al terminar cualquier tarea.
     grid de servicios cloud) y de `src/lib/site-config.ts` (descripción del submenú
     "Software & Cloud", que pasó de "Python, MAVLink, AWS y N8N." a "Python, MAVLink y
     AWS."). Verificado con `grep -ri N8N src/` que no queda ninguna referencia.
-  - Telemetría: se mantiene "915 MHz" tal como fija el prompt maestro, aunque
-    `teleoperacion.docx` y el journal hablan indistintamente de 433/915 MHz según región.
+  - **Telemetría — corregido (agosto 2026):** este documento fijaba antes "915 MHz"
+    siguiendo el prompt maestro, aunque `teleoperacion.docx` y el journal hablaban
+    indistintamente de 433/915 MHz según región. El recibo de compra real del kit
+    Holybro X500 V2 y la propia foto del módulo de radio ("TELEMETRY RADIO 433 MHz
+    100mW" impreso en la carcasa) confirman **433 MHz** sin ambigüedad — evidencia más
+    fiable que cualquier fuente anterior. Corregido en toda la web (ver entrada de
+    "Construcción del dron" más arriba), incluida esta frecuencia y "Pixhawk 6C→6X".
 - **Imágenes:** Unsplash vía hotlink directo a `images.unsplash.com` con parámetros de
   tamaño (`src/lib/images.ts`). El servicio antiguo `source.unsplash.com` está caído
   (devuelve 503) — no usarlo. Cada URL de esta lista se verificó con `curl` antes de

@@ -30,7 +30,7 @@ const NODES: LinkNode[] = [
     x: 500,
     y: 410,
     label: "Estación de tierra",
-    freq: "915 MHz",
+    freq: "433 MHz",
     colorVar: "var(--color-accent)",
     icon: SatelliteDish,
   },
@@ -132,10 +132,7 @@ export function TripleLinkDiagram() {
               <span className="mt-2 text-center text-[12px] font-semibold text-ink">
                 {node.label}
               </span>
-              <span
-                className="font-telemetry text-[10.5px] uppercase"
-                style={{ color: node.colorVar }}
-              >
+              <span className="font-telemetry text-[11.5px] uppercase text-ink-muted">
                 {node.freq}
               </span>
             </motion.div>

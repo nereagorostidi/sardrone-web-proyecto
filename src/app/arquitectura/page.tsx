@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CircuitBoard, Radio, Server } from "lucide-react";
+import { ArrowRight, CircuitBoard, Database, Radio, Server, Video } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { IMAGES } from "@/lib/images";
 
@@ -12,6 +12,14 @@ export const metadata: Metadata = {
 
 const SECTIONS = [
   {
+    href: "/arquitectura/hardware",
+    icon: CircuitBoard,
+    colorVar: "var(--color-accent)",
+    title: "Hardware",
+    description:
+      "Pixhawk 6X y Raspberry Pi 5 como dos cerebros complementarios, sensores, pipeline de componentes y lo que aún queda por cerrar.",
+  },
+  {
     href: "/arquitectura/comunicaciones",
     icon: Radio,
     colorVar: "var(--color-signal)",
@@ -20,12 +28,20 @@ const SECTIONS = [
       "Enlace múltiple redundante — RC, telemetría, 4G/LTE y WiFi — y la red privada Tailscale que protege cada uno de esos canales.",
   },
   {
-    href: "/arquitectura/hardware",
-    icon: CircuitBoard,
-    colorVar: "var(--color-accent)",
-    title: "Hardware",
+    href: "/arquitectura/video",
+    icon: Video,
+    colorVar: "var(--color-mesh-coral)",
+    title: "Vídeo",
     description:
-      "Pixhawk 6C y Raspberry Pi 5 como dos cerebros complementarios, sensores, pipeline de componentes y lo que aún queda por cerrar.",
+      "Analógico o digital, qué es un VTX, y cómo transmitimos en directo desde la cámara hasta cualquier pantalla que quiera verlo.",
+  },
+  {
+    href: "/arquitectura/datos",
+    icon: Database,
+    colorVar: "var(--color-mesh-cyan)",
+    title: "Datos e IoT",
+    description:
+      "Por qué un proceso por dominio, el buffer resiliente y cómo viaja una detección de persona hasta InfluxDB, paso a paso.",
   },
   {
     href: "/arquitectura/software",
@@ -33,7 +49,7 @@ const SECTIONS = [
     colorVar: "var(--color-mesh-violet)",
     title: "Software & Cloud",
     description:
-      "Cuatro servicios Python, MQTT, un backend Flask en AWS, InfluxDB y el resto de la pila que lleva los datos del sensor al panel.",
+      "El panel de control (PWA) que envía comandos al dron y todo lo que no cabe en Datos e IoT: el backend Flask en AWS, InfluxDB y el resto de la pila cloud.",
   },
 ];
 
@@ -44,13 +60,12 @@ export default function ArquitecturaHubPage() {
         eyebrow="Sec. 02 · Arquitectura técnica"
         title="Varios enlaces, dos cerebros, una nube"
         description="Cómo se comunica el dron, cómo se reparte el trabajo entre la controladora de vuelo y el ordenador de a bordo, y cómo viajan los datos hasta la nube. Cada capa tiene su propia página, con contenido ampliado."
-        tone="signal"
         image={{ src: IMAGES.serverRack.src, alt: IMAGES.serverRack.alt }}
       />
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {SECTIONS.map((section, i) => {
               const Icon = section.icon;
               return (

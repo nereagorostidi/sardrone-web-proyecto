@@ -7,7 +7,7 @@
   --color-surface-alt: #eaedf7;
   --color-ink: #0a0e1a;
   --color-ink-muted: #454d63;
-  --color-ink-faint: #8991a8;
+  --color-ink-faint: #626b85;
   --color-line: #e1e4ef;
 
   /* Accent — azul eléctrico vívido (primario, tecnología/control) */
@@ -17,7 +17,7 @@
 
   /* Accent — naranja aeroespacial vívido (seguridad / RF / alerta) */
   --color-signal: #ff6a1f;
-  --color-signal-ink: #e0500a;
+  --color-signal-ink: #bf460c;
   --color-signal-soft: #fff0e3;
 
   /* Gradiente mesh secundario: violeta -> cian -> coral, más saturado */

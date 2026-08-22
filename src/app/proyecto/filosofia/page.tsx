@@ -43,7 +43,6 @@ export default function FilosofiaPage() {
         ]}
         title="Arquitectura abierta frente a solución comercial cerrada"
         description="No se compra una solución cerrada; se diseña la arquitectura para tener control total sobre los datos y la lógica de vuelo."
-        underConstruction
         image={{ src: IMAGES.circuitMacro.src, alt: IMAGES.circuitMacro.alt }}
       />
 

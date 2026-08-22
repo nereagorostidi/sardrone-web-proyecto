@@ -48,7 +48,6 @@ export default function IntroduccionPage() {
         ]}
         title="El desafío: encontrar lo invisible contrarreloj"
         description="Las misiones de Búsqueda y Rescate (SAR, Search and Rescue) son una carrera contra el tiempo. Los excursionistas perdidos, el humo incipiente o los terrenos difíciles requieren ojos en el cielo — pero las herramientas actuales presentan una brecha crítica."
-        underConstruction
         image={{ src: IMAGES.foggyForest.src, alt: IMAGES.foggyForest.alt }}
       />
 

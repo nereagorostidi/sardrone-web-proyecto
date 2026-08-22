@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight, GraduationCap, HeartHandshake, Mail, UserCircle2 } from "lucide-react";
+import { ArrowUpRight, GraduationCap, HeartHandshake, Mail } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { PageHero } from "@/components/page-hero";
 import { VideoLink } from "@/components/video-link";
+import { PhotoLightboxGrid } from "@/components/photo-lightbox-grid";
 import { IMAGES } from "@/lib/images";
 import { LANDING_URL } from "@/lib/site-config";
 
@@ -13,34 +14,11 @@ export const metadata: Metadata = {
     "Agradecimientos a quienes han hecho posible Guardian Eye — con mención especial al Club Alas de Galapagar.",
 };
 
-const COLLABORATORS = [
-  {
-    name: "Darco",
-    role: "Presidente del Club Alas de Galapagar",
-    note: "Apoyo institucional del club al proyecto.",
-  },
-  {
-    name: "Dani",
-    role: "Mentor",
-    note: "Acompañamiento técnico durante el desarrollo.",
-  },
-  {
-    name: "Paco (Francisco)",
-    role: "Contacto del club",
-    note: "Coordinación de los vuelos de prueba en las instalaciones.",
-  },
-  {
-    name: "José Manuel",
-    role: "Acompañante de vuelo",
-    note: "Presente en el primer vuelo real de referencia, 12 de julio de 2026.",
-  },
-];
-
 export default function ColaboradoresPage() {
   return (
     <>
       <PageHero
-        eyebrow="Sec. 06 · Colaboradores"
+        eyebrow="Sec. 07 · Colaboradores"
         title="Nadie construye esto en solitario"
         description="Un agradecimiento honesto a las personas y el club que han hecho posible pasar de la teoría al vuelo real."
         image={{ src: IMAGES.communitySupport.src, alt: IMAGES.communitySupport.alt }}
@@ -173,30 +151,90 @@ export default function ColaboradoresPage() {
           <div className="mt-20">
             <SectionHeading
               eyebrow="Personas"
-              title="Mentores y apoyos del club"
-              description="Nombres ya publicados por la propia autora en el diario público del proyecto."
+              title="Mentores y Personas destacadas"
+              description="Me gustaría mencionar especialmente a varias personas que me han ido ayudando a lo largo de este proyecto, compartiendo su experiencia y conocimiento, y ayudándome tanto en mis primeros vuelos como a conocer las particularidades de este interesante mundo."
             />
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {COLLABORATORS.map((person) => (
-                <div key={person.name} className="rounded-2xl border border-line bg-paper p-6">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink-muted">
-                    <UserCircle2 className="h-6 w-6" strokeWidth={1.5} />
-                  </span>
-                  <p className="mt-4 text-[14.5px] font-bold text-ink">{person.name}</p>
-                  <p className="mt-0.5 text-[12.5px] font-medium text-accent">{person.role}</p>
-                  <p className="mt-2 text-[12.5px] leading-relaxed text-ink-muted">{person.note}</p>
-                </div>
-              ))}
-              <div className="flex flex-col justify-between rounded-2xl border border-dashed border-line bg-surface p-6">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-paper text-ink-faint">
+
+            <div className="mt-10 rounded-2xl border border-line bg-paper p-6 sm:p-8">
+              <div className="flex items-start gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface text-accent">
                   <GraduationCap className="h-6 w-6" strokeWidth={1.5} />
                 </span>
-                <div className="mt-4">
-                  <p className="text-[14.5px] font-bold text-ink">Tutor/a académico/a</p>
-                  <p className="mt-2 text-[12.5px] leading-relaxed text-ink-faint">
-                    [placeholder — nombre pendiente de añadir]
+                <div>
+                  <p className="text-[14.5px] font-bold text-ink">Daniel Díaz Sánchez</p>
+                  <p className="mt-0.5 text-[12.5px] font-medium text-accent">
+                    Tutor académico · Profesor de Aplicaciones Telemáticas, Universidad Carlos III de Madrid
+                  </p>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-ink-muted">
+                    Gracias por su disponibilidad, apoyo y sugerencias durante la redacción del TFG.
                   </p>
                 </div>
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-line bg-paper p-6 sm:p-8">
+              <p className="text-[14.5px] leading-relaxed text-ink-muted">
+                <strong className="font-bold text-ink">Darco, Dani, Paco y José Manuel:</strong>{" "}
+                un especial agradecimiento a ellos: a José Manuel y a Paco (Francisco), por
+                enseñarme el Club Alas de Galapagar y acogerme en él; a Darco, su presidente,
+                por enseñarme a soldar adecuadamente las piezas, a manejar el material, y por
+                asesorarme en los vuelos; a Dani, por sus consejos; y especialmente a José
+                Manuel, por guiarme en mi primer vuelo y por prestarme desinteresadamente su
+                dron —construido personalmente por él hace unos años, con una controladora
+                Naza y un práctico gimbal— por si pudiera usarlo de referencia.
+              </p>
+            </div>
+
+            <div className="mt-6 overflow-hidden rounded-3xl border border-line bg-surface p-6 sm:p-8">
+              <p className="font-telemetry text-[11px] uppercase text-accent">Mención especial</p>
+              <h3 className="mt-2 text-[20px] font-extrabold leading-tight text-ink sm:text-[22px]">
+                El dron de José Manuel
+              </h3>
+              <p className="mt-3 max-w-3xl text-[14.5px] leading-relaxed text-ink-muted">
+                Para que no tuviera que afrontar un desembolso económico importante al empezar
+                el proyecto, José Manuel me ofreció desinteresadamente su propio dron para que
+                pudiera usarlo de referencia — de hecho, la idea inicial era desmontarlo y
+                reaprovechar sus piezas para construir uno nuevo, algo que finalmente no hizo
+                falta gracias a que conseguimos, a través de otro colaborador, el kit de
+                desarrollo Holybro X500 V2. Finalmente, nos decidimos a montar el sistema sobre
+                ese kit —entre otros motivos, porque el TFG buscaba construir el sistema
+                completo desde cero, y porque su controladora de vuelo se ajustaba mejor a lo
+                que necesitaba el proyecto—, pero quiero dejar constancia de lo útil que fue
+                contar con su material como referencia en los primeros pasos: he aprendido
+                mucho de ese montaje, qué tenía que tener en cuenta, qué piezas utilizar, cómo
+                disponerlas, y cómo iban las cosas unidas. Se puede decir que este dron ha sido
+                mi modelo para construir el posterior, y he pasado varios días estudiándolo y
+                analizándolo.
+              </p>
+              <p className="mt-3 max-w-3xl text-[14.5px] leading-relaxed text-ink-muted">
+                Creo que es importante darle a este dron el reconocimiento que se merece: lo
+                construyó él mismo hace ya varios años y, aunque monta electrónica más antigua
+                —como la controladora Naza—, está hecho con componentes de primera calidad,
+                muchos de ellos (como sus potentes motores) serían la envidia de cualquier dron
+                actual. El gimbal y el sistema de vídeo también son dignos de tener en cuenta
+                (de hecho, José Manuel lo usaba para grabar bodas hace unos años), y todo ello
+                fue construido en una época en la que, sin duda, el acceso a la información era
+                mucho más limitado y complicado que ahora.
+              </p>
+              <div className="mt-6">
+                <PhotoLightboxGrid
+                  photos={[
+                    {
+                      image: IMAGES.joseManuelDroneFrontal,
+                      caption:
+                        "El dron de José Manuel, con su gimbal de cámara suspendido bajo el chasis.",
+                    },
+                    {
+                      image: IMAGES.joseManuelDroneNaza,
+                      caption:
+                        "Detalle de su controladora de vuelo DJI Naza y el receptor de radio, con varios años de uso.",
+                    },
+                    {
+                      image: IMAGES.joseManuelDroneGimbal,
+                      caption: "Vista superior del dron, con la carcasa protectora del gimbal cerrada.",
+                    },
+                  ]}
+                />
               </div>
             </div>
           </div>

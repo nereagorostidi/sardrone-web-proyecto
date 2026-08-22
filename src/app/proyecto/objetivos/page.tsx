@@ -97,7 +97,6 @@ export default function ObjetivosPage() {
         ]}
         title="Diseñar una herramienta SAR profesional desde cero"
         description="El objetivo general es diseñar y construir, desde cero, un UAV autónomo de Búsqueda y Rescate (SAR, del inglés Search And Rescue) como Trabajo de Fin de Grado de Ingeniería de Tecnologías de Telecomunicación — consolidando varias de las principales disciplinas de la carrera en un único sistema funcional."
-        underConstruction
         image={{
           src: IMAGES.heroDrone.src,
           alt: IMAGES.heroDrone.alt,

@@ -23,7 +23,6 @@ const SIZE = 640;
 const CX = SIZE / 2;
 const CY = SIZE / 2;
 const RADIUS = 226;
-const NODE_R = 40;
 
 function toXY(angleDeg: number, r: number) {
   const rad = (angleDeg * Math.PI) / 180;
@@ -102,7 +101,7 @@ export function RadialDiagram({
             {centerLabel}
           </span>
           {centerSublabel && (
-            <span className="font-telemetry text-[9px] uppercase text-ink-faint">
+            <span className="font-telemetry text-[10px] uppercase text-ink-faint">
               {centerSublabel}
             </span>
           )}

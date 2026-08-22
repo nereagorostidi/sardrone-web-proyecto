@@ -120,7 +120,7 @@ export default function ImpactoPage() {
   return (
     <>
       <PageHero
-        eyebrow="Sec. 05 · Impacto y futuro"
+        eyebrow="Sec. 06 · Impacto y futuro"
         title="El proyecto no termina con la defensa del TFG"
         description="Retorno social y una hoja de ruta pensada para seguir siendo útil después de la evaluación académica."
         image={{ src: IMAGES.sustainableGrowth.src, alt: IMAGES.sustainableGrowth.alt }}

@@ -79,4 +79,99 @@ export const IMAGES = {
     alt: "Inspector de seguridad aérea con casco y chaleco reflectante revisando una lista de comprobación en un campo abierto, junto a un dron en vuelo — ilustración generada por IA a modo representativo de la inspección y el cumplimiento normativo",
     credit: "Imagen generada con IA (Replicate / Flux) a modo de referencia",
   },
+  buildUnboxing: {
+    src: "/images/montaje-01-unboxing.jpg",
+    alt: "Contenido completo del kit Holybro X500 V2 extendido sobre una mesa: chasis, motores, hélices, controladora y accesorios",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildPixhawk: {
+    src: "/images/montaje-02-pixhawk.jpg",
+    alt: "Controladora de vuelo Pixhawk 6X vista de frente, con todos sus puertos TELEM, GPS, CAN, POWER y RC IN etiquetados",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildPdb: {
+    src: "/images/montaje-03-pdb.jpg",
+    alt: "Placa de distribución de potencia (PDB) del kit, con sus conectores XT60 dorados para batería y ESCs",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildEsc: {
+    src: "/images/montaje-04-esc.jpg",
+    alt: "Controlador electrónico de velocidad (ESC) cableado a un motor, con el conector XT60 de alimentación",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildArms: {
+    src: "/images/montaje-05-brazos.jpg",
+    alt: "Los cuatro brazos de fibra de carbono del chasis, cada uno ya con su motor brushless y cableado montado",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildPlates: {
+    src: "/images/montaje-06-placas.jpg",
+    alt: "Placas superior e inferior de fibra de carbono del chasis, antes de unirse con los brazos",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildCenterPlate: {
+    src: "/images/montaje-07-placa-central.jpg",
+    alt: "Placa central del chasis con la PDB atornillada y el primer brazo ya acoplado",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildSkeleton: {
+    src: "/images/montaje-08-esqueleto.jpg",
+    alt: "Esqueleto del chasis visto desde arriba, con los cuatro brazos y el tren de aterrizaje montados, aún sin electrónica de control",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildPixhawkMounted: {
+    src: "/images/montaje-09-pixhawk-montada.jpg",
+    alt: "Pixhawk 6X atornillada sobre la placa superior del chasis, con el cableado del GPS y de los ESCs empezando a conectarse",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildWiringDetail: {
+    src: "/images/montaje-10-cableado-detalle.jpg",
+    alt: "Primer plano en ángulo del cableado alrededor de la Pixhawk 6X ya montada sobre el chasis",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildFrameDone: {
+    src: "/images/montaje-11-armazon-terminado.jpg",
+    alt: "Armazón del dron ya terminado, visto desde arriba, con las cuatro hélices montadas y la Pixhawk 6X centrada",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildRadioControl: {
+    src: "/images/montaje-12-radio-control.jpg",
+    alt: "Emisora y receptor FlySky FS-i6X recién sacados de su embalaje",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  buildBatteryCharger: {
+    src: "/images/montaje-13-bateria-cargador.jpg",
+    alt: "Batería LiPo 4S y cargador balanceador Ultra Power UP10, junto a los cables de carga",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  pieceGps: {
+    src: "/images/pieza-gps.jpg",
+    alt: "Módulo GPS y brújula Holybro M10 con su cable de conexión y el mástil de montaje aún en su bolsa",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  pieceTelemetry: {
+    src: "/images/pieza-telemetria.jpg",
+    alt: "Par de radios de telemetría de 433 MHz y 100 mW, emisor y receptor, con su antena SMA",
+    credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  joseManuelDroneFrontal: {
+    src: "/images/jose-manuel-dron-01-frontal.jpg",
+    alt: "El dron personal de José Manuel visto de frente, con su gimbal de cámara suspendido bajo el chasis",
+    credit: "Fotografía cedida por José Manuel",
+  },
+  joseManuelDroneGimbal: {
+    src: "/images/jose-manuel-dron-02-gimbal.jpg",
+    alt: "Vista superior del dron de José Manuel, con la carcasa protectora del gimbal cerrada",
+    credit: "Fotografía cedida por José Manuel",
+  },
+  joseManuelDroneNaza: {
+    src: "/images/jose-manuel-dron-03-naza.jpg",
+    alt: "Detalle de la controladora de vuelo DJI Naza y el receptor de radio del dron de José Manuel",
+    credit: "Fotografía cedida por José Manuel",
+  },
+  droneControllerLiveFeed: {
+    src: unsplash("photo-1559840251-2a04897f8559"),
+    alt: "Manos sujetando el mando de un dron con el vídeo en directo de la cámara mostrado en la pantalla acoplada",
+    credit: "Unsplash",
+  },
 } satisfies Record<string, SiteImage>;

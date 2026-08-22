@@ -195,7 +195,6 @@ export default function NormativaPage() {
         title="Volar dentro de la ley: la normativa UAS aplicada"
         description="Un dron de más de 250 gramos no es un juguete a ojos de la ley: exige certificarse, registrarse, identificar el equipo y consultar el espacio aéreo antes de cada vuelo. Dentro de este TFG se ha puesto especial cuidado en analizar toda la normativa existente y cumplirla — tanto la de telecomunicaciones (las frecuencias de radio empleadas) como la específica de vuelo y las características exigidas al propio dron. Así es como Guardian Eye cumple, paso a paso, con la normativa europea y española."
         tone="signal"
-        underConstruction
         image={{
           src: IMAGES.droneInspectorField.src,
           alt: IMAGES.droneInspectorField.alt,

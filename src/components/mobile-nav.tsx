@@ -98,13 +98,15 @@ export function MobileNav({ scrolled }: { scrolled: boolean }) {
                                 className="overflow-hidden"
                               >
                                 <div className="pb-2 pl-3">
-                                  <Link
-                                    href={item.href}
-                                    onClick={() => setOpen(false)}
-                                    className="mb-1 block rounded-lg px-3 py-2 text-[13px] font-medium text-accent"
-                                  >
-                                    Ver página completa →
-                                  </Link>
+                                  {!item.children.some((child) => child.href === item.href) && (
+                                    <Link
+                                      href={item.href}
+                                      onClick={() => setOpen(false)}
+                                      className="mb-1 block rounded-lg px-3 py-2 text-[13px] font-medium text-accent"
+                                    >
+                                      Ver página completa →
+                                    </Link>
+                                  )}
                                   {item.children.map((child) => (
                                     <Link
                                       key={child.href}

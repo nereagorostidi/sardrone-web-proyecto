@@ -23,7 +23,6 @@ export default function MetodologiaPage() {
         ]}
         title="Desarrollo en paralelo, validación por etapas"
         description="Electrónica, comunicaciones y software no se construyen uno detrás de otro: avanzan a la vez, y cada pieza se valida contra hardware y vuelo real antes de confiar en ella — nunca fiándolo todo a la simulación."
-        underConstruction
         image={{ src: IMAGES.circuitBoard.src, alt: IMAGES.circuitBoard.alt }}
       />
 

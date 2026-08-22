@@ -9,6 +9,7 @@ import {
   History,
   MapPinOff,
   ScanSearch,
+  SlidersHorizontal,
   Sparkles,
   Tag,
   Timer,
@@ -37,7 +38,7 @@ export default function IaPage() {
   return (
     <>
       <PageHero
-        eyebrow="Sec. 03 · Inteligencia Artificial"
+        eyebrow="Sec. 04 · Inteligencia Artificial"
         title="Detección en tiempo real con YOLO"
         description="You Only Look Once: un modelo que mira cada fotograma una sola vez y decide, al instante, qué hay en él — sin depender de subir cada imagen a la nube para saberlo."
         image={{
@@ -50,11 +51,24 @@ export default function IaPage() {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="max-w-3xl text-[15.5px] leading-relaxed text-ink-muted">
+            Todos conocemos qué es la IA, pero a lo mejor no te suena qué es YOLO. Te lo
+            ponemos en contexto: la inteligencia artificial (IA) es el campo que estudia cómo
+            hacer que un ordenador tome decisiones que normalmente requerirían visión o
+            razonamiento humano — en Guardian Eye, decidir si hay una persona en un fotograma
+            de vídeo. La pieza de IA que hace eso es{" "}
+            <span className="font-medium text-ink">YOLO</span>, un modelo de{" "}
+            <span className="font-medium text-ink">visión por computador</span> especializado
+            en detección de objetos en tiempo real — no es un chatbot ni un asistente de
+            texto, sino un modelo entrenado específicamente para analizar imágenes y señalar
+            qué hay en ellas y dónde.
+          </p>
+
+          <p className="mt-4 max-w-3xl text-[15.5px] leading-relaxed text-ink-muted">
             Para la parte de inteligencia artificial del dron se ha usado{" "}
             <span className="font-medium text-ink">YOLOv8</span>, programando y
             entrenando el sistema directamente en la{" "}
             <span className="font-medium text-ink">Raspberry Pi 5</span> que acompaña
-            al dron a bordo.
+            al dron a bordo, todo ello a través de un estricto pipeline (flujo de trabajo).
           </p>
 
           <div className="mt-10 grid gap-12 lg:grid-cols-2">
@@ -116,6 +130,21 @@ export default function IaPage() {
                 </p>
               </div>
             </div>
+            <div className="flex gap-4 rounded-2xl border border-line bg-paper p-6 sm:col-span-2">
+              <SlidersHorizontal className="h-5 w-5 shrink-0 text-ink-faint" strokeWidth={1.75} />
+              <div>
+                <p className="text-[13.5px] font-bold text-ink">Cómo se ajusta en la práctica</p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
+                  El pipeline se puede afinar sin tocar el modelo: un umbral de confianza
+                  (0,5 por defecto) descarta detecciones poco fiables, un muestreo de
+                  fotogramas —analizar uno de cada seis, configurable— evita saturar la
+                  Raspberry Pi, y el margen anti-spam ya mencionado evita repetir la misma
+                  alerta en fotogramas consecutivos. Si hiciera falta más margen de cómputo,
+                  el modelo también se puede exportar a formatos de inferencia más ligeros
+                  que PyTorch — ONNX o NCNN — sin cambiar el resto del pipeline.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="mt-20">
@@ -125,6 +154,21 @@ export default function IaPage() {
               align="center"
               className="mx-auto"
             />
+
+            <div className="mx-auto mt-6 flex max-w-3xl items-start gap-3 rounded-2xl border border-line bg-surface p-5">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
+              <p className="text-[13px] leading-relaxed text-ink-muted">
+                <span className="font-semibold text-ink">¿Qué es un «pipeline» de IA?</span>{" "}
+                En aprendizaje automático, un pipeline es la secuencia ordenada de etapas por
+                las que pasan los datos y el propio modelo, desde que se recogen los primeros
+                ejemplos hasta que ese modelo toma decisiones reales en producción — cada etapa
+                alimenta a la siguiente, y un cambio en una (más datos, un nuevo etiquetado)
+                obliga normalmente a repetir las de después. No es una particularidad de este
+                proyecto: es el vocabulario estándar con el que se describe cualquier sistema
+                de IA, desde un TFG hasta un producto comercial.
+              </p>
+            </div>
+
             <div className="mt-10">
               <FlowDiagram steps={PIPELINE_STEPS} />
             </div>
@@ -185,15 +229,29 @@ export default function IaPage() {
             <pre className="overflow-x-auto rounded-2xl border border-white/10 bg-black/40 p-5 font-telemetry text-[12px] leading-relaxed text-white/85">
 {`{
   "confianza": 0.0-1.0,
-  "caja": { "centro_x": px, "centro_y": px,
-            "ancho": px, "alto": px },
-  "resolucion_frame": "WxH",
-  "posicion_dron": { "lat": ..., "lon": ... },
-  "foto_guardada": "deteccion_XXXX.jpg",
+  "caja": { "cx": px, "cy": px,
+            "w": px, "h": px },
+  "resolucion": { "ancho": px, "alto": px },
+  "dron": { "lat": ..., "lon": ..., "alt_rel": ... },
+  "foto": "deteccion_XXXX.jpg",
   "timestamp": "AAAA-MM-DDTHH:MM:SSZ"
 }`}
             </pre>
           </div>
+          <p className="mt-3 text-[11.5px] text-ink-faint">
+            Formato real tal cual lo construye <code className="font-telemetry text-[11px]">deteccion.py</code> — el
+            campo «foto» es solo el nombre del fichero guardado en el propio dron, no la
+            imagen; el resto del recorrido de esa alerta (buffer local, MQTT, InfluxDB) está
+            en{" "}
+            <Link href="/arquitectura/datos" className="font-semibold underline underline-offset-2">
+              Datos e IoT
+            </Link>
+            , y cómo se graban y transmiten el vídeo y las fotos, en{" "}
+            <Link href="/arquitectura/video" className="font-semibold underline underline-offset-2">
+              Vídeo
+            </Link>
+            .
+          </p>
 
           <div className="mt-14 flex flex-col items-start justify-between gap-6 rounded-2xl border border-line bg-surface p-7 sm:flex-row sm:items-center">
             <div className="flex items-center gap-3">

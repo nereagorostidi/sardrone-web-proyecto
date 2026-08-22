@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, ChevronDown, Home, Radar } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Home, Radar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LANDING_URL, NAV_ITEMS } from "@/lib/site-config";
 import { MobileNav } from "@/components/mobile-nav";
@@ -76,7 +75,7 @@ export function SiteHeader() {
                     <>
                       <NavigationMenu.Trigger
                         className={cn(
-                          "group/trigger flex items-center gap-1 rounded-full px-3.5 py-2 text-[13.5px] font-medium outline-none transition-colors",
+                          "group/trigger flex items-center gap-1 rounded-full px-3.5 py-2 text-[13.5px] font-medium outline-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                           scrolled
                             ? "text-ink-muted hover:text-ink data-[state=open]:text-ink"
                             : "text-white/85 hover:text-white data-[state=open]:text-white",
@@ -94,6 +93,20 @@ export function SiteHeader() {
                           <div className="border-b border-line bg-surface px-4 py-2.5 font-telemetry text-[10px] uppercase text-ink-faint">
                             Sec. {item.eyebrow} · {item.label}
                           </div>
+                          {!item.children.some((child) => child.href === item.href) && (
+                            <NavigationMenu.Link asChild>
+                              <Link
+                                href={item.href}
+                                className="group/hublink flex items-center justify-between gap-2 border-b border-line px-4 py-2.5 text-[13.5px] font-semibold text-accent transition-colors hover:bg-accent-soft"
+                              >
+                                Ver página completa
+                                <ArrowRight
+                                  className="h-3.5 w-3.5 transition-transform group-hover/hublink:translate-x-0.5"
+                                  strokeWidth={2.5}
+                                />
+                              </Link>
+                            </NavigationMenu.Link>
+                          )}
                           <ul className="p-2">
                             {item.children.map((child) => (
                               <li key={child.href}>
