@@ -97,7 +97,12 @@ export const NAV_ITEMS: NavItem[] = [
       {
         label: "Cerebro 2: Edge Computing",
         href: "/construccion/edge-computing",
-        description: "Raspberry Pi 5, Hailo-8L y el módem 4G — el ordenador de a bordo.",
+        description: "Raspberry Pi 5, Hailo-8 y el módem 4G — el ordenador de a bordo.",
+      },
+      {
+        label: "El sistema completo",
+        href: "/construccion/sistema-completo",
+        description: "Los dos cerebros juntos — galería del montaje en su estado actual.",
       },
     ],
   },

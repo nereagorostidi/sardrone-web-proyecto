@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Cpu, Puzzle, Wrench } from "lucide-react";
+import { ArrowRight, Cpu, Images, Puzzle, Wrench } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { IMAGES } from "@/lib/images";
 
@@ -33,7 +33,15 @@ const SECTIONS = [
     colorVar: "var(--color-accent)",
     title: "Cerebro 2: Edge Computing",
     description:
-      "La Raspberry Pi 5, el acelerador Hailo-8L y el módem 4G — el ordenador de a bordo que piensa, no el que vuela.",
+      "La Raspberry Pi 5, el acelerador Hailo-8 y el módem 4G — el ordenador de a bordo que piensa, no el que vuela.",
+  },
+  {
+    href: "/construccion/sistema-completo",
+    icon: Images,
+    colorVar: "var(--color-mesh-cyan)",
+    title: "El sistema completo",
+    description:
+      "Los dos cerebros juntos, en varias fotos — galería del montaje tal y como está hoy, todavía en actualización.",
   },
 ];
 
@@ -54,7 +62,7 @@ export default function ConstruccionHubPage() {
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {SECTIONS.map((section, i) => {
               const Icon = section.icon;
               return (

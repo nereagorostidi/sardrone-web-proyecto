@@ -6,6 +6,7 @@ import {
   Brain,
   Code2,
   Cpu,
+  Download,
   Drone,
   HandCoins,
   NotebookPen,
@@ -13,6 +14,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { OpenSourceCard } from "@/components/open-source-card";
+import { PdfDocumentGraphic } from "@/components/pdf-document-graphic";
 import { RadialDiagram } from "@/components/diagrams/radial-diagram";
 import { SectionHeading } from "@/components/section-heading";
 import { TechBadgeRow } from "@/components/tech-badges";
@@ -261,6 +263,45 @@ export default function HomePage() {
               centerIcon={<Drone strokeWidth={1.75} />}
               nodes={FOCUS_NODES}
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-line bg-paper py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+            <div>
+              <p className="font-telemetry text-[11px] uppercase tracking-wide text-accent">
+                La memoria completa
+              </p>
+              <h2 className="mt-3 text-[28px] font-extrabold leading-tight text-ink sm:text-[34px]">
+                Descarga el TFG entero, en PDF
+              </h2>
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink-muted">
+                Todo lo que resume esta web —el diseño del hardware, las comunicaciones
+                redundantes, la arquitectura IoT, el modelo de detección y la validación
+                en vuelo real— está desarrollado a fondo en la memoria del Trabajo de Fin
+                de Grado: 145 páginas con todas las decisiones de ingeniería, los datos y
+                las fuentes.
+              </p>
+              <a
+                href="/docs/Memoria_TFG_NereaGorostidi.pdf"
+                download
+                className="btn-gradient group mt-7 inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 text-[14.5px] font-semibold text-white"
+              >
+                <Download
+                  className="h-4.5 w-4.5 transition-transform group-hover:translate-y-0.5"
+                  strokeWidth={2.5}
+                />
+                Descargar la memoria del TFG
+              </a>
+              <p className="mt-3 text-[12px] text-ink-faint">
+                Borrador a 07/09/2026 · PDF · ~5,5 MB
+              </p>
+            </div>
+            <div className="mx-auto w-full max-w-sm lg:max-w-none">
+              <PdfDocumentGraphic className="h-auto w-full" />
+            </div>
           </div>
         </div>
       </section>

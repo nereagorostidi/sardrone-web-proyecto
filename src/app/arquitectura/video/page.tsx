@@ -184,7 +184,7 @@ export default function VideoPage() {
             <p className="mt-6 max-w-3xl text-[14.5px] leading-relaxed text-ink-muted">
               La cámara no va conectada directamente a un transmisor VTX para que un piloto la
               vea en gafas en tiempo real: va conectada a la Raspberry Pi, que procesa la
-              imagen a bordo (edge computing) con el acelerador Hailo-8L para detectar personas
+              imagen a bordo (edge computing) con el acelerador Hailo-8 para detectar personas
               — en el propio dron, sin depender de ningún enlace externo para tomar esa
               decisión. Esto cambia por completo el problema: el vídeo que enviamos a tierra no
               es la señal de la que depende el control del dron en tiempo real —eso va por el
@@ -249,6 +249,56 @@ export default function VideoPage() {
               servidor —con recursos de sobra— quien reparte el vídeo a cuantos espectadores se
               conecten, sin que eso afecte en absoluto al dron.
             </p>
+            <p className="mt-4 max-w-3xl text-[14.5px] leading-relaxed text-ink-muted">
+              Ese último tramo, del servidor al navegador, no puede ser el mismo RTSP que
+              publica el dron: un navegador no reproduce RTSP directamente. Se evaluó primero{" "}
+              <span className="font-semibold text-ink">HLS</span>, pero se descartó por
+              introducir varios segundos de retardo, inaceptables para supervisar un dron en
+              vuelo. MediaMTX redistribuye en su lugar el vídeo al panel web mediante{" "}
+              <span className="font-semibold text-ink">WebRTC</span>, con una latencia
+              inferior a un segundo desde la cámara hasta la pantalla del operador.
+            </p>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading
+              eyebrow="Lo que vimos en vuelo real"
+              title="El vídeo en directo se cortó por encima de unos 10 metros"
+              description="En la demostración del sistema integrado en vuelo, el enlace de datos 4G/LTE se mantuvo con el dron en tierra y a baja altura, pero la retransmisión de vídeo en directo (RTSP al servidor en la nube) se interrumpió al alcanzar unos 10 metros de altura. Al ser un flujo en tiempo real sin almacenamiento intermedio, no hubo imagen remota durante ese tramo."
+            />
+            <p className="mt-6 max-w-3xl text-[14.5px] leading-relaxed text-ink-muted">
+              La grabación local en la Raspberry Pi, en cambio, siguió sin problemas: los
+              datos de los cuatro dominios, incluidos los eventos de detección generados
+              durante la pérdida de enlace, se guardaron en el buffer local de SQLite y se
+              sincronizaron íntegros con InfluxDB al recuperar la conexión tras el descenso,
+              conservando sus marcas de tiempo originales. Fue la primera confirmación{" "}
+              <span className="font-semibold text-ink">en vuelo real</span> del mecanismo de
+              store-and-forward, que hasta entonces solo se había probado con un corte de red
+              forzado en banco (ver{" "}
+              <Link href="/arquitectura/datos" className="font-semibold text-accent underline underline-offset-2">
+                Datos e IoT
+              </Link>
+              ).
+            </p>
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-signal/30 bg-signal-soft p-6">
+              <Signal className="mt-0.5 h-5 w-5 shrink-0 text-signal" strokeWidth={1.75} />
+              <div>
+                <p className="text-[14px] font-bold text-ink">La causa exacta aún no está identificada</p>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-ink">
+                  Podría deberse a interferencias electromagnéticas por la cercanía del módem
+                  a otro componente, a una orientación desfavorable de la antena en el
+                  fuselaje, a la reelección de celda o a un ancho de banda de subida
+                  insuficiente. También es posible que fuera un fallo puntual de la línea de
+                  datos del módem USB —una caída de la sesión de datos— y no un problema de
+                  cobertura celular en altura: la literatura sobre drones conectados a redes
+                  móviles describe esa degradación a alturas de unos 170 metros, muy por
+                  encima de los 10 metros de este ensayo, donde el dron todavía está dentro
+                  del lóbulo principal de las antenas cercanas. Queda pendiente repetir la
+                  prueba, incluso con otro operador de telefonía, para saber si el
+                  comportamiento depende de la red o del propio módem.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="mt-16 flex items-start gap-3 rounded-2xl border border-line bg-surface p-6">

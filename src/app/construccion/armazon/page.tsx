@@ -173,7 +173,7 @@ export default function ArmazonPage() {
               <div className="flex gap-3 rounded-2xl border border-white/10 bg-white/5 p-5">
                 <Wrench className="h-5 w-5 shrink-0 text-white" strokeWidth={1.75} />
                 <p className="text-[13.5px] leading-relaxed text-white/85">
-                  El detalle de esa segunda pieza — Raspberry Pi 5, Hailo-8L y módem 4G —
+                  El detalle de esa segunda pieza — Raspberry Pi 5, Hailo-8 y módem 4G —
                   está en la siguiente página de esta sección.
                 </p>
               </div>

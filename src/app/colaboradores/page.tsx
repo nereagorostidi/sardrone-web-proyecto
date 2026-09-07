@@ -83,6 +83,21 @@ export default function ColaboradoresPage() {
                   asesorarme en el vuelo de drones, y acogerme como un miembro más.
                 </p>
               </div>
+              <figure className="mx-auto w-full max-w-md lg:col-span-2">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-accent/20 sm:aspect-[4/3]">
+                  <Image
+                    src={IMAGES.nereaClubSede.src}
+                    alt={IMAGES.nereaClubSede.alt}
+                    fill
+                    sizes="(min-width: 1024px) 28rem, 100vw"
+                    className="object-cover object-[50%_45%]"
+                  />
+                </div>
+                <figcaption className="mt-2 text-[12px] leading-relaxed text-ink-muted">
+                  En la sede del club, con el dron ya montado — bajo el logo del Club
+                  Alas de Galapagar y su colección de aeromodelos.
+                </figcaption>
+              </figure>
             </div>
           </div>
 
@@ -249,6 +264,31 @@ export default function ColaboradoresPage() {
               entrenamiento.
             </p>
           </div>
+
+          <figure className="mt-16 overflow-hidden rounded-3xl border border-line bg-surface">
+            <div className="grid gap-0 sm:grid-cols-[minmax(0,1fr)_1.1fr] sm:items-stretch">
+              <div className="relative aspect-[4/5] sm:aspect-auto">
+                <Image
+                  src={IMAGES.nereaClubCampo.src}
+                  alt={IMAGES.nereaClubCampo.alt}
+                  fill
+                  sizes="(min-width: 640px) 40vw, 100vw"
+                  className="object-cover object-center"
+                />
+              </div>
+              <figcaption className="flex flex-col justify-center gap-3 p-8 sm:p-10">
+                <p className="font-telemetry text-[10.5px] uppercase text-accent">
+                  La autora, en el campo del club
+                </p>
+                <p className="text-[14.5px] leading-relaxed text-ink-muted">
+                  Todo lo que cuenta esta web —el montaje, las comunicaciones, la
+                  detección a bordo, la campaña de vuelo— se ha construido y probado
+                  con este dron y en este campo de vuelo. La foto es del Club Alas de
+                  Galapagar, con la Sierra de Guadarrama al fondo.
+                </p>
+              </figcaption>
+            </div>
+          </figure>
 
           <div className="mt-6 grid gap-6 rounded-3xl border border-line bg-ink p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>

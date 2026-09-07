@@ -107,9 +107,34 @@ export default function DocumentacionPage() {
 
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Código" title="Explora el código" />
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {REPOS.map((repo) => (
+          <a
+            href="/docs/Memoria_TFG_NereaGorostidi.pdf"
+            download
+            className="group flex flex-col items-start justify-between gap-4 rounded-3xl border border-line bg-ink p-7 sm:flex-row sm:items-center"
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                <FileText className="h-5 w-5" strokeWidth={1.75} />
+              </span>
+              <div>
+                <p className="text-[15px] font-bold text-white">
+                  Borrador del TFG a 07/09/2026
+                </p>
+                <p className="mt-1 text-[13px] leading-relaxed text-white/70">
+                  La memoria completa del Trabajo de Fin de Grado, en PDF — la fuente
+                  original detrás de todo lo que cuenta esta web.
+                </p>
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1 text-[12.5px] font-semibold text-white">
+              Descargar PDF <Download className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />
+            </span>
+          </a>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="Código" title="Explora el código" />
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {REPOS.map((repo) => (
               <a
                 key={repo.name}
                 href={repo.url}
@@ -124,7 +149,8 @@ export default function DocumentacionPage() {
                   Ver repositorio <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>
               </a>
-            ))}
+              ))}
+            </div>
           </div>
 
           <div className="mt-16 grid gap-10 lg:grid-cols-2">

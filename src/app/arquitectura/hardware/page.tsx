@@ -14,13 +14,19 @@ export const metadata: Metadata = {
 };
 
 const HARDWARE_ITEMS = [
+  { label: "Chasis", value: "Holybro X500 V2 — cuadricóptero de 500 mm en fibra de carbono" },
   { label: "Flight Controller", value: "Pixhawk 6X (Holybro), firmware ArduPilot" },
   { label: "GPS", value: "Holybro M10 GPS" },
   { label: "Receptor de radio", value: "FlySky FS-iA10B (mando FS-i6X)" },
+  { label: "Motores", value: "4× brushless 2216 (920 KV) con hélices 1045" },
+  { label: "ESC", value: "4× variadores de 20-30 A" },
+  { label: "Batería", value: "Li-Po 4S (14,8 V), 5.000 mAh" },
+  { label: "Acelerador de IA", value: "Raspberry Pi AI HAT+ — Hailo-8 (26 TOPS), por PCIe" },
   { label: "Cámara", value: "Raspberry Pi Camera Module 3 (CSI)" },
   { label: "Sensor ambiental", value: "Bosch BME680 — I2C, temperatura/humedad/presión/VOC" },
   { label: "Módem de datos", value: "4G/LTE por USB" },
   { label: "Buses", value: "MAVLink (UART) · I2C · GPIO" },
+  { label: "Peso total al despegue (MTOW)", value: "1.817 g, verificado en báscula" },
 ];
 
 const GLOSSARY = [
@@ -82,7 +88,7 @@ export default function HardwarePage() {
                 Corre Linux y se encarga de pensar y ver: visión por computador, las
                 comunicaciones 4G, la gestión de la misión y la conexión con la nube (AWS),
                 sin sobrecargar la controladora de vuelo. Incorpora un acelerador{" "}
-                <span className="font-medium text-ink">Hailo-8L</span> para ejecutar la
+                <span className="font-medium text-ink">Hailo-8 (26 TOPS)</span> para ejecutar la
                 inferencia de YOLO sin saturar la CPU.
               </p>
             </div>
@@ -241,10 +247,10 @@ export default function HardwarePage() {
               </dl>
               <p className="mt-4 flex items-start gap-2 text-[12.5px] leading-relaxed text-ink-faint">
                 <CircuitBoard className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.75} />
-                Protección térmica de los componentes críticos y especificaciones finales de
-                chasis, motores y batería:{" "}
+                Protección térmica física de los componentes críticos:{" "}
                 <span className="font-semibold text-ink-muted">
-                  [placeholder — el dron definitivo está en fase de adquisición/montaje]
+                  [placeholder — no hay diseño de disipación específico documentado, solo
+                  monitorización por software de la temperatura de la Raspberry Pi]
                 </span>
                 .
               </p>
@@ -280,7 +286,7 @@ export default function HardwarePage() {
           <div className="mt-8 flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent-soft p-6">
             <Cpu className="mt-0.5 h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
             <p className="text-[13.5px] leading-relaxed text-ink">
-              <span className="font-semibold">¿Por qué un acelerador Hailo-8L y no solo CPU?</span>{" "}
+              <span className="font-semibold">¿Por qué un acelerador Hailo-8 y no solo CPU?</span>{" "}
               Ejecutar un modelo de detección de objetos como YOLO fotograma a fotograma es
               costoso computacionalmente. Un acelerador de IA dedicado descarga ese trabajo
               de la CPU, permitiendo que la Raspberry Pi siga gestionando comunicaciones y

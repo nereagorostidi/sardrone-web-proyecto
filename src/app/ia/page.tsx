@@ -29,9 +29,9 @@ export const metadata: Metadata = {
 const PIPELINE_STEPS = [
   { id: "recogida", label: "Recogida", detail: "Vídeo aéreo real en el club", icon: <Camera strokeWidth={1.75} /> },
   { id: "etiquetado", label: "Etiquetado", detail: "Vía Roboflow", icon: <Tag strokeWidth={1.75} /> },
-  { id: "entrenamiento", label: "Entrenamiento", detail: "YOLOv8 / Ultralytics", icon: <Sparkles strokeWidth={1.75} /> },
+  { id: "entrenamiento", label: "Entrenamiento", detail: "YOLO11 / Ultralytics", icon: <Sparkles strokeWidth={1.75} /> },
   { id: "validacion", label: "Validación", detail: "Sobre vídeo grabado", icon: <CheckCircle2 strokeWidth={1.75} /> },
-  { id: "despliegue", label: "Despliegue", detail: "Inferencia en el borde (Hailo-8L)", icon: <Cpu strokeWidth={1.75} /> },
+  { id: "despliegue", label: "Despliegue", detail: "Inferencia en el borde (Hailo-8)", icon: <Cpu strokeWidth={1.75} /> },
 ];
 
 export default function IaPage() {
@@ -65,7 +65,7 @@ export default function IaPage() {
 
           <p className="mt-4 max-w-3xl text-[15.5px] leading-relaxed text-ink-muted">
             Para la parte de inteligencia artificial del dron se ha usado{" "}
-            <span className="font-medium text-ink">YOLOv8</span>, programando y
+            <span className="font-medium text-ink">YOLO11</span>, programando y
             entrenando el sistema directamente en la{" "}
             <span className="font-medium text-ink">Raspberry Pi 5</span> que acompaña
             al dron a bordo, todo ello a través de un estricto pipeline (flujo de trabajo).
@@ -75,7 +75,7 @@ export default function IaPage() {
             <SectionHeading
               eyebrow="¿Qué es YOLO?"
               title="Una sola pasada, una decisión inmediata"
-              description="YOLO analiza la imagen completa de una vez, en lugar de examinarla región por región, lo que lo hace lo bastante rápido para procesar vídeo en directo. Es la razón por la que se puede ejecutar a bordo del propio dron, en la Raspberry Pi 5 con el acelerador Hailo-8L, sin depender de una conexión estable a Internet para saber si hay una persona en el encuadre."
+              description="YOLO analiza la imagen completa de una vez, en lugar de examinarla región por región, lo que lo hace lo bastante rápido para procesar vídeo en directo. Es la razón por la que se puede ejecutar a bordo del propio dron, en la Raspberry Pi 5 con el acelerador Hailo-8, sin depender de una conexión estable a Internet para saber si hay una persona en el encuadre."
             />
             <div className="rounded-3xl border border-line bg-surface p-7">
               <div className="flex items-center gap-2">
@@ -104,8 +104,8 @@ export default function IaPage() {
                 <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
                   YOLO (&ldquo;You Only Look Once&rdquo;) es una familia de modelos de
                   detección de objetos en tiempo real, hoy mantenida por Ultralytics.
-                  Guardian Eye usa <span className="font-medium text-ink">YOLOv8</span>, una
-                  de sus versiones más recientes, elegida por su equilibrio entre precisión
+                  Guardian Eye usa <span className="font-medium text-ink">YOLO11</span>, su
+                  versión más reciente, elegida por su equilibrio entre precisión
                   y velocidad de inferencia en hardware modesto como una Raspberry Pi.
                 </p>
               </div>
@@ -177,7 +177,7 @@ export default function IaPage() {
               <div className="rounded-2xl border border-accent/30 bg-accent-soft p-6">
                 <p className="text-[13.5px] font-bold text-ink">Prueba de concepto ya validada</p>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-ink-muted">
-                  El primer pipeline YOLOv8 completo se construyó y validó con Roboflow
+                  El primer pipeline YOLO11 completo se construyó y validó con Roboflow
                   sobre un dataset pequeño de detección de fruta (~300 imágenes
                   aumentadas), entrenado en 2 h 40 min en CPU, con inferencia comprobada
                   sobre vídeo real de vuelo. Código en{" "}
@@ -193,16 +193,44 @@ export default function IaPage() {
                 </p>
               </div>
               <div className="rounded-2xl border border-signal/30 bg-signal-soft p-6">
-                <p className="text-[13.5px] font-bold text-ink">Dataset de personas en constante evolución y progreso</p>
+                <p className="text-[13.5px] font-bold text-ink">Dataset de personas cerrado en 717 imágenes</p>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-ink-muted">
-                  Se dispone de una base inicial de decenas de imágenes de personas
-                  extraídas de vuelos reales en el Club Alas de Galapagar, combinada en Roboflow con
-                  datasets SAR ya disponibles públicamente, seleccionando los más
-                  adecuados para el tipo de escenario del proyecto. El conjunto está en
-                  ampliación constante y se aumenta (data augmentation) para mejorar su
-                  calidad y variedad antes de cada nuevo entrenamiento.
+                  El conjunto final combina imágenes propias grabadas en vuelos reales en
+                  el Club Alas de Galapagar, 70 vídeos de uso libre de Pexels y 125
+                  imágenes seleccionadas de un dataset público de búsqueda y rescate (de
+                  cerca de 1.980 disponibles, licencia CC BY 4.0) para cubrir posturas poco
+                  representadas —personas tumbadas o sentadas—. El resultado son 717
+                  imágenes bajo una única clase (&ldquo;persona&rdquo;): 540 de
+                  entrenamiento, 88 de validación y 89 de prueba.
                 </p>
               </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-line bg-ink p-7">
+              <p className="text-[13.5px] font-bold text-white">Métricas reales del modelo final (yolo11n)</p>
+              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {[
+                  { label: "Recall", value: "0,659" },
+                  { label: "mAP@50", value: "0,640" },
+                  { label: "Precisión", value: "0,684" },
+                  { label: "mAP@50-95", value: "0,205" },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <p className="font-telemetry text-[20px] font-bold text-white">{stat.value}</p>
+                    <p className="mt-0.5 text-[11.5px] uppercase tracking-wide text-white/60">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-[13px] leading-relaxed text-white/75">
+                Sobre el acelerador Hailo-8 (26 TOPS), ese mismo modelo corre de forma estable a{" "}
+                <span className="font-medium text-white">26,8 FPS</span>, con solo{" "}
+                <span className="font-medium text-white">14,2 ms</span> de latencia por
+                fotograma y un uso de CPU de apenas el 28&nbsp;%. Un recall de 0,659
+                significa, con honestidad, que a día de hoy una de cada tres personas del
+                conjunto de prueba no se detecta: es un modelo de prueba de concepto que
+                valida el pipeline completo de extremo a extremo, pensado como apoyo a la
+                verificación visual del operador — no como sustituto de su criterio.
+              </p>
             </div>
           </div>
 

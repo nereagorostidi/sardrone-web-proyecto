@@ -6,12 +6,22 @@ const OPEN_SOURCE_REPOS = [
   {
     href: "https://github.com/nereagorostidi/drone-edge-companion",
     title: "Edge Companion / IA",
-    description: "Raspberry Pi 5 + Hailo-8L · YOLO a bordo",
+    description: "Raspberry Pi 5 + Hailo-8 · YOLO a bordo",
   },
   {
     href: "https://github.com/nereagorostidi/drone-cloud-server",
     title: "Cloud Server",
     description: "Control y misión · Flask, MQTT, InfluxDB",
+  },
+  {
+    href: "https://github.com/nereagorostidi/drone-sar-training",
+    title: "Training",
+    description: "Entrenamiento YOLO11 · Colab, dataset, métricas",
+  },
+  {
+    href: "https://github.com/nereagorostidi/yolo-pipeline-test",
+    title: "Pipeline de prueba",
+    description: "Validación del pipeline de detección con OpenCV/YOLO",
   },
 ];
 
@@ -28,11 +38,11 @@ export function OpenSourceCard() {
           </h3>
           <p className="mt-3 max-w-xl text-[14.5px] leading-relaxed text-white/70">
             Todo el software que hace volar y pensar a Guardian Eye es
-            público y auditable, repartido en dos repositorios
+            público y auditable, repartido en varios repositorios
             independientes disponibles en mi GitHub, junto a la documentacion del proyecto.
           </p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col lg:flex-nowrap">
           {OPEN_SOURCE_REPOS.map((repo) => (
             <a
               key={repo.href}

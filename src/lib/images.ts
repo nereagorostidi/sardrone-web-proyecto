@@ -144,6 +144,56 @@ export const IMAGES = {
     alt: "Batería LiPo 4S y cargador balanceador Ultra Power UP10, junto a los cables de carga",
     credit: "Fotografía propia — montaje del kit Holybro X500 V2",
   },
+  edgePiezas: {
+    src: "/images/edge-01-piezas.jpg",
+    alt: "Cámara Raspberry Pi con su cable, el HAT Hailo-8 con su regleta extensora de GPIO y la Raspberry Pi 5, las tres piezas separadas antes de montar",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeRaspberryPi5: {
+    src: "/images/edge-02-raspberry-pi5.jpg",
+    alt: "Raspberry Pi 5 en su carcasa oficial, con la regleta extensora de GPIO ya puesta y el ventilador activo al fondo",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeHailoHat: {
+    src: "/images/edge-03-hailo-hat.jpg",
+    alt: "Placa Raspberry Pi AI HAT+ (26 TOPS), acelerador Hailo-8, con la regleta extensora de GPIO ya soldada",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeGpioRiser: {
+    src: "/images/edge-04-gpio-riser.jpg",
+    alt: "Encajando la regleta extensora de GPIO sobre la Raspberry Pi 5, con el cableado del sensor ambiental ya conectado",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeCamara: {
+    src: "/images/edge-05-camara.jpg",
+    alt: "Sujetando la cámara Raspberry Pi y su cable plano, con el HAT Hailo-8 apoyado al fondo",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeBme680: {
+    src: "/images/edge-06-bme680.jpg",
+    alt: "Detalle del sensor ambiental BME680 cableado a los pines I2C de la Raspberry Pi",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeModem4g: {
+    src: "/images/edge-07-modem4g.jpg",
+    alt: "Módem USB 4G/LTE Huawei con sus dos antenas, conectado por USB",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeMontajeCompleto: {
+    src: "/images/edge-08-montaje-completo.jpg",
+    alt: "El Edge Companion completo: Raspberry Pi 5, cámara, sensor BME680 y módem 4G ya conectados entre sí, con una segunda cámara USB opcional al fondo",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgePixhawkUart: {
+    src: "/images/edge-09-pixhawk-uart.jpg",
+    alt: "Puertos TELEM y GPS de la Pixhawk 6X, con el cableado que sube hacia la carcasa de la Raspberry Pi",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
+  edgeBotonApagado: {
+    src: "/images/edge-10-boton-apagado.jpg",
+    alt: "Módulo de encoder rotatorio (con pulsador SW integrado) montado junto a la Pixhawk 6X, cableado hacia la Raspberry Pi",
+    credit: "Fotografía propia — montaje del Edge Companion",
+  },
   pieceGps: {
     src: "/images/pieza-gps.jpg",
     alt: "Módulo GPS y brújula Holybro M10 con su cable de conexión y el mástil de montaje aún en su bolsa",
@@ -153,6 +203,31 @@ export const IMAGES = {
     src: "/images/pieza-telemetria.jpg",
     alt: "Par de radios de telemetría de 433 MHz y 100 mW, emisor y receptor, con su antena SMA",
     credit: "Fotografía propia — montaje del kit Holybro X500 V2",
+  },
+  fullDroneFront: {
+    src: "/images/dron-completo-01-frontal.jpg",
+    alt: "Guardian Eye montado por completo, visto de frente en tres cuartos: el mástil del GPS arriba, la placa de la Pixhawk 6X con su cableado, la Raspberry Pi 5 en su carcasa y la batería sujeta debajo, apoyado sobre el tren de aterrizaje rojo y negro",
+    credit: "Fotografía propia — Guardian Eye ensamblado",
+  },
+  fullDroneTop: {
+    src: "/images/dron-completo-02-cenital.jpg",
+    alt: "Vista cenital del dron completo: los cuatro brazos con motores y hélices, la placa central con la Pixhawk 6X y el domo del GPS, y la Raspberry Pi 5 con la batería en la bandeja inferior",
+    credit: "Fotografía propia — Guardian Eye ensamblado",
+  },
+  fullDroneRear: {
+    src: "/images/dron-completo-03-trasera.jpg",
+    alt: "El dron completo visto desde atrás en tres cuartos, con la cámara y el módem 4G en la parte inferior del chasis y las antenas de telemetría desplegadas",
+    credit: "Fotografía propia — Guardian Eye ensamblado",
+  },
+  fullDroneStack: {
+    src: "/images/dron-completo-04-stack.jpg",
+    alt: "Vista lateral elevada del conjunto de electrónica a bordo: la Raspberry Pi 5 con su HAT Hailo-8 junto a la Pixhawk 6X, el cableado de alimentación y datos, la antena y el pack de batería",
+    credit: "Fotografía propia — Guardian Eye ensamblado",
+  },
+  fullDroneTopElectronics: {
+    src: "/images/dron-completo-05-cenital-electronica.jpg",
+    alt: "Detalle cenital de la integración de los dos cerebros: la Pixhawk 6X, el hub USB, la Raspberry Pi 5 en su carcasa y el mazo de cables que los une, sobre la placa central de fibra de carbono",
+    credit: "Fotografía propia — Guardian Eye ensamblado",
   },
   joseManuelDroneFrontal: {
     src: "/images/jose-manuel-dron-01-frontal.jpg",
@@ -173,5 +248,15 @@ export const IMAGES = {
     src: unsplash("photo-1559840251-2a04897f8559"),
     alt: "Manos sujetando el mando de un dron con el vídeo en directo de la cámara mostrado en la pantalla acoplada",
     credit: "Unsplash",
+  },
+  nereaClubCampo: {
+    src: "/images/nerea-club-campo.jpg",
+    alt: "Nerea Gorostidi, autora del proyecto, sosteniendo el dron Guardian Eye ya montado junto al cartel del campo de vuelo del Club Alas de Galapagar, con la sierra al fondo",
+    credit: "Fotografía propia — Club Alas de Galapagar",
+  },
+  nereaClubSede: {
+    src: "/images/nerea-club-sede.jpg",
+    alt: "Nerea Gorostidi con el dron Guardian Eye en la sede del Club Alas de Galapagar, bajo el logo del club y varios aviones de aeromodelismo colgados del techo",
+    credit: "Fotografía propia — Club Alas de Galapagar",
   },
 } satisfies Record<string, SiteImage>;

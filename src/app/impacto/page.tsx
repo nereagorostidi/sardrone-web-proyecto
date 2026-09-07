@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import {
   Bot,
-  Briefcase,
+  Factory,
+  Flame,
   Footprints,
   GitBranch,
   GraduationCap,
   HeartHandshake,
   HeartPulse,
   Building2,
-  Handshake,
   Infinity as InfinityIcon,
   MapPin,
   Megaphone,
@@ -65,16 +65,16 @@ const ODS = [
     text: "Herramientas de seguridad y respuesta accesibles para comunidades y grupos de emergencia locales.",
   },
   {
-    n: "17",
-    title: "Alianzas para lograr los objetivos",
-    icon: Handshake,
-    text: "Colaboración con clubes, mentores y una comunidad abierta que aporta datos y apoyo material.",
+    n: "09",
+    title: "Industria, innovación e infraestructura",
+    icon: Factory,
+    text: "Robótica aérea, IA acelerada en el borde y comunicaciones celulares integradas en una arquitectura abierta y documentada, sin depender de plataformas comerciales cerradas.",
   },
   {
-    n: "08",
-    title: "Trabajo decente y crecimiento económico",
-    icon: Briefcase,
-    text: "Publicar en abierto no solo el código, sino también los diseños y las piezas del dron, reduce la barrera de entrada para que estudiantes, makers y pequeñas empresas innoven sobre esta base en vez de partir de cero — una forma concreta de impulsar empleo cualificado en un sector tecnológico emergente.",
+    n: "13",
+    title: "Acción por el clima",
+    icon: Flame,
+    text: "El sensor ambiental a bordo detecta con rapidez gases y cambios de temperatura asociados al inicio de un incendio, reforzando la respuesta ante los efectos del cambio climático.",
   },
 ];
 
@@ -156,10 +156,11 @@ export default function ImpactoPage() {
               <p className="text-[13.5px] font-bold text-ink">Conocimiento abierto</p>
               <p className="mt-2 text-[13.5px] leading-relaxed text-ink-muted">
                 Publicación en GitHub de todo el código en Python, los esquemas y el manual
-                de configuración. Ya hay tres repositorios públicos que respaldan esta
+                de configuración. Ya hay cuatro repositorios públicos que respaldan esta
                 sección con hechos, no solo intención: <code className="font-telemetry text-[11.5px]">yolo-pipeline-test</code>,{" "}
-                <code className="font-telemetry text-[11.5px]">drone-edge-companion</code> y{" "}
-                <code className="font-telemetry text-[11.5px]">drone-cloud-server</code>.
+                <code className="font-telemetry text-[11.5px]">drone-edge-companion</code>,{" "}
+                <code className="font-telemetry text-[11.5px]">drone-cloud-server</code> y{" "}
+                <code className="font-telemetry text-[11.5px]">drone-sar-training</code>.
               </p>
             </div>
             <div className="rounded-2xl border border-line bg-paper p-6">
@@ -225,7 +226,7 @@ export default function ImpactoPage() {
                 No hay un roadmap con fechas cerradas — sería inventar un compromiso que
                 todavía no existe. Lo que sí hay es una dirección clara: escalar el dataset
                 de detección de personas, cerrar las especificaciones finales de hardware y
-                mantener los tres repositorios como base para quien quiera continuar el
+                mantener los cuatro repositorios como base para quien quiera continuar el
                 trabajo, dentro o fuera de la universidad.
               </p>
             </div>

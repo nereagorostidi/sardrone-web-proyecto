@@ -61,6 +61,7 @@ const FOOTER_LINKS: {
       { label: "Piezas de un dron", href: "/construccion/piezas" },
       { label: "Armazón y Pixhawk", href: "/construccion/armazon" },
       { label: "Edge Computing", href: "/construccion/edge-computing" },
+      { label: "El sistema completo", href: "/construccion/sistema-completo" },
     ],
   },
   {

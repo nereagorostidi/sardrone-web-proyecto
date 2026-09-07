@@ -139,7 +139,7 @@ export default function PiezasPage() {
               <div className="flex gap-3 rounded-2xl border border-white/10 bg-white/5 p-5">
                 <Cpu className="h-5 w-5 shrink-0 text-white" strokeWidth={1.75} />
                 <p className="text-[13.5px] leading-relaxed text-white/85">
-                  Una Raspberry Pi 5 con un acelerador Hailo-8L y un módem 4G — el
+                  Una Raspberry Pi 5 con un acelerador Hailo-8 y un módem 4G — el
                   &ldquo;segundo cerebro&rdquo; de Guardian Eye, que piensa pero no vuela.
                 </p>
               </div>

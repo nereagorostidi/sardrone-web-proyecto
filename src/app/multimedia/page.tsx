@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 
 const DETECTION_YOUTUBE_ID = "jjvX-JZZbLM";
 const CLUB_YOUTUBE_ID = "2HKlq-o7WxM";
+const FLIGHT_INFERENCE_YOUTUBE_ID = "1aA_bSsyBIM";
+const FULL_DRONE_YOUTUBE_ID = "zdFFK4bk9Iw";
 
 const deteccionPoster: SiteImage = {
   src: `https://img.youtube.com/vi/${DETECTION_YOUTUBE_ID}/hqdefault.jpg`,
@@ -28,23 +30,46 @@ const clubPoster: SiteImage = {
   credit: "YouTube / Alas de Galapagar",
 };
 
+const flightInferencePoster: SiteImage = {
+  src: `https://img.youtube.com/vi/${FLIGHT_INFERENCE_YOUTUBE_ID}/hqdefault.jpg`,
+  alt: "Fotograma del vuelo de prueba con el dron sobrevolando un campo y el recuadro de su cámara detectando personas con YOLO",
+  credit: "YouTube",
+};
+
+const fullDronePoster: SiteImage = {
+  src: `https://img.youtube.com/vi/${FULL_DRONE_YOUTUBE_ID}/hqdefault.jpg`,
+  alt: "Fotograma del vídeo del dron Guardian Eye ya ensamblado, con la Pixhawk 6X y el Edge Companion montados",
+  credit: "YouTube",
+};
+
 const ITEMS: MediaItem[] = [
+  {
+    id: "vuelo-inferencia-abordo",
+    title: "Vuelo de prueba con detección a bordo, en tiempo real",
+    description:
+      "Vuelo real con la Raspberry Pi 5 y el acelerador Hailo ejecutando YOLO a bordo, en tiempo real, sobre el vídeo de la propia cámara del dron. El recuadro inferior es esa cámara, con las detecciones de personas dibujadas en directo durante el vuelo.",
+    poster: flightInferencePoster,
+    tag: "Destacado · IA en directo",
+    featured: true,
+    youtubeId: FLIGHT_INFERENCE_YOUTUBE_ID,
+  },
   {
     id: "deteccion-alas-galapagar",
     title: "Detección de personas — Club Alas de Galapagar",
     description:
-      "El dron localiza personas en distintas posturas (andando, corriendo, tumbadas, agachadas) sobre vídeo real de campo.",
+      "Vídeo aéreo grabado con un DJI Neo 2 en las instalaciones del club. La detección YOLO se aplicó después, en post-proceso, sobre el vídeo ya grabado: sirve para ver el modelo localizando personas en distintas posturas (andando, corriendo, tumbadas, agachadas), no como prueba de inferencia a bordo.",
     poster: deteccionPoster,
-    tag: "Destacado",
-    featured: true,
+    tag: "IA · post-proceso",
     youtubeId: DETECTION_YOUTUBE_ID,
   },
   {
-    id: "vuelo-real",
-    title: "Vuelo real de referencia",
-    description: "Vuelo del 12 de julio de 2026 en el Club Alas de Galapagar, track GPS real.",
-    poster: IMAGES.droneSnowMountain,
-    tag: "Vuelo",
+    id: "dron-completo",
+    title: "El dron completo, ensamblado",
+    description:
+      "Recorrido alrededor de Guardian Eye ya montado: la Pixhawk 6X, el Edge Companion (Raspberry Pi 5 + Hailo-8), el GPS, las antenas de telemetría y la batería, todo en un mismo cuerpo.",
+    poster: fullDronePoster,
+    tag: "Hardware",
+    youtubeId: FULL_DRONE_YOUTUBE_ID,
   },
   {
     id: "club-alas-galapagar",
@@ -55,34 +80,6 @@ const ITEMS: MediaItem[] = [
     tag: "Colaborador",
     youtubeId: CLUB_YOUTUBE_ID,
   },
-  {
-    id: "montaje-hardware",
-    title: "Montaje del hardware",
-    description: "Integración de Pixhawk 6X, Raspberry Pi 5 y sensores a bordo.",
-    poster: IMAGES.circuitBoard,
-    tag: "Timelapse",
-  },
-  {
-    id: "pipeline-yolo",
-    title: "Pipeline YOLO en acción",
-    description: "Overlay de bounding boxes sobre vídeo de vuelo, prueba de concepto.",
-    poster: IMAGES.circuitMacro,
-    tag: "IA",
-  },
-  {
-    id: "estacion-tierra",
-    title: "Estación de tierra",
-    description: "Mission Planner / QGroundControl monitorizando telemetría en directo.",
-    poster: IMAGES.antennaTower,
-    tag: "GCS",
-  },
-  {
-    id: "panel-cloud",
-    title: "Panel de control cloud",
-    description: "Telemetría almacenada en InfluxDB, visualizada en el panel web del proyecto.",
-    poster: IMAGES.serverRoom,
-    tag: "Cloud",
-  },
 ];
 
 export default function MultimediaPage() {
@@ -91,7 +88,7 @@ export default function MultimediaPage() {
       <PageHero
         eyebrow="Sec. 05 · Multimedia"
         title="El proyecto en vídeo"
-        description="Vuelos reales, detecciones sobre vídeo de campo y el montaje del hardware. Lo que todavía no existe se marca como tal — no se simulan resultados que no se han producido."
+        description="Vuelos reales, detección YOLO —a bordo en tiempo real y en post-proceso sobre vídeo de campo— y el montaje del hardware de Guardian Eye."
         image={{ src: IMAGES.droneSnowMountain.src, alt: IMAGES.droneSnowMountain.alt }}
       />
 
@@ -106,11 +103,16 @@ export default function MultimediaPage() {
           <div className="mt-6 flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent-soft p-5">
             <Film className="mt-0.5 h-4.5 w-4.5 shrink-0 text-accent" strokeWidth={1.75} />
             <p className="text-[13px] leading-relaxed text-ink">
-              La pieza destacada, <span className="font-semibold">Detección de personas —
-              Club Alas de Galapagar</span>, muestra el pipeline YOLO funcionando sobre
-              vídeo aéreo real grabado en las instalaciones del club: es la prueba más
-              directa de que la detección descrita en la sección de{" "}
-              <span className="font-medium">Inteligencia Artificial</span> no es solo teoría.
+              La pieza destacada, <span className="font-semibold">Vuelo de prueba con
+              detección a bordo</span>, muestra la Raspberry Pi 5 ejecutando YOLO{" "}
+              <span className="font-semibold">en tiempo real durante el vuelo</span>, sobre
+              el vídeo de la propia cámara del dron: la prueba más directa de que la
+              detección descrita en la sección de{" "}
+              <span className="font-medium">Inteligencia Artificial</span> funciona a bordo
+              y no solo en teoría. El vídeo <span className="font-semibold">Detección de
+              personas — Club Alas de Galapagar</span> es anterior: se grabó con un DJI
+              Neo 2 y la inferencia se añadió después, en post-proceso, sobre el vídeo ya
+              grabado.
             </p>
           </div>
 

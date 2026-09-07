@@ -43,6 +43,9 @@ dev.log
 # local Claude Code design-review tool state/cache — not project content
 /.impeccable/
 
+# local snapshot/export archives — not project content
+*.zip
+
 # reference material (TFG source PDFs/docx, not part of the deployed site)
 /docs
 

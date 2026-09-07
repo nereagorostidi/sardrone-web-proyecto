@@ -1376,6 +1376,313 @@ nada y actualízalo al terminar cualquier tarea.
     conscientemente" que ya se había usado en la descripción.
   - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
     (pestaña nueva) sin errores de consola.
+- **Corrección masiva de datos a partir de `TFG_Nerea_Gorostidi_v4.pdf`** (septiembre 2026,
+  a petición explícita de la autora — "comprueba si la web está actualizada... con la
+  información del PDF"). Este PDF (145 páginas, en la raíz del repo) es la memoria del TFG
+  casi terminada, mucho más completa y precisa que las fuentes parciales usadas hasta
+  ahora — se extrajo su texto completo con `pdftotext` y se leyó íntegro para esta tarea.
+  A petición explícita de la autora, el alcance de esta sesión se limitó a **corregir
+  datos ya publicados**, no a añadir secciones nuevas (quedan fuera, sin usar todavía:
+  presupuesto del proyecto, diagrama de Gantt/Kanban, análisis AI Act/RGPD, casos reales
+  de SAR con drones citados en el estado del arte del TFG —Auxdron, Eagle Eyes, rescate del
+  Monviso—, tabla de deuda técnica y lecciones aprendidas). **Tampoco se ha publicado** el
+  número de registro de operador AESA real ni las coordenadas GPS exactas del campo de
+  vuelo que aparecen en el PDF — decisión explícita de la autora; la web sigue
+  refiriéndose a ambos de forma genérica.
+  - **`/ia`**: versión del modelo corregida de "YOLOv8" a **YOLO11** (4 menciones) — el
+    PDF confirma que el modelo final y el de la prueba de concepto de fruta usan YOLO11,
+    variante `yolo11n` en producción (elegida frente a `yolo11s` por velocidad de
+    inferencia). Añadidas las **métricas reales del modelo final**, resolviendo el
+    pendiente histórico de "precisión/mAP no inventar": Recall 0,659, mAP@50 0,640,
+    Precisión 0,684, mAP@50-95 0,205, y rendimiento real sobre Hailo-8L (26,8 FPS, 14,2 ms
+    de latencia, 28 % de CPU), enmarcado con la misma honestidad que usa el propio PDF (una
+    de cada tres personas no se detecta; es una prueba de concepto, apoyo al operador, no
+    sustituto). El dataset de personas pasó de la descripción deliberadamente vaga
+    ("decenas de imágenes... en ampliación constante") a la composición final y cerrada:
+    717 imágenes (540/88/89 train/val/test), de grabaciones propias en el Club Alas de
+    Galapagar + 70 vídeos de Pexels + 125 imágenes de un dataset público SAR (de ~1.980,
+    CC BY 4.0). **Nota:** esto revierte una vaguedad de redacción explícitamente pedida en
+    su momento porque el dataset aún no estaba cerrado — ahora el PDF da la cifra final.
+  - **`/impacto`**: corregidos los ODS citados — la propia memoria (apartado 11.4, fuente
+    de verdad de qué ODS reclama el proyecto) solo respalda ODS 3, 9 y 11 como principales
+    y 4/13 como secundarios; no menciona ni el 17 (Alianzas) ni el 8 (Trabajo decente), que
+    la web citaba sin respaldo. Sustituidos por **ODS 9** (industria/innovación/
+    infraestructura: robótica aérea + edge AI + comunicaciones celulares en arquitectura
+    abierta) y **ODS 13** (acción climática: detección temprana de incendios vía BME680),
+    manteniendo ODS 3 y 11 tal cual. Iconos `Handshake`/`Briefcase` sustituidos por
+    `Factory`/`Flame`. También corregido el recuento de repositorios públicos en esta misma
+    página ("tres repositorios" → "cuatro", añadiendo `drone-sar-training`) para que
+    cuadre con el cambio de más abajo.
+  - **`/arquitectura/hardware`**: cerrado el placeholder de peso/motores/batería
+    ("[placeholder — el dron definitivo está en fase de adquisición/montaje]") con las
+    especificaciones finales y reales, dron ya construido y pesado en báscula: **MTOW
+    1.817 g**, motores 4× brushless 2216 (920 KV), hélices 1045, ESCs 20-30 A, batería
+    Li-Po 4S (14,8 V) 5.000 mAh, chasis Holybro X500 V2. Añadidas como filas nuevas a
+    `HARDWARE_ITEMS`. La protección térmica *física* de los componentes sigue sin dato
+    verificado (el PDF solo documenta monitorización por software de la temperatura de la
+    Raspberry Pi, no un diseño de disipación) — placeholder acotado a ese punto concreto.
+  - **`/arquitectura/video`**: completado el tramo servidor→navegador, que antes se
+    quedaba en "RTSP hacia MediaMTX" sin explicar cómo llega el vídeo al panel web (un
+    navegador no reproduce RTSP directamente). Añadida una frase explicando que se evaluó
+    y descartó **HLS** por su retardo de varios segundos, y que MediaMTX redistribuye al
+    navegador mediante **WebRTC** (latencia inferior a 1 segundo) — sin tocar las cifras
+    de streaming (640×360/12 fps/400 kbps) ya verificadas contra el código real.
+  - **`src/components/open-source-card.tsx`**: añadidos los dos repos públicos que
+    faltaban de los cuatro reales confirmados por el Anexo E del PDF —
+    `drone-sar-training` (entrenamiento YOLO: notebook de Colab, dataset, métricas,
+    exportación ONNX→NCNN→HEF) y `yolo-pipeline-test` (ya enlazado suelto en `/ia` e
+    `/impacto`, pero ausente de esta tarjeta compartida, usada en la home y en
+    `/proyecto/filosofia`). Ajustado el `flex-wrap` del contenedor de tarjetas para que 4
+    repos no desborden en viewports intermedios, y el texto "dos repositorios" → "varios
+    repositorios".
+  - **`/construccion/edge-computing`**: añadido el motivo técnico concreto de por qué la
+    página sigue `underConstruction` — el regulador UBEC necesario para alimentar la
+    Raspberry Pi desde la batería principal llegó sin margen para integrarlo antes de la
+    campaña de vuelo real. **Matiz corregido con la memoria casi final (sept. 2026):** la
+    campaña sí tuvo un vuelo del sistema integrado con la Raspberry Pi y el Hailo a bordo
+    (Fase 4, cap. 9), pero alimentados con una **batería externa portátil** (+~400 g), no
+    desde la batería principal; el nodo edge infirió y grabó en vuelo. Lo que queda
+    pendiente (deuda técnica) es solo la integración definitiva de esa alimentación vía
+    UBEC desde la batería principal — no el vuelo del edge en sí.
+  - **PDF completo publicado como descarga**: `public/docs/Memoria_TFG_NereaGorostidi.pdf`
+    (histórico de nombres: `TFG_Nerea_Gorostidi_v11.pdf` → `..._SAR-UC3M.pdf` →
+    `Memoria_TFG_NereaGorostidi.pdf`). **Este nombre es el definitivo** — lo eligió la
+    autora porque es el que circula por email; en actualizaciones posteriores se sustituye
+    el contenido y se mantiene el nombre. Rótulo "Borrador del TFG a 07/09/2026". Versión
+    a 07/09/2026 22:31 (145 pp., ~5,5 MB) — el documento dice "Hailo-8L" pero en la web se
+    mantiene "Hailo-8" por la foto real del HAT, y las cifras del modelo (recall 0,659,
+    29,49 FPS) no se tocan porque el PDF sigue siendo borrador en ese punto.
+    Enlace destacado en dos sitios: una tarjeta oscura en `/multimedia/documentacion`
+    (antes de "Explora el código") y otra en la home, justo debajo de la tarjeta "Sigue el
+    progreso del proyecto" en la sección "Más que un TFG". Al subir una versión nueva del
+    TFG: reemplazar el fichero en `public/docs/`, y actualizar el `href` y el rótulo de
+    fecha en `src/app/page.tsx` y `src/app/multimedia/documentacion/page.tsx` (no están
+    acoplados en código; hay que tocar los dos).
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP, `get_page_text` de las 6 páginas tocadas + home) sin errores de
+    consola.
+- **Fotos reales del Edge Companion en `/construccion/edge-computing`** (septiembre 2026,
+  a petición explícita de la autora, a partir de `Downloads/FotosRasp/` — 35 fotos propias
+  utilizables tras descartar duplicados "(1)" y dos ficheros corruptos de 0 bytes). Página
+  reescrita del mismo modo que `/construccion/armazon`: se quitó el bloque
+  "Fotos del montaje, pendientes de añadir" (ya no aplica) y la grid de `EDGE_COMPONENTS`
+  (icono + texto, sin fotos) se sustituyó por una galería `STEPS` de 9 fotos reales en
+  formato paso a paso (mismo patrón `aspect-[4/5]` + degradado de leyenda que armazon):
+  piezas sueltas antes de montar, Raspberry Pi 5 en su carcasa oficial, la placa Hailo,
+  encajando la regleta extensora de GPIO, la cámara con su cable CSI, el sensor BME680
+  (recortado de una foto más amplia), el módem 4G/LTE Huawei (recortado, con sus dos
+  antenas), el Edge Companion ya completo y cableado, y el cableado final hacia los
+  puertos TELEM/GPS1 de la Pixhawk 6X. La nota sobre el regulador UBEC pendiente (de la
+  sesión anterior) se mantuvo pero reformulada: ya no dice "sin fotos", sino "montado y
+  probado en banco, pero todavía no ha volado a bordo". Quitado el prop
+  `underConstruction` del `PageHero` — la página ya no está huérfana de contenido visual
+  — y añadida una imagen de fondo al hero (`edgeMontajeCompleto`).
+  - **Procesado de fotos**: mismo flujo que las sesiones anteriores de fotos de montaje
+    (Python/Pillow, `ImageOps.exif_transpose`, redimensionado a máx. 1600 px de lado,
+    recompresión JPEG calidad 82, sin metadata EXIF), con dos recortes manuales
+    (`crop()`) para aislar el sensor BME680 y el módem Huawei dentro de fotos más amplias
+    que mostraban varios componentes a la vez. Guardadas en `public/images/` con prefijo
+    `edge-NN-` y catalogadas en `src/lib/images.ts` (9 entradas `edge*`), siguiendo
+    exactamente la convención ya establecida para las fotos de `/construccion/armazon`.
+  - **Corrección importante descubierta al revisar las fotos**: la placa real del
+    acelerador de IA, fotografiada de cerca en varias tomas, lleva impreso
+    "Raspberry Pi AI HAT+ · 26 TOPS · Empowered by HAILO" — es decir, el chip **Hailo-8**
+    (26 TOPS), no el **Hailo-8L** (13 TOPS) que toda la web documentaba hasta ahora. Al
+    igual que con la corrección de Pixhawk 6C→6X y 915→433 MHz en una sesión anterior, una
+    foto real del propio componente es más fiable que cualquier fuente escrita previa
+    (incluido `TFG_Nerea_Gorostidi_v4.pdf`, que también decía "Hailo-8L" en varios
+    sitios). Se preguntó explícitamente a la autora antes de tocar nada y confirmó
+    corregirlo en toda la web. Cambiado "Hailo-8L" → "Hailo-8" (añadiendo "(26 TOPS)" en
+    las dos menciones más técnicas, `/arquitectura/hardware` e `/ia`) en los 9 archivos
+    donde aparecía: `src/lib/site-config.ts`, `src/components/open-source-card.tsx`,
+    `src/app/ia/page.tsx` (3 menciones), `src/app/construccion/page.tsx`,
+    `src/app/construccion/piezas/page.tsx`, `src/app/construccion/armazon/page.tsx`,
+    `src/app/arquitectura/video/page.tsx`, `src/app/arquitectura/hardware/page.tsx` (2
+    menciones, más una fila nueva "Acelerador de IA" añadida a `HARDWARE_ITEMS`, que
+    antes no listaba este componente en absoluto). Verificado con
+    `grep -rn "Hailo-8L" src/` que no queda ninguna mención antigua.
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP) `/construccion/edge-computing` completa (galería de 9 fotos +
+    leyendas correctas) y `/arquitectura/hardware`, `/construccion/armazon`,
+    `/construccion/piezas` sin errores de consola tras el cambio de Hailo-8.
+- **Pendiente actualizado**: la entrada de "Fotos del montaje de la Raspberry Pi/Edge
+  Companion" en la lista de pendientes de más abajo queda resuelta por esta tarea — ver
+  sección de pendientes.
+- **Paso 10 añadido a `/construccion/edge-computing`: pulsador de apagado ordenado**
+  (septiembre 2026, a petición explícita de la autora tras revisar la galería nueva —
+  preguntó si había foto de "un botón que he añadido para hacer el shutdown de la
+  Raspberry de forma adecuada"). Ninguna de las 35 fotos de `Downloads/FotosRasp/`
+  mostraba el componente (solo un plano ambiguo con dos cables sueltos, botón fuera de
+  encuadre); la autora envió la foto real por WhatsApp durante la propia conversación
+  (`WhatsApp Image 2026-09-06 at 01.37.59.jpeg`), que sí muestra el componente con
+  claridad: no es un pulsador simple, sino un **módulo de encoder rotatorio (tipo
+  KY-040)** con pines CLK/DT/SW/+/GND, montado junto a los puertos TELEM/GPS/CAN de la
+  Pixhawk 6X. La autora confirmó explícitamente que **solo se usa el pulsador integrado
+  (SW)** — el giro (CLK/DT) no tiene función todavía — para lanzar un apagado ordenado de
+  la Raspberry Pi antes de cortar la alimentación. **Se mantiene deliberadamente sin
+  especificar el pin GPIO exacto** (la autora prefirió no dar ese dato ahora mismo) — si
+  se quiere precisar en el futuro, añadirlo al texto del paso 10 en
+  `src/app/construccion/edge-computing/page.tsx`.
+  - Foto procesada con el mismo flujo que el resto (Python/Pillow, `exif_transpose`,
+    recorte manual centrado en el módulo para encajar en el formato `aspect-[4/5]` de la
+    galería, redimensionado a máx. 1600 px, JPEG calidad 82, sin EXIF) y guardada como
+    `public/images/edge-10-boton-apagado.jpg`, catalogada como `IMAGES.edgeBotonApagado`.
+  - Este pulsador conecta directamente con una deuda técnica ya documentada en
+    `TFG_Nerea_Gorostidi_v4.pdf` (apagado ordenado + pulsador externo, sección 12.3/12.4,
+    pendiente en el momento de escribir la memoria) — no se ha añadido ese contexto
+    explícito a la página porque excedía el alcance de "añadir la foto que falta"
+    pedido en esta tarea, pero merece la pena tenerlo en cuenta si se retoma esa sección.
+  - Verificado con `npm run build` (25 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP) el paso 10 renderizando con su leyenda completa y sin errores de
+    consola.
+- **Nota de la cámara USB reemplaza el aviso de "no ha volado" en
+  `/construccion/edge-computing`** (septiembre 2026, a petición explícita de la autora):
+  el cuadro de cierre "Montado, pero aún no ha volado a bordo" (con el detalle del
+  regulador UBEC) se sustituyó por una nota distinta, dictada por la autora: por qué
+  aparece una segunda cámara USB en las fotos del montaje — se ha usado como alternativa
+  a la cámara CSI para poder experimentar con distintos ángulos de vuelo, al no disponer
+  de un gimbal. Icono cambiado de `Wrench` a `Camera`, estilo de caja de `signal` a
+  `accent` (ya no es un aviso de "pendiente", es una aclaración). El dato del UBEC sigue
+  documentado en la nueva página `/construccion/sistema-completo` (ver más abajo).
+- **Nueva subpágina `/construccion/sistema-completo` ("El sistema completo")** (septiembre
+  2026, a petición explícita de la autora): cuarta hija de "Construcción del dron"
+  (`site-config.ts`; el hub pasó de `lg:grid-cols-3` a `sm:grid-cols-2 lg:grid-cols-4`).
+  Reúne en una única galería con lightbox (`<PhotoLightboxGrid />`, componente ya existente
+  reutilizado de `/colaboradores`) 6 fotos ya catalogadas de Cerebro 1 y Cerebro 2
+  (`buildFrameDone`, `buildPixhawkMounted`, `edgePixhawkUart`, `edgeBotonApagado`,
+  `edgeMontajeCompleto`, `edgePiezas`) — sin fotos nuevas, es una nueva forma de presentar
+  material ya existente desde "varias perspectivas".
+  - **Decisión importante tomada durante la tarea**: la autora pidió también un vídeo del
+    "montaje definitivo". Se localizó `Downloads/copiar/Guardian_Eye__UAV_SAR.mp4`
+    (7,3 min, 1280×720) y, antes de publicarlo, se extrajeron 12 fotogramas de muestra
+    (`opencv-python-headless`, instalado ad hoc para esta comprobación) para verificar su
+    contenido real. **Resultado: no es un vídeo del dron físico** — es un vídeo explicativo
+    de diapositivas animadas (estilo pizarra/infografía, con marca de agua de una
+    herramienta de generación de vídeo con IA) que resume la arquitectura del sistema
+    (MAVLink Router, flujo resiliente, etc.), no el montaje real. Se descartó su
+    publicación en esta página por sería engañoso presentarlo como "vídeo del sistema
+    completo" cuando no muestra hardware real — **no se ha añadido ningún vídeo a la
+    página**. Si en el futuro se quiere un vídeo aquí, tendría que ser metraje real del
+    dron/montaje, no este archivo.
+  - Caja de aviso "Fotos (y vídeo) pendientes de actualización" (texto sugerido por la
+    propia autora) explicando con honestidad que no existe todavía una sesión de fotos del
+    sistema ya integrado en un único cuerpo (el Edge Companion sigue sin volar a bordo, ver
+    entrada del UBEC de la sesión anterior) y que la autora ampliará esta página con fotos
+    nuevas y vídeo real en cuanto los tenga.
+  - `SubpageNav`: cadena final Cerebro 1 → Cerebro 2 → **El sistema completo** (sin
+    `next`); se añadió el `next` correspondiente al `SubpageNav` de
+    `/construccion/edge-computing`, que antes no lo tenía.
+  - Verificado con `npm run build` (26 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP): galería de 6 fotos renderizando, lightbox probado (clic abre el
+    diálogo con la leyenda correcta), hub `/construccion` con la 4ª tarjeta, y cadena de
+    `SubpageNav` de extremo a extremo — sin errores de consola.
+- **`/construccion/sistema-completo` y `/multimedia` — fotos reales del dron completo +
+  vídeos reales de YouTube** (septiembre 2026, a petición explícita de la autora, a partir
+  de `Downloads/DronCompleto/FotosDron-COMPLETO/`: 7 fotos del dron ya ensamblado y 3
+  clips `.mov` del dron, más el `IMG_6294_con_camaradron.mp4` generado en la sesión previa
+  — el vuelo de prueba con PiP de la cámara del dron haciendo inferencia).
+  - **`/construccion/sistema-completo`**: la galería (`PhotoLightboxGrid`) dejó de usar
+    fotos prestadas de Cerebro 1/Cerebro 2 y pasó a **5 fotos reales del dron completo**
+    seleccionadas de las 7 (frontal 3/4, cenital, trasera 3/4, stack lateral de
+    electrónica, detalle cenital de la integración) — `IMG_6246/6239/6243/6241/6248`,
+    procesadas con el flujo habitual (Pillow, `exif_transpose`, máx. 1600 px, JPEG 82, sin
+    EXIF) a `public/images/dron-completo-0N-*.jpg` (~320-360 KB), catalogadas como
+    `IMAGES.fullDroneFront/Top/Rear/Stack/TopElectronics`. La foto frontal es también el
+    fondo del `PageHero`. Se **quitó el aviso "Fotos (y vídeo) pendientes de
+    actualización"** (ya no aplica: las fotos del sistema integrado existen). Nueva sección
+    "En vídeo · El conjunto, en movimiento" con **dos embeds de YouTube** (iframe
+    `youtube-nocookie`, grid de 2 columnas): el walk-around (`zdFFK4bk9Iw`, "Vista general
+    Dron Completo") y un plano corto (`biQ8FhS7yX8`, "Plano General Dron"). Tarjeta-enlace
+    a `/multimedia` para el vuelo con detección a bordo. `title`/`description` del hero
+    retocados ("en un mismo cuerpo").
+  - **`/multimedia`**: dos entradas de vídeo **reales** nuevas justo después de la
+    destacada — "Vuelo de prueba con detección a bordo" (`1aA_bSsyBIM` = el
+    `IMG_6294_con_camaradron` en YouTube, tag "Vuelo · IA") y "El dron completo,
+    ensamblado" (`zdFFK4bk9Iw`, el walk-around, tag "Hardware"). Sustituyen a los dos
+    marcadores placeholder que ya cubrían ("Montaje del hardware" y "Pipeline YOLO en
+    acción"), que se eliminaron. Posters vía `img.youtube.com/vi/{id}/hqdefault.jpg` (mismo
+    patrón que las entradas de vídeo ya existentes). El párrafo de intro (caja `Film`) se
+    amplió para mencionar el vuelo con inferencia a bordo. El resto de placeholders
+    (`vuelo-real` con track GPS, `estacion-tierra`, `panel-cloud`) se mantienen.
+  - Se corrigió de paso un hueco preexistente: el footer (`site-footer.tsx`) listaba solo
+    3 de las 4 subpáginas de "Construcción" — se añadió "El sistema completo".
+  - **Los tres vídeos los subió la autora a su canal de YouTube** (`@nereagorostidigarcia7698`)
+    y pasó los enlaces; no se aloja ningún MP4 en el repo, coherente con que todo el vídeo
+    del sitio son embeds de YouTube. El `IMG_6249.mov` (12 s) → `biQ8FhS7yX8`,
+    `IMG_6252.mov` (41 s, walk-around) → `zdFFK4bk9Iw`, `IMG_6294_con_camaradron.mp4` →
+    `1aA_bSsyBIM`. El `IMG_6250.MOV` (grabado en vertical) no se usó.
+  - Verificado con `npm run build` (26 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP): las 5 fotos y los 2 embeds de `/construccion/sistema-completo`
+    renderizando, y en `/multimedia` los 3 posters de vídeo (incluida la destacada) más el
+    modal del nuevo vídeo de inferencia probado de extremo a extremo (abre el embed de
+    YouTube). Sin errores de consola (solo avisos LCP `loading="eager"` de Next en dev,
+    ya presentes en todo el proyecto).
+- **Nueva versión del TFG + fotos de la autora + ampliaciones desde la memoria**
+  (septiembre 2026, a petición del padre de la autora, que dejó la memoria casi final y
+  dos fotos). El PDF nuevo se publica como `public/docs/Memoria_TFG_NereaGorostidi.pdf`
+  (145 pp.; el nombre lo fijó la autora porque es el que circula por email — ver nota de
+  nombres más abajo): se actualizaron los dos `href` que lo enlazaban
+  (`src/app/page.tsx`, `src/app/multimedia/documentacion/page.tsx`) — que además estaban
+  rotos (apuntaban al viejo `_v11`, 404). El rótulo "Borrador del TFG a 07/09/2026" se mantiene: la autora
+  confirmó que **sigue siendo un borrador**, en particular en los datos de recall del
+  modelo — por eso **no se han tocado las métricas de `/ia`** (siguen recall 0,659 /
+  26,8 FPS / 14,2 ms) aunque el PDF ya dé otras cifras (nano 0,601 / 29,49 FPS /
+  33,91 ms). **Conflicto Hailo resuelto por la autora:** el HAT real pone "26 TOPS", así
+  que la web se queda en **Hailo-8** aunque el PDF diga "Hailo-8L (13 TOPS)" — el PDF se
+  corregirá, no la web.
+  - **Fotos de Nerea en el Club Alas de Galapagar** (de `public/images/IMG_6263.JPG` e
+    `IMG_6270.JPG`, procesadas con el flujo habitual Pillow → `exif_transpose` (venían con
+    orientación EXIF 6), máx. 1600 px, JPEG 82, sin EXIF): `nerea-club-campo.jpg` (exterior,
+    con el dron montado junto al cartel del campo de vuelo) y `nerea-club-sede.jpg`
+    (interior, bajo el logo del club). Catalogadas como `IMAGES.nereaClubCampo` /
+    `nereaClubSede`. En `/colaboradores`: la de sede dentro de la tarjeta destacada del
+    club (figura + pie), y la de campo en una figura nueva "La autora, en el campo del
+    club" (imagen + texto, dos columnas) justo antes del bloque oscuro de autora. Los
+    originales `IMG_6263.JPG`/`IMG_6270.JPG` siguen en `public/images/` sin usar — se
+    pueden borrar.
+  - **`/proyecto/metodologia` ampliada** (opción A del menú que se ofreció): las 3
+    tarjetas de fases (SITL/HITL/Vuelo real) pasaron a **4 fases reales** del cap. 9 del
+    TFG (Simulación SITL, Banco Semi-HITL, Campaña de vuelo, Sistema integrado), con
+    detalle real (UART TELEM3, LECMUAV090 A3, MTOW 1.817 g). Sección nueva "Resultados de
+    la validación": 4 tarjetas (cadena de mando, comunicaciones, plataforma IoT, detección
+    en vuelo — 2 personas detectadas + 1 falso positivo + oscilación por vibración),
+    caja "con una salvedad" (alimentación provisional del nodo edge con batería externa,
+    +400 g, UBEC pendiente), y una tabla resumen de la **matriz de cumplimiento de
+    objetivos** (`OBJETIVOS`, Tabla 9.1 del TFG). La caja "Validación temprana en campo"
+    (12/07/2026) se mantiene.
+  - **`/arquitectura/video` — sección nueva "Lo que vimos en vuelo real"** (opción D):
+    el vídeo en directo (RTSP) se cortó por encima de ~10 m en la demo del sistema
+    integrado; la grabación local y el store-and-forward recuperaron todo (primera
+    confirmación en vuelo real). Caja `signal` con las causas candidatas (EMI, antena,
+    reelección de celda, ancho de banda de subida, o fallo puntual del módem USB — la
+    literatura sitúa la degradación por altura en ~170 m, no 10 m). Del cap. 9.3 del TFG.
+  - **Ofrecidas y NO hechas** (esperan luz verde de la autora, por la norma de que ella
+    dicta el copy de secciones nuevas): opción B (`/impacto`: coste vs helicóptero
+    2.500-3.000 €/h frente a ~1.500 €/unidad, caso del rescate del Monviso, coste total
+    ~12.020 €, ODS ajustados a las metas reales 3.d/3.6, 9.1/9.5, 11.5/11.b, 4.4, 13.1,
+    lecciones aprendidas / deuda técnica) y opción C (estado del arte en
+    `/proyecto/introduccion`: casos SAR reales — Auxdron, Malibú, Eagle Eyes, Monviso —,
+    las dos generaciones tecnológicas, dataset HERIDAL, la brecha del procesado a bordo).
+    Todo el material está extraído y verificado en la memoria (caps. 2 y 11).
+  - Material del TFG aún sin usar en la web: presupuesto detallado (Tablas 11.3-11.7),
+    Gantt/Kanban (11.1), análisis AI Act / RGPD (cap. 3.6 y 10.3), vía regulatoria para
+    operación SAR real (10.4), tabla de deuda técnica completa (12.1).
+  - Verificado con `npm run build` (26 rutas) y `npm run lint` en verde, y en navegador
+    (Chrome vía MCP, `get_page_text` + consola) las 3 páginas tocadas sin errores; PDF e
+    imágenes nuevas sirviendo con 200.
+  - **Descarga del TFG destacada en la home** (a petición de la autora): el enlace pequeño
+    y oscuro de descarga del PDF que estaba metido en la columna de texto de "Más que un
+    TFG" se sacó a una **sección propia** justo debajo (`bg-paper`, `border-y`), a dos
+    columnas: a la izquierda titular ("Descarga el TFG entero, en PDF") + descripción +
+    botón `btn-gradient` "Descargar la memoria del TFG" + línea de metadatos; a la
+    derecha, una **ilustración SVG de un documento PDF** — componente nuevo
+    `src/components/pdf-document-graphic.tsx` (`PdfDocumentGraphic`), SVG estático que usa
+    los tokens de color (`--color-paper/surface-alt/line/accent/ink`…) para adaptarse a
+    claro/oscuro: hoja con esquina doblada, banda de cabecera en degradado
+    accent→mesh-violet, líneas de texto, un mini-gráfico embebido, etiqueta "PDF" y una
+    insignia circular de descarga. El enlace del journal se quedó donde estaba. El import
+    de `FileText` de `lucide-react` se quitó de `page.tsx` por quedar sin uso.
+  - Verificado con `npm run build` (26 rutas) y `npm run lint` en verde, y en navegador.
 
 ### 🚧 En progreso / Pendiente
 
@@ -1391,38 +1698,46 @@ nada y actualízalo al terminar cualquier tarea.
   y para los `.docx` reutilizar el script de generación (`fpdf2` + `python-docx` +
   `iter_block_items()`, ver entrada de "Documentación y recursos" más arriba) en vez de escribir
   uno nuevo desde cero.
-- **Fotos del montaje de la Raspberry Pi/Edge Companion para `/construccion/edge-computing`**
-  (chasis + Raspberry Pi 5 + Hailo-8L + módem 4G con su pincho USB) — la página ya está
-  publicada y enlazada, marcada `underConstruction`, pero sin el paso a paso con fotos
-  reales que sí tiene `/construccion/armazon`. En cuanto la autora tome esas fotos, seguir
-  el mismo proceso que con las del armazón: seleccionar las más ilustrativas de
-  `Downloads/guias/FotosHolly/...` (o la carpeta equivalente), redimensionar con
-  Python/Pillow a máx. 1600px + `exif_transpose` + sin metadata EXIF, guardar en
-  `public/images/` con prefijo `edge-` y catalogar en `src/lib/images.ts`.
+- ~~Fotos del montaje de la Raspberry Pi/Edge Companion para
+  `/construccion/edge-computing`~~ — **resuelto (septiembre 2026)**: galería paso a paso
+  de 9 fotos reales añadida a partir de `Downloads/FotosRasp/` (ver entrada de corrección
+  más arriba). Sigue pendiente, eso sí, un paso a paso fotográfico de la **integración
+  física a bordo del dron** (atornillado sobre el chasis, soldadura del regulador UBEC) —
+  las fotos actuales muestran el Edge Companion montado y cableado sobre la mesa, no ya
+  instalado en el armazón, porque esa integración en el propio dron sigue pendiente (ver
+  nota del regulador UBEC en la propia página).
 - Sustituir en cuanto existan (todos marcados explícitamente en el copy como placeholder,
   no inventados):
   1. Foto real del dron a pantalla completa para el hero de `/` (ahora mismo es una foto
      de stock de Unsplash).
-  2. Vídeos de vuelo reales / timelapse de montaje de hardware para el resto de la galería
-     (el vídeo destacado de detección de personas ya está publicado y enlazado — ver
-     arriba).
-  3. Precisión/mAP del modelo YOLO final, nº de vuelos de prueba con detección real de
-     personas y tamaño definitivo del dataset de personas — el pipeline de prueba de
-     concepto (dataset de fruta) ya está validado, y el dataset de personas combina datos
-     propios del Club Alas de Galapagar con datasets SAR públicos vía Roboflow, en
-     ampliación constante (ver `/ia`), pero el modelo final de producción y sus métricas
-     siguen pendientes de un entrenamiento a mayor escala. **Nota:** el bloque
-     `[placeholder — no inventar]` que mostraba este pendiente directamente en `/ia` se
-     quitó de la página a petición explícita de la autora — sigue siendo un pendiente
-     real, solo que ya no se muestra en el sitio hasta que haya datos que publicar.
-  4. Nombre del tutor/a académico/a del TFG (`/colaboradores`).
-  6. Especificaciones finales cerradas de chasis/motores/batería
-     (`/arquitectura/hardware`) — el hardware definitivo está en fase de adquisición según
-     el journal del proyecto.
+  2. ~~Vídeos de vuelo reales / timelapse de montaje de hardware para la galería~~ —
+     **en gran parte resuelto (septiembre 2026)**: además del vídeo destacado de detección,
+     `/multimedia` ya tiene el vuelo de prueba con detección a bordo (`1aA_bSsyBIM`) y el
+     walk-around del dron completo (`zdFFK4bk9Iw`), y `/construccion/sistema-completo` tiene
+     dos embeds del dron ya montado. Siguen como placeholder los marcadores de
+     `estacion-tierra` (Mission Planner en directo) y `panel-cloud` (Grafana/InfluxDB), y
+     falta un timelapse de montaje propiamente dicho.
+  3. ~~Precisión/mAP del modelo YOLO, tamaño definitivo del dataset de personas~~ —
+     **resuelto (septiembre 2026)** a partir de `TFG_Nerea_Gorostidi_v4.pdf`: dataset
+     cerrado en 717 imágenes y métricas reales del modelo final (`yolo11n`) publicadas en
+     `/ia` (ver entrada de corrección más arriba). **Matiz (sept. 2026, memoria casi
+     final):** la detección embarcada **sí se validó en un vuelo real** (Fase 4, cap. 9):
+     la Raspberry Pi infirió en tiempo real a bordo y detectó a las 2 personas del campo
+     de visión, con 1 falso positivo inicial. Fue un único vuelo de demostración, con el
+     nodo edge alimentado por batería externa; sigue sin haber una cifra de "nº de vuelos"
+     ni métricas de detección en vuelo (solo la evaluación cuantitativa sobre vídeo
+     pregrabado).
+  4. ~~Nombre del tutor/a académico/a del TFG~~ — **resuelto**: Daniel Díaz Sánchez, ya
+     en `/colaboradores` y confirmado por la portada del TFG.
+  6. ~~Especificaciones finales cerradas de chasis/motores/batería~~ — **resuelto
+     (septiembre 2026)**: MTOW 1.817 g, motores, hélices, ESCs y batería ya publicados en
+     `/arquitectura/hardware` a partir del PDF (dron ya construido y pesado en báscula).
   7. Enlace real al "muro de transparencia" de patrocinadores (`/colaboradores`) — esa
      sección aún no existe en la landing corta.
-  8. Detalle de protección térmica de los componentes electrónicos (no confundir con la
-     visión térmica, que está descartada del proyecto).
+  8. Detalle de protección térmica **física** de los componentes electrónicos (disipadores,
+     ventilación) — el PDF solo documenta monitorización por software de la temperatura de
+     la Raspberry Pi, no un diseño de disipación; no confundir con la visión térmica, que
+     sigue descartada del proyecto.
 - No se ha creado `robots.txt` / `sitemap.xml` — opcional, no pedido explícitamente por el
   encargo, pero mejoraría el SEO si se retoma el proyecto.
 
